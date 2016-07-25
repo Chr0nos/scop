@@ -23,23 +23,25 @@ static void			display_vertex(const t_m4 *m, const t_pt_c *pt)
 			0.0},
 		m);
 
-	(void)v;
 	gl_setrgb(pt->color);
 	glVertex3d(v.x, v.y, v.z);
-	//glVertex3d((double)pt->x, (double)pt->y, (double)pt->z);
 }
 
 static t_m4			make_matrix(void)
 {
 	static double	rot = 0;
+	//double			ratio;
 
 	if (rot > 10000)
 		rot = 0.0;
 	else
 		rot += 0.012;
+	//ratio = (double)glutGet(GLUT_WINDOW_WIDTH) / (double)glutGet(GLUT_WINDOW_HEIGHT);
+	//if (ratio > 1.0)
+	//	ratio = 1.0;
 	return (geo_mk4_rotxyz(
 		(t_v4d){-rot, rot / -2.0, 0.0, 0.0},
-		(t_v4d){0.7, 0.7, 0.7, 0.7},
+		(t_v4d){0.45, 0.7, 0.7, 0.0},
 		(t_v4d){0.0, 0.0, 0.0, 0.0}));
 }
 
@@ -55,12 +57,12 @@ static void			display(void)
 		(t_pt_c){1.0f, -1.0f, 1.0f, 0xff0000},
 		(t_pt_c){1.0f, -1.0f, -1.0f, 0x0000ff},
 		(t_pt_c){1.0f, 1.0f, -1.0f, 0x00ffff},
-		(t_pt_c){1.0f, 1.0f, 1.0f, 0x00ff00},
+		(t_pt_c){1.0f, 1.0f, 1.0f, 0xb895cb},
 
 		(t_pt_c){-1.0f, -1.0f, 1.0f, 0xff0000},
 		(t_pt_c){-1.0f, -1.0f, -1.0f, 0x0000ff},
-		(t_pt_c){1.0f, 1.0f, -1.0f, 0x00ffff},
-		(t_pt_c){1.0f, 1.0f, 1.0f, 0x00ff00},
+		(t_pt_c){1.0f, -1.0f, -1.0f, 0x00ffff},
+		(t_pt_c){1.0f, -1.0f, 1.0f, 0x053916},
 
 		(t_pt_c){-1.0f, 1.0f, 1.0f, 0xffffff},
 		(t_pt_c){-1.0f, 1.0f, -1.0f, 0x0000ff},
@@ -70,11 +72,11 @@ static void			display(void)
 		(t_pt_c){1.0f, 1.0f, -1.0f, 0x000000 >> 1},
 		(t_pt_c){1.0f, -1.0f, -1.0f, 0x0000ff >> 1},
 		(t_pt_c){-1.0f, -1.0f, -1.0f, 0x00ffff >> 1},
-		(t_pt_c){-1.0f, 1.0f, -1.0f, 0x00ff00 >> 1},
+		(t_pt_c){-1.0f, 1.0f, -1.0f, 0x00ff00},
 
 		(t_pt_c){1.0f, -1.0f, 1.0f, 0xff0000 << 1},
 		(t_pt_c){1.0f, 1.0f, 1.0f, 0x0000ff << 1},
-		(t_pt_c){-1.0f, 1.0f, 1.0f, 0x00ffff << 1},
+		(t_pt_c){-1.0f, 1.0f, 1.0f, 0x00fffa},
 		(t_pt_c){-1.0f, -1.0f, 1.0f, 0x341e09}
 	};
 	unsigned int	p;
@@ -82,7 +84,6 @@ static void			display(void)
 	p = 0;
 	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	//glRotatef(1.0, 0.01f, 0.0, 0.0);
 	glBegin(GL_QUADS);
 	while (p < POINTS)
 		display_vertex(&m, &pts[p++]);
@@ -95,10 +96,9 @@ int					main(int ac, char **av)
 {
 	glutInit(&ac, av);
 	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA | GLUT_DEPTH);
-	glutInitWindowSize(800, 600);
+	glutInitWindowSize(1800, 600);
 	glutCreateWindow("OpenGL Setup Test");
 	glutInitWindowPosition(50, 50);
-	glLoadIdentity();
 	glEnable(GL_DEPTH_TEST);
 	glutDisplayFunc(display);
 	glutMainLoop();
