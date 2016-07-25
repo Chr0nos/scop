@@ -6,14 +6,20 @@
 #    By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/07/24 07:18:03 by snicolet          #+#    #+#              #
-#    Updated: 2016/07/24 11:58:14 by snicolet         ###   ########.fr        #
+#    Updated: 2016/07/25 14:08:23 by snicolet         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
+OS=$(shell uname -s)
 CC=clang
 FLAGS=-Werror -Wextra -Wall -Weverything
-LINKER=-L../rt/libs/libdraw -lm -ldraw -lglut -lGL
+LINKER=-L../rt/libs/libdraw -lm -ldraw
 INC=-I../rt/libs/libdraw/headers
+ifeq ($(OS),Darwin)
+	LINKER+=-framework OpenGL -framework GL
+else
+	LINKER+=-lglut -lGL
+endif
 NAME=ogl
 OBJ=main.o
 
