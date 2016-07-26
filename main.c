@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/25 17:36:02 by snicolet          #+#    #+#             */
-/*   Updated: 2016/07/26 15:00:43 by snicolet         ###   ########.fr       */
+/*   Updated: 2016/07/26 20:05:26 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ static void			display_vertex(const t_m4 *m, const t_pt_c *pt)
 	v = geo_addv4(
 			geo_apply_m4(
 				(t_v4d){(double)pt->x, (double)pt->y, (double)pt->z, 0.0}, m),
-				(t_v4d){off_x, 0.0, 0.0, 0.0});
+				(t_v4d){off_x, cos(off_x * 3.0) * 0.3, 0.0, 0.0});
 	glColor3ub((pt->color & 0xff0000) >> 16, (pt->color & 0x00ff00) >> 8,
 		pt->color & 0xff);
 	glVertex3d(v.x, v.y, v.z);
@@ -110,6 +110,9 @@ int					main(int ac, char **av)
 	glutCreateWindow("OpenGL Test");
 	glutInitWindowPosition(50, 50);
 	glEnable(GL_DEPTH_TEST);
+	glMatrixMode(GL_PROJECTION);
+	glLoadIdentity();
+	glMatrixMode(GL_MODELVIEW);
 	glutDisplayFunc(display);
 	glutMainLoop();
 	return (0);
