@@ -6,7 +6,7 @@
 #    By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/07/24 07:18:03 by snicolet          #+#    #+#              #
-#    Updated: 2016/07/27 21:25:23 by snicolet         ###   ########.fr        #
+#    Updated: 2016/07/27 21:28:37 by snicolet         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,7 +19,6 @@ ifeq ($(OS),Darwin)
 	SOIL=./SOIL2-clone/libSOIL.a
 	LINKER+=-framework OpenGL -lglut -L./SOIL2-clone/ -lSOIL2 -framework CoreFoundation
 else
-	INC+=/usr/include/SOIL/
 	LINKER+=-lglut -lGL -lSOIL
 endif
 NAME=ogl
