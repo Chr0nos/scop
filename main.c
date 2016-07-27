@@ -6,14 +6,14 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/25 17:36:02 by snicolet          #+#    #+#             */
-/*   Updated: 2016/07/27 20:32:09 by snicolet         ###   ########.fr       */
+/*   Updated: 2016/07/27 21:16:44 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #define GL_DO_NOT_WARN_IF_MULTI_GL_VERSION_HEADERS_INCLUDED
 #include "ogl.h"
 #include "draw.h"
-#include <SOIL.h>
+#include <SOIL2.h>
 #include <GL/glut.h>
 #define POINTS 24
 
@@ -38,9 +38,12 @@ static void			display_vertex(const t_m4 *m, const t_pt_c *pt)
 		glTexCoord2i((int)pt->tx, (int)pt->ty);
 	}
 	else
+	{
+		glDisable(GL_TEXTURE_2D);
 		glColor3ub((pt->color & 0xff0000) >> 16,
 			(pt->color & 0x00ff00) >> 8,
 			pt->color & 0xff);
+	}
 	glVertex3d(v.x, v.y, v.z);
 }
 
