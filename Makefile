@@ -26,7 +26,7 @@ OBJ=main.o
 all: $(NAME)
 
 $(NAME): $(OBJ)
-	$(CC) $(FLAGS) $(LINKER) $(OBJ) -o $(NAME)
+	$(CC) $(FLAGS) $(OBJ) -o $(NAME) $(LINKER)
 
 %.o: %.c
 	$(CC) -c $(INC) $(FLAGS) $<
