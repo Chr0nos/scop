@@ -6,20 +6,20 @@
 #    By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/07/24 07:18:03 by snicolet          #+#    #+#              #
-#*   Updated: 2016/07/27 20:35:37 by snicolet         ###   ########.fr       *#
+#    Updated: 2016/07/27 20:41:10 by snicolet         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 OS=$(shell uname -s)
 CC=clang
-FLAGS=-Werror -Wextra -Wall -Weverything -Wno-padded
+FLAGS=-Werror -Wextra -Wall
 LINKER=-L../rt/libs/libdraw -lm -ldraw
 INC=-I../rt/libs/libdraw/headers
 ifeq ($(OS),Darwin)
 	INC+=-I./libSOIL/
 	LINKER+=-framework OpenGL -lglut -L./libSOIL -lSOIL
 else
-	INC+=/usr/include/SOIL/
+	INC+=-I/usr/include/SOIL/
 	LINKER+=-lglut -lGL -lSOIL
 endif
 NAME=ogl
