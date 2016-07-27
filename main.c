@@ -6,14 +6,14 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/25 17:36:02 by snicolet          #+#    #+#             */
-/*   Updated: 2016/07/27 20:03:04 by snicolet         ###   ########.fr       */
+/*   Updated: 2016/07/27 20:32:09 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #define GL_DO_NOT_WARN_IF_MULTI_GL_VERSION_HEADERS_INCLUDED
 #include "ogl.h"
 #include "draw.h"
-#include <SOIL/SOIL.h>
+#include <SOIL.h>
 #include <GL/glut.h>
 #define POINTS 24
 

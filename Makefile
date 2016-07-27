@@ -6,7 +6,7 @@
 #    By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/07/24 07:18:03 by snicolet          #+#    #+#              #
-#    Updated: 2016/07/27 20:04:01 by snicolet         ###   ########.fr        #
+#*   Updated: 2016/07/27 20:33:53 by snicolet         ###   ########.fr       *#
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,16 +16,19 @@ FLAGS=-Werror -Wextra -Wall
 LINKER=-L../rt/libs/libdraw -lm -ldraw
 INC=-I../rt/libs/libdraw/headers
 ifeq ($(OS),Darwin)
-	LINKER+=-framework OpenGL -lglut -lSOIL
+	INC+=-I./libSOIL/
+	LINKER+=-framework OpenGL -lglut -L./libSOIL -lSOIL
 else
+	INC+=/usr/include/SOIL/
 	LINKER+=-lglut -lGL -lSOIL
 endif
 NAME=ogl
 OBJ=main.o
+SOIL=./libSOIL/libSOIL.a
 
 all: $(NAME)
 
-$(NAME): $(OBJ)
+$(NAME): $(SOIL) $(OBJ)
 	$(CC) $(FLAGS) $(OBJ) -o $(NAME) $(LINKER)
 
 %.o: %.c
@@ -38,3 +41,6 @@ fclean: clean
 	$(RM) $(NAME)
 
 re: fclean all
+
+$(SOIL):
+	make -C ./libSOIL/
