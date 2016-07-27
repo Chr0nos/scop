@@ -12,7 +12,7 @@
 
 OS=$(shell uname -s)
 CC=clang
-FLAGS=-Werror -Wextra -Wall -Weverything -Wno-padded
+FLAGS=-Werror -Wextra -Wall
 LINKER=-L../rt/libs/libdraw -lm -ldraw
 INC=-I../rt/libs/libdraw/headers -I./SOIL2-clone/SOIL2/
 ifeq ($(OS),Darwin)
