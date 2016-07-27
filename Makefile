@@ -6,13 +6,13 @@
 #    By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/07/24 07:18:03 by snicolet          #+#    #+#              #
-#*   Updated: 2016/07/27 20:33:53 by snicolet         ###   ########.fr       *#
+#*   Updated: 2016/07/27 20:35:37 by snicolet         ###   ########.fr       *#
 #                                                                              #
 # **************************************************************************** #
 
 OS=$(shell uname -s)
 CC=clang
-FLAGS=-Werror -Wextra -Wall
+FLAGS=-Werror -Wextra -Wall -Weverything -Wno-padded
 LINKER=-L../rt/libs/libdraw -lm -ldraw
 INC=-I../rt/libs/libdraw/headers
 ifeq ($(OS),Darwin)
