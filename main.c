@@ -39,7 +39,6 @@ static void			display_vertex(const t_m4 *m, const t_pt_c *pt)
 	}
 	else
 	{
-		glDisable(GL_TEXTURE_2D);
 		glColor3ub((pt->color & 0xff0000) >> 16,
 			(pt->color & 0x00ff00) >> 8,
 			pt->color & 0xff);
@@ -93,7 +92,7 @@ static inline void	init_cube(t_pt_c *cube)
 
 static void			display(void)
 {
-	unsigned int	p;
+	int				p;
 	const t_m4		m = make_matrix();
 	t_pt_c			pts[POINTS];
 	static char		lock = 0;
@@ -101,21 +100,32 @@ static void			display(void)
 
 	if (lock == 0)
 	{
+		glEnable(GL_TEXTURE_2D);
 		texture = SOIL_load_OGL_texture(
 			"herbe.jpg",
 			SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID,
 			SOIL_FLAG_MIPMAPS | SOIL_FLAG_INVERT_Y);
 		lock = 1;
+		glDisable(GL_TEXTURE_2D);
 	}
 	init_cube(pts);
-	p = 0;
+	p = -1;
 	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	//glBindTexture(GL_TEXTURE_2D, texture);
 	glBegin(GL_QUADS);
-	while (p < POINTS)
-		display_vertex(&m, &pts[p++]);
+	while (++p < POINTS)
+		if (!(pts[p].tx_enabled))
+			display_vertex(&m, &pts[p]);
 	glEnd();
+	p = -1;
+	glEnable(GL_TEXTURE_2D);
+	glBindTexture(GL_TEXTURE_2D, texture);
+	glBegin(GL_QUADS);
+	while (++p < POINTS)
+		if (pts[p].tx_enabled)
+			display_vertex(&m, &pts[p]);
+	glEnd();
+	glDisable(GL_TEXTURE_2D);
 	glutSwapBuffers();
 	glutPostRedisplay();
 }
@@ -128,7 +138,7 @@ int					main(int ac, char **av)
 	glutCreateWindow("OpenGL Test");
 	glutInitWindowPosition(50, 50);
 	glEnable(GL_DEPTH_TEST);
-	glEnable(GL_TEXTURE_2D);
+	//glEnable(GL_TEXTURE_2D);
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
 	glMatrixMode(GL_MODELVIEW);

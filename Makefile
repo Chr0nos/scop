@@ -20,7 +20,7 @@ ifeq ($(OS),Darwin)
 	INC+=-I ~/.brew/include
 	LINKER+=-framework OpenGL -L ~/.brew/lib/ -lglut -L./SOIL2-clone/ -lSOIL2 -framework CoreFoundation
 else
-	LINKER+=-lglut -lGL -lSOIL
+	LINKER+=-L./SOIL2-clone -lglut -lGL -lSOIL2
 endif
 NAME=ogl
 OBJ=main.o
