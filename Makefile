@@ -22,7 +22,7 @@ ifeq ($(OS),Darwin)
 	INC+=-I ~/.brew/include
 	LINKER+=-framework OpenGL -L ~/.brew/lib/ -L./SOIL2-clone/ -lSOIL2 -framework CoreFoundation -lglfw3 -L$(LIBFT) -lft
 else
-	LINKER+=-L./SOIL2-clone -lglfw3 -lGL -lSOIL2 -L$(LIBFT) -lft
+	LINKER+=-L./SOIL2-clone -lglfw -lGL -lSOIL2 -L$(LIBFT) -lft
 endif
 NAME=ogl
 SRC=main.c
