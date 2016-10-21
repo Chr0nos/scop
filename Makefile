@@ -6,7 +6,7 @@
 #    By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/07/24 07:18:03 by snicolet          #+#    #+#              #
-#    Updated: 2016/10/21 16:18:35 by snicolet         ###   ########.fr        #
+#    Updated: 2016/10/21 16:52:24 by snicolet         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,18 +23,23 @@ else
 	LINKER+=-L./SOIL2-clone -lglfw3 -lGL -lSOIL2
 endif
 NAME=ogl
-OBJ=main.o
+SRC=main.c
+OBJ=$(SRC:%.c=$(BUILDDIR)/%.o)
+BUILDDIR=build
 
 all: $(NAME)
 
-$(NAME): $(SOIL) $(OBJ)
+$(BUILDDIR):
+	mkdir -p $@
+
+$(NAME): $(SOIL) $(BUILDDIR) $(OBJ)
 	$(CC) $(FLAGS) $(OBJ) -o $(NAME) $(LINKER)
 
-%.o: %.c
-	$(CC) -c $(INC) $(FLAGS) $<
+$(BUILDDIR)/%.o: %.c
+	$(CC) -c $(INC) $(FLAGS) $< -o $@
 
 clean:
-	$(RM) $(OBJ)
+	$(RM) -r $(BUILDDIR)
 
 fclean: clean
 	$(RM) $(NAME)
