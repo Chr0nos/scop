@@ -6,7 +6,7 @@
 #    By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/07/24 07:18:03 by snicolet          #+#    #+#              #
-#    Updated: 2016/08/13 21:57:47 by snicolet         ###   ########.fr        #
+#    Updated: 2016/10/21 16:06:48 by snicolet         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -45,5 +45,5 @@ re: fclean all
 	git submodule init
 	git submodule update
 
-$(SOIL):
+$(SOIL): ./SOIL2-clone/Makefile
 	make -C ./SOIL2-clone/
