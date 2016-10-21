@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/25 17:36:02 by snicolet          #+#    #+#             */
-/*   Updated: 2016/10/21 16:43:30 by snicolet         ###   ########.fr       */
+/*   Updated: 2016/10/21 19:22:22 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,21 +17,8 @@
 #include <GLFW/glfw3.h>
 #define POINTS 24
 
-static void			display_vertex(const t_m4 *m, const t_pt_c *pt)
+static void			display_vertex(const t_pt_c *pt)
 {
-	static double	off_x = -0.4;
-	static char		sens = 0;
-	t_v4d			v;
-
-	if (off_x >= 0.4)
-		sens = 1;
-	else if (off_x <= -0.4)
-		sens = 0;
-	off_x += (sens) ? -0.00025 : 0.00025;
-	v = geo_addv4(
-			geo_apply_m4(
-				(t_v4d){(double)pt->x, (double)pt->y, (double)pt->z, 0.0}, m),
-				(t_v4d){off_x, cos(off_x * 3.0) * 0.3, 0.0, 0.0});
 	if (pt->tx_enabled)
 	{
 		glColor3ub(0xff, 0xff, 0xff);
@@ -43,7 +30,7 @@ static void			display_vertex(const t_m4 *m, const t_pt_c *pt)
 			(pt->color & 0x00ff00) >> 8,
 			pt->color & 0xff);
 	}
-	glVertex3d(v.x, v.y, v.z);
+	glVertex3d(pt->x, pt->y, pt->z);
 }
 
 static t_m4			make_matrix(void)
@@ -110,12 +97,13 @@ static void			display(void)
 	}
 	init_cube(pts);
 	p = -1;
-	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	glMatrixMode(GL_MODELVIEW);
+	glLoadMatrixd((GLdouble *)&m);
 	glBegin(GL_QUADS);
 	while (++p < POINTS)
 		if (!(pts[p].tx_enabled))
-			display_vertex(&m, &pts[p]);
+			display_vertex(&pts[p]);
 	glEnd();
 	p = -1;
 	glEnable(GL_TEXTURE_2D);
@@ -123,7 +111,7 @@ static void			display(void)
 	glBegin(GL_QUADS);
 	while (++p < POINTS)
 		if (pts[p].tx_enabled)
-			display_vertex(&m, &pts[p]);
+			display_vertex(&pts[p]);
 	glEnd();
 	glDisable(GL_TEXTURE_2D);
 }
@@ -141,6 +129,8 @@ int					main(void)
 
 	if (!glfwInit())
 		return (1);
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 2);
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 1);
 	if (!(window = glfwCreateWindow(800, 600, "OpenGL Test", NULL, NULL)))
 	{
 		glfwTerminate();

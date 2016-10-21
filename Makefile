@@ -6,15 +6,17 @@
 #    By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/07/24 07:18:03 by snicolet          #+#    #+#              #
-#    Updated: 2016/10/21 16:52:24 by snicolet         ###   ########.fr        #
+#    Updated: 2016/10/21 19:59:39 by snicolet         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 OS=$(shell uname -s)
 CC=clang
 FLAGS=-Werror -Wextra -Wall
-LINKER=-L../rt/libs/libdraw -lm -ldraw
-INC=-I../rt/libs/libdraw/headers -I./SOIL2-clone/SOIL2/
+DRAW=libdraw
+LIBFT=libft
+LINKER=-L$(DRAW) -lm -ldraw
+INC=-I$(DRAW)/headers -I./SOIL2-clone/SOIL2/
 SOIL=./SOIL2-clone/libSOIL2.a
 ifeq ($(OS),Darwin)
 	INC+=-I ~/.brew/include
@@ -32,7 +34,7 @@ all: $(NAME)
 $(BUILDDIR):
 	mkdir -p $@
 
-$(NAME): $(SOIL) $(BUILDDIR) $(OBJ)
+$(NAME): $(SOIL) $(DRAW)/libdraw.a $(BUILDDIR) $(OBJ)
 	$(CC) $(FLAGS) $(OBJ) -o $(NAME) $(LINKER)
 
 $(BUILDDIR)/%.o: %.c
@@ -45,6 +47,12 @@ fclean: clean
 	$(RM) $(NAME)
 
 re: fclean all
+
+$(LIBFT)/libft.a:
+	make -j -C $(LIBFT)
+
+$(DRAW)/libdraw.a: $(LIBFT)/libft.a
+	make -j -C $(DRAW)
 
 ./SOIL2-clone/Makefile:
 	git submodule init
