@@ -6,7 +6,7 @@
 #    By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/07/24 07:18:03 by snicolet          #+#    #+#              #
-#    Updated: 2016/10/21 16:06:48 by snicolet         ###   ########.fr        #
+#    Updated: 2016/10/21 16:18:35 by snicolet         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,9 +18,9 @@ INC=-I../rt/libs/libdraw/headers -I./SOIL2-clone/SOIL2/
 SOIL=./SOIL2-clone/libSOIL2.a
 ifeq ($(OS),Darwin)
 	INC+=-I ~/.brew/include
-	LINKER+=-framework OpenGL -L ~/.brew/lib/ -L./SOIL2-clone/ -lSOIL2 -framework CoreFoundation -framework Glut
+	LINKER+=-framework OpenGL -L ~/.brew/lib/ -L./SOIL2-clone/ -lSOIL2 -framework CoreFoundation -lglfw3
 else
-	LINKER+=-L./SOIL2-clone -lglut -lGL -lSOIL2
+	LINKER+=-L./SOIL2-clone -lglfw3 -lGL -lSOIL2
 endif
 NAME=ogl
 OBJ=main.o

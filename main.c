@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/25 17:36:02 by snicolet          #+#    #+#             */
-/*   Updated: 2016/07/27 21:16:44 by snicolet         ###   ########.fr       */
+/*   Updated: 2016/10/21 16:43:30 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include "ogl.h"
 #include "draw.h"
 #include <SOIL2.h>
-#include <GL/glut.h>
+#include <GLFW/glfw3.h>
 #define POINTS 24
 
 static void			display_vertex(const t_m4 *m, const t_pt_c *pt)
@@ -126,23 +126,34 @@ static void			display(void)
 			display_vertex(&m, &pts[p]);
 	glEnd();
 	glDisable(GL_TEXTURE_2D);
-	glutSwapBuffers();
-	glutPostRedisplay();
 }
 
-int					main(int ac, char **av)
+static int			keyboard(GLFWwindow* window)
 {
-	glutInit(&ac, av);
-	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA | GLUT_DEPTH);
-	glutInitWindowSize(800, 600);
-	glutCreateWindow("OpenGL Test");
-	glutInitWindowPosition(50, 50);
+	if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
+		return (1);
+	return (0);
+}
+
+int					main(void)
+{
+	GLFWwindow		*window;
+
+	if (!glfwInit())
+		return (1);
+	if (!(window = glfwCreateWindow(800, 600, "OpenGL Test", NULL, NULL)))
+	{
+		glfwTerminate();
+		return (2);
+	}
+	glfwMakeContextCurrent(window);
 	glEnable(GL_DEPTH_TEST);
-	//glEnable(GL_TEXTURE_2D);
-	glMatrixMode(GL_PROJECTION);
-	glLoadIdentity();
-	glMatrixMode(GL_MODELVIEW);
-	glutDisplayFunc(display);
-	glutMainLoop();
+	while ((!glfwWindowShouldClose(window)) && (!keyboard(window)))
+	{
+		display();
+		glfwSwapBuffers(window);
+		glfwPollEvents();
+	}
+	glfwTerminate();
 	return (0);
 }
