@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/25 17:36:02 by snicolet          #+#    #+#             */
-/*   Updated: 2016/10/21 21:56:34 by snicolet         ###   ########.fr       */
+/*   Updated: 2016/10/21 23:22:19 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,7 +119,6 @@ static void			framebuffer_size_callback(GLFWwindow *window,
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
 	glOrtho(-ratio, ratio, -1.0f, 1.0f, 1.0f, -1.0f);
-	glMatrixMode(GL_MODELVIEW);
 }
 
 static GLuint		texture_load(const char *filepath)
@@ -149,6 +148,8 @@ int					main(int ac, char **av)
 	glEnable(GL_DEPTH_TEST);
 	glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
 	texture = texture_load((ac > 1) ? av[1] : "herbe.jpg");
+	ft_printf("Renderer: %s\nOpenGL version supported %s\n",
+		glGetString(GL_RENDERER), glGetString(GL_VERSION));
 	while ((!glfwWindowShouldClose(window)) && (!keyboard(window)))
 	{
 		display(texture);
