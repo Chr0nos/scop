@@ -6,13 +6,14 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/25 17:36:02 by snicolet          #+#    #+#             */
-/*   Updated: 2016/10/21 19:22:22 by snicolet         ###   ########.fr       */
+/*   Updated: 2016/10/21 21:56:34 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #define GL_DO_NOT_WARN_IF_MULTI_GL_VERSION_HEADERS_INCLUDED
 #include "ogl.h"
 #include "draw.h"
+#include "libft.h"
 #include <SOIL2.h>
 #include <GLFW/glfw3.h>
 #define POINTS 24
@@ -25,11 +26,8 @@ static void			display_vertex(const t_pt_c *pt)
 		glTexCoord2i((int)pt->tx, (int)pt->ty);
 	}
 	else
-	{
 		glColor3ub((pt->color & 0xff0000) >> 16,
-			(pt->color & 0x00ff00) >> 8,
-			pt->color & 0xff);
-	}
+			(pt->color & 0x00ff00) >> 8, pt->color & 0xff);
 	glVertex3d(pt->x, pt->y, pt->z);
 }
 
@@ -77,24 +75,12 @@ static inline void	init_cube(t_pt_c *cube)
 	cube[23] = (t_pt_c){-1.0f, -1.0f, 1.0f, 0x341e09, 0, 0, 0};
 }
 
-static void			display(void)
+static void			display(const GLuint texture)
 {
 	int				p;
 	const t_m4		m = make_matrix();
 	t_pt_c			pts[POINTS];
-	static char		lock = 0;
-	static GLuint	texture = 0;
 
-	if (lock == 0)
-	{
-		glEnable(GL_TEXTURE_2D);
-		texture = SOIL_load_OGL_texture(
-			"herbe.jpg",
-			SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID,
-			SOIL_FLAG_MIPMAPS | SOIL_FLAG_INVERT_Y);
-		lock = 1;
-		glDisable(GL_TEXTURE_2D);
-	}
 	init_cube(pts);
 	p = -1;
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -116,31 +102,56 @@ static void			display(void)
 	glDisable(GL_TEXTURE_2D);
 }
 
-static int			keyboard(GLFWwindow* window)
+static int			keyboard(GLFWwindow *window)
 {
 	if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
 		return (1);
 	return (0);
 }
 
-int					main(void)
+static void			framebuffer_size_callback(GLFWwindow *window,
+	int width, int height)
+{
+	const float ratio = (float)width / (float)height;
+
+	(void)window;
+	ft_printf("window resized: %4dx%-4d ratio: %4f\n", width, height, ratio);
+	glMatrixMode(GL_PROJECTION);
+	glLoadIdentity();
+	glOrtho(-ratio, ratio, -1.0f, 1.0f, 1.0f, -1.0f);
+	glMatrixMode(GL_MODELVIEW);
+}
+
+static GLuint		texture_load(const char *filepath)
+{
+	glEnable(GL_TEXTURE_2D);
+	return (SOIL_load_OGL_texture(
+		filepath,
+		SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID,
+		SOIL_FLAG_MIPMAPS | SOIL_FLAG_INVERT_Y));
+}
+
+int					main(int ac, char **av)
 {
 	GLFWwindow		*window;
+	GLuint			texture;
 
 	if (!glfwInit())
 		return (1);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 2);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 1);
-	if (!(window = glfwCreateWindow(800, 600, "OpenGL Test", NULL, NULL)))
+	if (!(window = glfwCreateWindow(800, 600, "Scope", NULL, NULL)))
 	{
 		glfwTerminate();
 		return (2);
 	}
 	glfwMakeContextCurrent(window);
 	glEnable(GL_DEPTH_TEST);
+	glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
+	texture = texture_load((ac > 1) ? av[1] : "herbe.jpg");
 	while ((!glfwWindowShouldClose(window)) && (!keyboard(window)))
 	{
-		display();
+		display(texture);
 		glfwSwapBuffers(window);
 		glfwPollEvents();
 	}

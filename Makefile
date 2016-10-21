@@ -6,7 +6,7 @@
 #    By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/07/24 07:18:03 by snicolet          #+#    #+#              #
-#    Updated: 2016/10/21 19:59:39 by snicolet         ###   ########.fr        #
+#    Updated: 2016/10/21 20:56:41 by snicolet         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,13 +16,13 @@ FLAGS=-Werror -Wextra -Wall
 DRAW=libdraw
 LIBFT=libft
 LINKER=-L$(DRAW) -lm -ldraw
-INC=-I$(DRAW)/headers -I./SOIL2-clone/SOIL2/
+INC=-I$(DRAW)/headers -I $(LIBFT)/ -I./SOIL2-clone/SOIL2/
 SOIL=./SOIL2-clone/libSOIL2.a
 ifeq ($(OS),Darwin)
 	INC+=-I ~/.brew/include
-	LINKER+=-framework OpenGL -L ~/.brew/lib/ -L./SOIL2-clone/ -lSOIL2 -framework CoreFoundation -lglfw3
+	LINKER+=-framework OpenGL -L ~/.brew/lib/ -L./SOIL2-clone/ -lSOIL2 -framework CoreFoundation -lglfw3 -L$(LIBFT) -lft
 else
-	LINKER+=-L./SOIL2-clone -lglfw3 -lGL -lSOIL2
+	LINKER+=-L./SOIL2-clone -lglfw3 -lGL -lSOIL2 -L$(LIBFT) -lft
 endif
 NAME=ogl
 SRC=main.c
