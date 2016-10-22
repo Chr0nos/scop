@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/22 13:18:49 by snicolet          #+#    #+#             */
-/*   Updated: 2016/10/22 13:19:55 by snicolet         ###   ########.fr       */
+/*   Updated: 2016/10/22 15:21:47 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ void				display(const GLuint texture, t_pt_c *pts)
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glMatrixMode(GL_MODELVIEW);
 	glLoadMatrixd((GLdouble *)&m);
+	glTranslatef(1.0, 0.0, 0.0);
 	glBegin(GL_QUADS);
 	while (++p < POINTS)
 		if (!(pts[p].tx_enabled))

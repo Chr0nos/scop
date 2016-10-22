@@ -6,12 +6,13 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/22 13:16:55 by snicolet          #+#    #+#             */
-/*   Updated: 2016/10/22 13:18:41 by snicolet         ###   ########.fr       */
+/*   Updated: 2016/10/22 15:24:51 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ogl.h"
 #include <GLFW/glfw3.h>
+#define PI180 0.017453292519943295769236907684886
 
 int				keyboard(GLFWwindow *window)
 {
@@ -23,11 +24,19 @@ int				keyboard(GLFWwindow *window)
 void			framebuffer_size_callback(GLFWwindow *window,
 	int width, int height)
 {
-	const float ratio = (float)width / (float)height;
+	const float		ratio = (float)width / (float)height;
+	const GLdouble	top = -1.0 * (tan(PI180) * 70 * 0.5);
+	const GLdouble	bottom = -top;
+	const GLdouble	right = 70.0 * top;
+	const GLdouble	left = -right;
 
 	(void)window;
-	ft_printf("window resized: %4dx%-4d ratio: %4f\n", width, height, ratio);
+	ft_printf("window resized: %4dx%-4d ratio: %4f {left: %f right: %f bottom: %f top: %f}\n",
+		width, height, ratio, top, bottom, left, right);
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
-	glOrtho(-ratio, ratio, -1.0f, 1.0f, 1.0f, -1.0f);
+//	glOrtho(-ratio, ratio, -1.0f, 1.0f, 1.0f, -1.0f);
+//	glFrustum(-width, width, -height, height, -1.0, 1.0);
+	glFrustum(left, right, bottom, top, 1.0, 1000.0);
+	glMatrixMode(GL_MODELVIEW);
 }
