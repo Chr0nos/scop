@@ -6,7 +6,7 @@
 #    By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/07/24 07:18:03 by snicolet          #+#    #+#              #
-#    Updated: 2016/10/22 13:20:01 by snicolet         ###   ########.fr        #
+#    Updated: 2016/10/22 13:24:41 by snicolet         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,7 @@ FLAGS=-Werror -Wextra -Wall
 DRAW=libdraw
 LIBFT=libft
 LINKER=-L$(DRAW) -lm -ldraw
-INC=-I$(DRAW)/headers -I $(LIBFT)/ -I./SOIL2-clone/SOIL2/
+INC=-I$(DRAW)/headers -I $(LIBFT)/ -I./SOIL2-clone/SOIL2/ -Iheaders
 SOIL=./SOIL2-clone/libSOIL2.a
 ifeq ($(OS),Darwin)
 	INC+=-I ~/.brew/include -I/usr/local/include
@@ -26,6 +26,7 @@ else
 endif
 NAME=ogl
 SRC=main.c loadobj.c events.c display.c
+SRC_DIR=srcs
 OBJ=$(SRC:%.c=$(BUILDDIR)/%.o)
 BUILDDIR=build
 
@@ -37,7 +38,7 @@ $(BUILDDIR):
 $(NAME): $(SOIL) $(DRAW)/libdraw.a $(BUILDDIR) $(OBJ)
 	$(CC) $(FLAGS) $(OBJ) -o $(NAME) $(LINKER)
 
-$(BUILDDIR)/%.o: %.c
+$(BUILDDIR)/%.o: $(SRC_DIR)/%.c
 	$(CC) -c $(INC) $(FLAGS) $< -o $@
 
 clean:
