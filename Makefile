@@ -6,7 +6,7 @@
 #    By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/07/24 07:18:03 by snicolet          #+#    #+#              #
-#*   Updated: 2016/10/22 00:32:55 by snicolet         ###   ########.fr       *#
+#    Updated: 2016/10/22 13:20:01 by snicolet         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,7 +25,7 @@ else
 	LINKER+=-L./SOIL2-clone -lglfw -lGL -lSOIL2 -L$(LIBFT) -lft
 endif
 NAME=ogl
-SRC=main.c
+SRC=main.c loadobj.c events.c display.c
 OBJ=$(SRC:%.c=$(BUILDDIR)/%.o)
 BUILDDIR=build
 

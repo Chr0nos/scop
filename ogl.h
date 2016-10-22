@@ -6,22 +6,31 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/24 07:24:26 by snicolet          #+#    #+#             */
-/*   Updated: 2016/07/27 19:08:19 by snicolet         ###   ########.fr       */
+/*   Updated: 2016/10/22 13:19:49 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef OGL_H
 # define OGL_H
+# include "draw.h"
+# include "libft.h"
+# include <SOIL2.h>
+# include <GLFW/glfw3.h>
+# define POINTS 24
 
 typedef struct			s_pt_c
 {
-	float				x;
-	float				y;
-	float				z;
+	t_v3f				pos;
 	unsigned int		color;
-	unsigned char		tx;
-	unsigned char		ty;
+	t_v2f				uv;
 	unsigned char		tx_enabled;
 }						t_pt_c;
+
+int						keyboard(GLFWwindow *window);
+void					framebuffer_size_callback(GLFWwindow *window,
+	int width, int height);
+
+t_pt_c					*load_obj(const char *filepath);
+void					display(const GLuint texture, t_pt_c *pts);
 
 #endif
