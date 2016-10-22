@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/22 12:56:21 by snicolet          #+#    #+#             */
-/*   Updated: 2016/10/22 13:15:30 by snicolet         ###   ########.fr       */
+/*   Updated: 2016/10/22 13:38:22 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,34 +15,35 @@
 #include <fcntl.h>
 #include <stdlib.h>
 
-static t_pt_c		*load_obj_real(const int fd)
+static t_vertex_pack	*load_obj_real(const int fd)
 {
-	int			size;
-	t_pt_c		*pts;
-	char		*line;
+	t_vertex_pack	*pack;
+	char			*line;
 
-	size = 0;
-	pts = NULL;
+	if (!(pack = malloc(sizeof(t_vertex_pack))))
+		return (NULL);
+	pack->points = 0;
+	pack->pts = NULL;
 	while (ft_get_next_line(fd, &line) > 0)
 	{
 		if (line[0] == 'v')
 		{
-			ft_printf("[%3d] - %s\n", size++, line);
+			ft_printf("[%3d] - %s\n", pack->points++, line);
 		}
 		free(line);
 	}
-	return (pts);
+	return (pack);
 }
 
-t_pt_c				*load_obj(const char *filepath)
+t_vertex_pack			*load_obj(const char *filepath)
 {
 	int		fd;
-	t_pt_c	*pts;
+	t_vertex_pack	*pack;
 
 	fd = open(filepath, O_RDONLY);
 	if (fd < 0)
 		return (NULL);
-	pts = load_obj_real(fd);
+	pack = load_obj_real(fd);
 	close(fd);
-	return (pts);
+	return (pack);
 }

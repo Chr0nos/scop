@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/24 07:24:26 by snicolet          #+#    #+#             */
-/*   Updated: 2016/10/22 13:19:49 by snicolet         ###   ########.fr       */
+/*   Updated: 2016/10/22 13:40:05 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,17 @@ typedef struct			s_pt_c
 	unsigned char		tx_enabled;
 }						t_pt_c;
 
+typedef struct			s_vertex_pack
+{
+	t_pt_c				*pts;
+	size_t				points;
+}						t_vertex_pack;
+
 int						keyboard(GLFWwindow *window);
 void					framebuffer_size_callback(GLFWwindow *window,
 	int width, int height);
 
-t_pt_c					*load_obj(const char *filepath);
+t_vertex_pack			*load_obj(const char *filepath);
 void					display(const GLuint texture, t_pt_c *pts);
 
 #endif
