@@ -6,12 +6,12 @@
 #    By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/07/24 07:18:03 by snicolet          #+#    #+#              #
-#    Updated: 2016/10/22 13:24:41 by snicolet         ###   ########.fr        #
+#    Updated: 2016/10/24 16:53:20 by snicolet         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 OS=$(shell uname -s)
-CC=clang
+CC=clang -g3
 FLAGS=-Werror -Wextra -Wall
 DRAW=libdraw
 LIBFT=libft
