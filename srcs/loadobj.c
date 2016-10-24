@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/22 12:56:21 by snicolet          #+#    #+#             */
-/*   Updated: 2016/10/24 17:12:44 by snicolet         ###   ########.fr       */
+/*   Updated: 2016/10/24 17:21:16 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,12 +91,11 @@ static t_vertex_pack	*load_vertexs(t_list *vlist)
 	return (pack);
 }
 
-//phase 1 creer la liste chainee avec toutes les infos et rien de plus
-//phase 2 passer la liste en tableau
-//phase 3 recuperer la taille du tout
-//phase 4 alouer la memoire avec makepack
-//phase 5 remplire le pack
-//phase 6 netoyer tout le bazard que j aurais mis
+//phase 1 creer la liste chainee avec toutes les infos et rien de plus	OK
+//phase 2 recuperer la taille du tout									OK
+//phase 3 alouer la memoire avec makepack								OK
+//phase 4 remplire le pack
+//phase 5 netoyer tout le bazard que j aurais mis
 
 static t_vertex_pack	*load_obj_real(const int fd)
 {
@@ -120,10 +119,10 @@ static t_vertex_pack	*load_obj_real(const int fd)
 		}
 	}
 	//phase 2
-	ft_putendl("Phase 2");
+	ft_putendl("Phase 2/3/4");
 	pack = load_vertexs(lst);
 	//phase 6
-	ft_putendl("Phase 6");
+	ft_putendl("Phase 5");
 	ft_lstdel(&lst, ft_lstpulverisator);
 	return (NULL);
 }
