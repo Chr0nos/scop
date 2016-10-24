@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/22 13:16:55 by snicolet          #+#    #+#             */
-/*   Updated: 2016/10/22 15:24:51 by snicolet         ###   ########.fr       */
+/*   Updated: 2016/10/24 15:13:00 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,9 @@ void			framebuffer_size_callback(GLFWwindow *window,
 	int width, int height)
 {
 	const float		ratio = (float)width / (float)height;
-	const GLdouble	top = -1.0 * (tan(PI180) * 70 * 0.5);
+	const GLdouble	top = (tan(PI180) * 70 * 0.5);
 	const GLdouble	bottom = -top;
-	const GLdouble	right = 70.0 * top;
+	const GLdouble	right = top * ratio;
 	const GLdouble	left = -right;
 
 	(void)window;
@@ -35,8 +35,9 @@ void			framebuffer_size_callback(GLFWwindow *window,
 		width, height, ratio, top, bottom, left, right);
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
-//	glOrtho(-ratio, ratio, -1.0f, 1.0f, 1.0f, -1.0f);
+//	glOrtho(0.0f, width, 0.0f, height, 0.1f, 100.0f);
+	glOrtho(-ratio, ratio, -1.0f, 1.0f, 0.1f, 100.0f);
 //	glFrustum(-width, width, -height, height, -1.0, 1.0);
-	glFrustum(left, right, bottom, top, 1.0, 1000.0);
+	// glFrustum(left, right, bottom, top, 1.0, 1000.0);
 	glMatrixMode(GL_MODELVIEW);
 }

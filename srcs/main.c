@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/25 17:36:02 by snicolet          #+#    #+#             */
-/*   Updated: 2016/10/22 13:20:42 by snicolet         ###   ########.fr       */
+/*   Updated: 2016/10/22 18:25:38 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,6 @@ static inline void	init_cube(t_pt_c *cube)
 	cube[23] = (t_pt_c){(t_v3f){-1.0f, -1.0f, 1.0f}, 0x341e09, (t_v2f){0, 0}, 0};
 }
 
-
 static GLuint		texture_load(const char *filepath)
 {
 	glEnable(GL_TEXTURE_2D);
@@ -60,12 +59,19 @@ static int			main_loop(GLFWwindow *window, GLuint texture,
 	init_cube(pts);
 	while ((!glfwWindowShouldClose(window)) && (!keyboard(window)))
 	{
+		(void)texture;
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		display(texture, pts);
 		glfwSwapBuffers(window);
 		glfwPollEvents();
 	}
 	glfwTerminate();
 	return (0);
+}
+
+void				error_handler(int id, const char *str)
+{
+	ft_printf("[%2d] error: %s\n", id, str);
 }
 
 int					main(int ac, char **av)
@@ -75,8 +81,12 @@ int					main(int ac, char **av)
 
 	if (!glfwInit())
 		return (1);
+	ft_printf("Init ok\nGlfw version: %s\n", glfwGetVersionString());
+	glfwSetErrorCallback(&error_handler);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 2);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 1);
+	//glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+	//glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GLFW_TRUE);
 	if (!(window = glfwCreateWindow(800, 600, "Scope", NULL, NULL)))
 	{
 		glfwTerminate();

@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/24 07:24:26 by snicolet          #+#    #+#             */
-/*   Updated: 2016/10/22 13:40:05 by snicolet         ###   ########.fr       */
+/*   Updated: 2016/10/24 15:27:41 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,9 @@ typedef struct			s_pt_c
 
 typedef struct			s_vertex_pack
 {
-	t_pt_c				*pts;
+	t_v3f				*vertex;
+	t_v2f				*uv;
+	unsigned char		*flags;
 	size_t				points;
 }						t_vertex_pack;
 
