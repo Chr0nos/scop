@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/22 12:56:21 by snicolet          #+#    #+#             */
-/*   Updated: 2016/10/24 17:21:16 by snicolet         ###   ########.fr       */
+/*   Updated: 2016/10/25 17:33:01 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,17 +14,6 @@
 #include "libft.h"
 #include <fcntl.h>
 #include <stdlib.h>
-
-static void				vertex_debug(t_printf *pf)
-{
-	const t_v3f		*vertex = (t_v3f*)pf->raw_value;
-	char			buff[100];
-	int				len;
-
-	len = ft_snprintf(buff, 100, "x: %f y: %f z: %f",
-		vertex->x, vertex->y, vertex->z);
-	ft_printf_append(pf, buff, (size_t)len);
-}
 
 static t_vertex_pack	*makepack(const size_t points)
 {
@@ -42,6 +31,8 @@ static t_vertex_pack	*makepack(const size_t points)
 	pack->flags = (unsigned char*)((unsigned long)pack->uv + sizeof(t_v2f) *
 		points);
 	pack->points = points;
+	pack->faces = NULL;
+	pack->faces_count = 0;
 	return (pack);
 }
 
@@ -91,40 +82,31 @@ static t_vertex_pack	*load_vertexs(t_list *vlist)
 	return (pack);
 }
 
-//phase 1 creer la liste chainee avec toutes les infos et rien de plus	OK
-//phase 2 recuperer la taille du tout									OK
-//phase 3 alouer la memoire avec makepack								OK
-//phase 4 remplire le pack
-//phase 5 netoyer tout le bazard que j aurais mis
-
 static t_vertex_pack	*load_obj_real(const int fd)
 {
-	t_list			*lst;
+	t_list			*lst_vertex;
+	t_list			*lst_faces;
 	char			*line;
 	size_t			points;
 	t_vertex_pack	*pack;
 
-	(void)makepack;
-	lst = NULL;
+	lst_vertex = NULL;
+	lst_faces = NULL;
 	points = 0;
-	//phase 1
-	ft_putendl("Phase 1");
 	while (ft_get_next_line(fd, &line) > 0)
 	{
-		if (line[0] == 'v')
-		{
-			points++;
-			ft_printf("[%3d] - %s\n", points++, line);
-			ft_lstadd(&lst, ft_lstnewlink(line, 0));
-		}
+		if ((line[0] == 'v') && (++points))
+			ft_lstadd(&lst_vertex, ft_lstnewlink(line, 0));
+		else if (line[0] == 'f')
+			ft_lstadd(&lst_faces, ft_lstnewlink(line, 0));
+		else
+			free(line);
 	}
-	//phase 2
-	ft_putendl("Phase 2/3/4");
-	pack = load_vertexs(lst);
-	//phase 6
-	ft_putendl("Phase 5");
-	ft_lstdel(&lst, ft_lstpulverisator);
-	return (NULL);
+	pack = load_vertexs(lst_vertex);
+	pack->faces = load_faces(lst_faces, (int)pack->points);
+	ft_lstdel(&lst_vertex, ft_lstpulverisator);
+	ft_lstdel(&lst_faces, ft_lstpulverisator);
+	return (pack);
 }
 
 t_vertex_pack			*load_obj(const char *filepath)

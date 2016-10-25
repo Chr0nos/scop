@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/24 07:24:26 by snicolet          #+#    #+#             */
-/*   Updated: 2016/10/24 15:27:41 by snicolet         ###   ########.fr       */
+/*   Updated: 2016/10/25 17:33:15 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,8 @@ typedef struct			s_vertex_pack
 	t_v2f				*uv;
 	unsigned char		*flags;
 	size_t				points;
+	t_v3i				*faces;
+	size_t				faces_count;
 }						t_vertex_pack;
 
 int						keyboard(GLFWwindow *window);
@@ -40,5 +42,9 @@ void					framebuffer_size_callback(GLFWwindow *window,
 
 t_vertex_pack			*load_obj(const char *filepath);
 void					display(const GLuint texture, t_pt_c *pts);
+void					error_handler(int id, const char *str);
+void					vertex_debug(t_printf *pf);
+void					faces_debug(t_printf *pf);
+t_v3i					*load_faces(t_list *faces, const int max);
 
 #endif

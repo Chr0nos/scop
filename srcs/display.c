@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/22 13:18:49 by snicolet          #+#    #+#             */
-/*   Updated: 2016/10/22 23:25:55 by snicolet         ###   ########.fr       */
+/*   Updated: 2016/10/25 14:34:37 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,18 +38,18 @@ static void			display_vertex(const t_pt_c *pt)
 	else
 		glColor3ub((pt->color & 0xff0000) >> 16,
 			(pt->color & 0x00ff00) >> 8, pt->color & 0xff);
-	glVertex3d(pt->pos.x, pt->pos.y, pt->pos.z);
+	glVertex3d((double)pt->pos.x, (double)pt->pos.y, (double)pt->pos.z);
 }
 
 void				display(const GLuint texture, t_pt_c *pts)
 {
 	int				p;
-	const t_m4		m = make_matrix();
+	t_m4			m;
 
+	m = make_matrix();
 	p = -1;
 	glMatrixMode(GL_MODELVIEW);
 	glLoadMatrixd((GLdouble *)&m);
-	glTranslatef(0.0, 0.0, 0.0);
 	glBegin(GL_QUADS);
 	while (++p < POINTS)
 		if (!(pts[p].tx_enabled))

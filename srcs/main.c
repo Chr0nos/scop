@@ -6,11 +6,10 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/25 17:36:02 by snicolet          #+#    #+#             */
-/*   Updated: 2016/10/22 18:25:38 by snicolet         ###   ########.fr       */
+/*   Updated: 2016/10/25 14:31:38 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#define GL_DO_NOT_WARN_IF_MULTI_GL_VERSION_HEADERS_INCLUDED
 #include "ogl.h"
 
 static inline void	init_cube(t_pt_c *cube)
