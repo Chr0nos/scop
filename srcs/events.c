@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/22 13:16:55 by snicolet          #+#    #+#             */
-/*   Updated: 2016/10/25 17:34:19 by snicolet         ###   ########.fr       */
+/*   Updated: 2016/10/25 22:59:40 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,6 @@ void			framebuffer_size_callback(GLFWwindow *window,
 		width, height, ratio, top, bottom, left, right);
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
-	glOrtho(-ratio, ratio, -1.0, 1.0, 0.1, 100.0);
+	glOrtho(-ratio, ratio, -1.0, 1.0, 0.1, 1000.0);
 	glMatrixMode(GL_MODELVIEW);
 }

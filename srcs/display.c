@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/22 13:18:49 by snicolet          #+#    #+#             */
-/*   Updated: 2016/10/25 21:08:47 by snicolet         ###   ########.fr       */
+/*   Updated: 2016/10/25 23:15:03 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,14 +28,13 @@ static t_m4			make_matrix(void)
 	return (m);
 }
 
-static void			display_pack(t_vertex_pack *pack)
+static void			display_pack_lines(t_vertex_pack *pack)
 {
 	size_t		face;
 	t_v3i		*index;
 
 	face = pack->faces_count;
 	glDisable(GL_TEXTURE_2D);
-	//glBegin(GL_TRIANGLES);
 	glBegin(GL_LINES);
 	glColor3ub(255, 255, 255);
 	while (face--)
@@ -53,6 +52,30 @@ static void			display_pack(t_vertex_pack *pack)
 	glEnd();
 }
 
+static void			display_pack(t_vertex_pack *pack)
+{
+	size_t		face;
+	t_v3i		*index;
+
+	face = pack->faces_count;
+	glBegin(GL_TRIANGLES);
+	glColor3ub(255, 255, 255);
+	while (face--)
+	{
+		index = &pack->faces[face];
+		if (pack->flags[index->x] & FLAG_UV)
+			glTexCoord2fv((const GLfloat*)&pack->uv[index->x]);
+		glVertex3fv((const GLfloat*)&pack->vertex[index->x]);
+		if (pack->flags[index->y] & FLAG_UV)
+			glTexCoord2fv((const GLfloat*)&pack->uv[index->y]);
+		glVertex3fv((const GLfloat*)&pack->vertex[index->y]);
+		if (pack->flags[index->z] & FLAG_UV)
+			glTexCoord2fv((const GLfloat*)&pack->uv[index->z]);
+		glVertex3fv((const GLfloat*)&pack->vertex[index->z]);
+	}
+	glEnd();
+}
+
 void				display(const GLuint texture, t_vertex_pack *pack)
 {
 	int				p;
@@ -63,5 +86,8 @@ void				display(const GLuint texture, t_vertex_pack *pack)
 	glMatrixMode(GL_MODELVIEW);
 	glLoadMatrixd((GLdouble *)&m);
 	display_pack(pack);
+	//display_pack_lines(pack);
+	(void)display_pack_lines;
+	(void)display_pack;
 	(void)texture;
 }

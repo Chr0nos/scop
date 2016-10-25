@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/24 07:24:26 by snicolet          #+#    #+#             */
-/*   Updated: 2016/10/25 21:25:51 by snicolet         ###   ########.fr       */
+/*   Updated: 2016/10/25 23:08:42 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,15 +16,7 @@
 # include "libft.h"
 # include <SOIL2.h>
 # include <GLFW/glfw3.h>
-# define POINTS 24
-
-typedef struct			s_pt_c
-{
-	t_v3f				pos;
-	unsigned int		color;
-	t_v2f				uv;
-	unsigned char		tx_enabled;
-}						t_pt_c;
+# define FLAG_UV		1u
 
 typedef struct			s_vertex_pack
 {
