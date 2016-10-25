@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/24 07:24:26 by snicolet          #+#    #+#             */
-/*   Updated: 2016/10/25 21:04:50 by snicolet         ###   ########.fr       */
+/*   Updated: 2016/10/25 21:25:51 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ typedef struct			s_vertex_pack
 	size_t				points;
 	t_v3i				*faces;
 	size_t				faces_count;
+	t_v3f				center;
 }						t_vertex_pack;
 
 int						keyboard(GLFWwindow *window);

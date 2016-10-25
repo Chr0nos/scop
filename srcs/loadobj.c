@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/22 12:56:21 by snicolet          #+#    #+#             */
-/*   Updated: 2016/10/25 21:08:11 by snicolet         ###   ########.fr       */
+/*   Updated: 2016/10/25 21:36:21 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,6 +119,15 @@ void					clean_pack(t_vertex_pack *pack)
 	free(pack);
 }
 
+static void				fixcenter(t_vertex_pack *pack)
+{
+	size_t		p;
+
+	p = pack->points;
+	while (p--)
+		pack->vertex[p] = geo_subv3(pack->vertex[p], pack->center);
+}
+
 t_vertex_pack			*load_obj(const char *filepath)
 {
 	int				fd;
@@ -129,5 +138,7 @@ t_vertex_pack			*load_obj(const char *filepath)
 		return (NULL);
 	pack = load_obj_real(fd);
 	close(fd);
+	pack->center = geo_center_v3(pack->vertex, pack->points);
+	fixcenter(pack);
 	return (pack);
 }
