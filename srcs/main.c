@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/25 17:36:02 by snicolet          #+#    #+#             */
-/*   Updated: 2016/10/25 14:31:38 by snicolet         ###   ########.fr       */
+/*   Updated: 2016/10/25 21:05:12 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,18 +53,23 @@ static int			main_loop(GLFWwindow *window, GLuint texture,
 	const char *filepath)
 {
 	t_pt_c			pts[POINTS];
+	t_vertex_pack	*pack;
 
-	load_obj(filepath);
+	if (!(pack = load_obj(filepath)))
+	{
+		glfwTerminate();
+		return (-1);
+	}
 	init_cube(pts);
 	while ((!glfwWindowShouldClose(window)) && (!keyboard(window)))
 	{
-		(void)texture;
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		display(texture, pts);
+		display(texture, pack);
 		glfwSwapBuffers(window);
 		glfwPollEvents();
 	}
 	glfwTerminate();
+	clean_pack(pack);
 	return (0);
 }
 
@@ -86,7 +91,7 @@ int					main(int ac, char **av)
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 1);
 	//glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 	//glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GLFW_TRUE);
-	if (!(window = glfwCreateWindow(800, 600, "Scope", NULL, NULL)))
+	if (!(window = glfwCreateWindow(1280, 720, "Scope", NULL, NULL)))
 	{
 		glfwTerminate();
 		return (2);

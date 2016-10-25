@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/22 13:18:49 by snicolet          #+#    #+#             */
-/*   Updated: 2016/10/25 14:34:37 by snicolet         ###   ########.fr       */
+/*   Updated: 2016/10/25 21:08:47 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,20 +28,32 @@ static t_m4			make_matrix(void)
 	return (m);
 }
 
-static void			display_vertex(const t_pt_c *pt)
+static void			display_pack(t_vertex_pack *pack)
 {
-	if (pt->tx_enabled)
+	size_t		face;
+	t_v3i		*index;
+
+	face = pack->faces_count;
+	glDisable(GL_TEXTURE_2D);
+	//glBegin(GL_TRIANGLES);
+	glBegin(GL_LINES);
+	glColor3ub(255, 255, 255);
+	while (face--)
 	{
-		glColor3ub(0xff, 0xff, 0xff);
-		glTexCoord2f(pt->uv.x, pt->uv.y);
+		index = &pack->faces[face];
+		glVertex3fv((const GLfloat*)&pack->vertex[index->x]);
+		glVertex3fv((const GLfloat*)&pack->vertex[index->y]);
+
+		glVertex3fv((const GLfloat*)&pack->vertex[index->z]);
+		glVertex3fv((const GLfloat*)&pack->vertex[index->x]);
+
+		glVertex3fv((const GLfloat*)&pack->vertex[index->y]);
+		glVertex3fv((const GLfloat*)&pack->vertex[index->z]);
 	}
-	else
-		glColor3ub((pt->color & 0xff0000) >> 16,
-			(pt->color & 0x00ff00) >> 8, pt->color & 0xff);
-	glVertex3d((double)pt->pos.x, (double)pt->pos.y, (double)pt->pos.z);
+	glEnd();
 }
 
-void				display(const GLuint texture, t_pt_c *pts)
+void				display(const GLuint texture, t_vertex_pack *pack)
 {
 	int				p;
 	t_m4			m;
@@ -50,18 +62,6 @@ void				display(const GLuint texture, t_pt_c *pts)
 	p = -1;
 	glMatrixMode(GL_MODELVIEW);
 	glLoadMatrixd((GLdouble *)&m);
-	glBegin(GL_QUADS);
-	while (++p < POINTS)
-		if (!(pts[p].tx_enabled))
-			display_vertex(&pts[p]);
-	glEnd();
-	p = -1;
-	glEnable(GL_TEXTURE_2D);
-	glBindTexture(GL_TEXTURE_2D, texture);
-	glBegin(GL_QUADS);
-	while (++p < POINTS)
-		if (pts[p].tx_enabled)
-			display_vertex(&pts[p]);
-	glEnd();
-	glDisable(GL_TEXTURE_2D);
+	display_pack(pack);
+	(void)texture;
 }

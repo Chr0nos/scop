@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/22 12:56:21 by snicolet          #+#    #+#             */
-/*   Updated: 2016/10/25 17:33:01 by snicolet         ###   ########.fr       */
+/*   Updated: 2016/10/25 21:08:11 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,18 +95,28 @@ static t_vertex_pack	*load_obj_real(const int fd)
 	points = 0;
 	while (ft_get_next_line(fd, &line) > 0)
 	{
-		if ((line[0] == 'v') && (++points))
-			ft_lstadd(&lst_vertex, ft_lstnewlink(line, 0));
+		if (!ft_strncmp(line, "vt ", 3))
+			;
+		else if ((line[0] == 'v') && (++points))
+			ft_lstpush_back(&lst_vertex, ft_lstnewlink(line, 0));
 		else if (line[0] == 'f')
 			ft_lstadd(&lst_faces, ft_lstnewlink(line, 0));
 		else
 			free(line);
 	}
 	pack = load_vertexs(lst_vertex);
-	pack->faces = load_faces(lst_faces, (int)pack->points);
+	pack->faces = load_faces(lst_faces, (int)pack->points, &pack->faces_count);
 	ft_lstdel(&lst_vertex, ft_lstpulverisator);
 	ft_lstdel(&lst_faces, ft_lstpulverisator);
 	return (pack);
+}
+
+void					clean_pack(t_vertex_pack *pack)
+{
+	if (!pack)
+		return ;
+	free(pack->faces);
+	free(pack);
 }
 
 t_vertex_pack			*load_obj(const char *filepath)
