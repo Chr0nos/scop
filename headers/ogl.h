@@ -34,7 +34,8 @@ void					framebuffer_size_callback(GLFWwindow *window,
 	int width, int height);
 
 t_vertex_pack			*load_obj(const char *filepath);
-void					display(const GLuint texture, t_vertex_pack *pack);
+void					display(const GLuint texture, t_vertex_pack *pack,
+	GLFWwindow *window);
 void					error_handler(int id, const char *str);
 void					vertex_debug(t_printf *pf);
 void					faces_debug(t_printf *pf);

@@ -11,19 +11,25 @@
 /* ************************************************************************** */
 
 #include "ogl.h"
+#include "geo.h"
 
-static t_m4			make_matrix(void)
+static t_m4			make_matrix(GLFWwindow *window)
 {
 	static double	rot = 0;
+	static t_v4d	scale = (t_v4d){0.7, 0.7, 0.7, 0.0};
 	t_m4			m;
 
+	if (glfwGetKey(window, GLFW_KEY_E) == GLFW_PRESS)
+		scale = geo_addv4(scale, (t_v4d){0.01, 0.01, 0.01, 0.0});
+	else if (glfwGetKey(window, GLFW_KEY_Q) == GLFW_PRESS)
+		scale = geo_addv4(scale, (t_v4d){-0.01, -0.01, -0.01, 0.0});
 	if (rot > 10000)
 		rot = 0.0;
 	else
 		rot += 0.012;
 	m = geo_mk4_rotxyz(
 		(t_v4d){-rot, rot * -0.5, 0.0, 0.0},
-		(t_v4d){0.7, 0.7, 0.7, 0.0},
+		scale,
 		(t_v4d){0.0, 0.0, 0.0, 1.0});
 	return (m);
 }
@@ -76,12 +82,13 @@ static void			display_pack(t_vertex_pack *pack)
 	glEnd();
 }
 
-void				display(const GLuint texture, t_vertex_pack *pack)
+void				display(const GLuint texture, t_vertex_pack *pack,
+	GLFWwindow *window)
 {
 	int				p;
 	t_m4			m;
 
-	m = make_matrix();
+	m = make_matrix(window);
 	p = -1;
 	glMatrixMode(GL_MODELVIEW);
 	glLoadMatrixd((GLdouble *)&m);

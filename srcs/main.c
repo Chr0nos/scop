@@ -34,7 +34,7 @@ static int			main_loop(GLFWwindow *window, GLuint texture,
 	while ((!glfwWindowShouldClose(window)) && (!keyboard(window)))
 	{
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		display(texture, pack);
+		display(texture, pack, window);
 		glfwSwapBuffers(window);
 		glfwPollEvents();
 	}
