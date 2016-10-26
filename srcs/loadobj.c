@@ -52,7 +52,7 @@ static t_v3f			load_vertex(const char *line)
 		vertex.x = (float)ft_atod(tab[1]);
 		vertex.y = (float)ft_atod(tab[2]);
 		vertex.z = (float)ft_atod(tab[3]);
-		ft_printf("vertex: %lk\n", &vertex_debug, &vertex);
+		//ft_printf("vertex: %lk\n", &vertex_debug, &vertex);
 	}
 	else
 		vertex = (t_v3f){0.0f, 0.0f, 0.0f};
@@ -137,6 +137,7 @@ static t_vertex_pack	*load_obj_real(const int fd)
 		else
 			free(line);
 	}
+	free(line);
 	pack = load_vertexs(lst_vertex);
 	pack->faces = load_faces(lst_faces, (int)pack->points, &pack->faces_count);
 	load_obj_uv_final(lst_uv, pack);

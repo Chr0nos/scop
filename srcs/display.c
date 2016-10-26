@@ -85,8 +85,8 @@ void				display(const GLuint texture, t_vertex_pack *pack)
 	p = -1;
 	glMatrixMode(GL_MODELVIEW);
 	glLoadMatrixd((GLdouble *)&m);
-	display_pack(pack);
-	//display_pack_lines(pack);
+	//display_pack(pack);
+	display_pack_lines(pack);
 	(void)display_pack_lines;
 	(void)display_pack;
 	(void)texture;

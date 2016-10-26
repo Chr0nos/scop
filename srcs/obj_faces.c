@@ -89,7 +89,7 @@ t_v3i				*load_faces(t_list *faces, const int max,
 		faces = faces->next;
 	}
 	allpoints = load_faces_totab(plist, *faces_count);
-	ft_printf("faces list: %lk\n", &faces_debug, plist);
+	//ft_printf("faces list: %lk\n", &faces_debug, plist);
 	ft_lstdel(&plist, &ft_lstpulverisator);
 	return (allpoints);
 }
