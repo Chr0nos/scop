@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/25 17:36:02 by snicolet          #+#    #+#             */
-/*   Updated: 2016/10/25 23:08:30 by snicolet         ###   ########.fr       */
+/*   Updated: 2016/10/30 17:46:14 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,16 +21,34 @@ static GLuint		texture_load(const char *filepath)
 		SOIL_FLAG_MIPMAPS | SOIL_FLAG_INVERT_Y));
 }
 
+void				load_projection(double ratio, double fov, double far,
+	double near)
+{
+	const double 	height = near * (tan(fov * 0.5 * (M_PI / 180)));
+	const double 	width = height * ratio;
+	const t_m4		proj = geo_mk4_projection((t_proj){
+		-width, width, -height, height, near, far});
+
+	geo_putm4(proj, 6);
+	glMatrixMode(GL_PROJECTION);
+	glLoadIdentity();
+	glLoadTransposeMatrixd((const GLdouble*)&proj);
+	glMatrixMode(GL_MODELVIEW);
+}
+
 static int			main_loop(GLFWwindow *window, GLuint texture,
 	const char *filepath)
 {
 	t_vertex_pack	*pack;
+	t_v2i			geo;
 
 	if (!(pack = load_obj(filepath)))
 	{
 		glfwTerminate();
 		return (-1);
 	}
+	glfwGetWindowSize(window, &geo.x, &geo.y);
+	load_projection((double)geo.x / (double)geo.y, 75, 1.0, 100.0);
 	while ((!glfwWindowShouldClose(window)) && (!keyboard(window)))
 	{
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -68,6 +86,8 @@ int					main(int ac, char **av)
 	}
 	glfwMakeContextCurrent(window);
 	glEnable(GL_DEPTH_TEST);
+	glDepthFunc(GL_GREATER);
+	glClearDepth(0.0);
 	glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
 	texture = texture_load((ac > 2) ? av[2] : "herbe.jpg");
 	ft_printf("Renderer: %s\nOpenGL version supported %s\n",

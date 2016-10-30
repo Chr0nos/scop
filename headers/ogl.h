@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/24 07:24:26 by snicolet          #+#    #+#             */
-/*   Updated: 2016/10/25 23:08:42 by snicolet         ###   ########.fr       */
+/*   Updated: 2016/10/30 15:02:39 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,5 +42,7 @@ void					faces_debug(t_printf *pf);
 t_v3i					*load_faces(t_list *faces, const int max,
 	size_t *faces_count);
 void					clean_pack(t_vertex_pack *pack);
+void				load_projection(double ratio, double fov, double far,
+	double near);
 
 #endif
