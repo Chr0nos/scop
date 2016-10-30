@@ -6,29 +6,45 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/22 13:18:49 by snicolet          #+#    #+#             */
-/*   Updated: 2016/10/25 23:15:03 by snicolet         ###   ########.fr       */
+/*   Updated: 2016/10/27 02:11:13 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ogl.h"
 #include "geo.h"
 
+static void			matrix_keyboard(GLFWwindow *window, t_v4d *scale,
+	t_v4d *rotv)
+{
+	if (glfwGetKey(window, GLFW_KEY_E) == GLFW_PRESS)
+		*scale = geo_addv4(*scale, (t_v4d){0.01, 0.01, 0.01, 0.0});
+	else if (glfwGetKey(window, GLFW_KEY_Q) == GLFW_PRESS)
+		*scale = geo_addv4(*scale, (t_v4d){-0.01, -0.01, -0.01, 0.0});
+	if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
+		rotv->z += 0.01;
+	else if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
+		rotv->z += -0.01;
+	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
+		rotv->x += 0.01;
+	else if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
+		rotv->x += -0.01;
+}
+
 static t_m4			make_matrix(GLFWwindow *window)
 {
 	static double	rot = 0;
 	static t_v4d	scale = (t_v4d){0.7, 0.7, 0.7, 0.0};
+	static t_v4d	rotv = (t_v4d){0.0, 0.0, 0.0, 0.0};
 	t_m4			m;
 
-	if (glfwGetKey(window, GLFW_KEY_E) == GLFW_PRESS)
-		scale = geo_addv4(scale, (t_v4d){0.01, 0.01, 0.01, 0.0});
-	else if (glfwGetKey(window, GLFW_KEY_Q) == GLFW_PRESS)
-		scale = geo_addv4(scale, (t_v4d){-0.01, -0.01, -0.01, 0.0});
+	matrix_keyboard(window, &scale, &rotv);
 	if (rot > 10000)
 		rot = 0.0;
 	else
 		rot += 0.012;
 	m = geo_mk4_rotxyz(
 		(t_v4d){-rot, rot * -0.5, 0.0, 0.0},
+	//	rotv,
 		scale,
 		(t_v4d){0.0, 0.0, 0.0, 1.0});
 	return (m);
