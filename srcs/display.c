@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/22 13:18:49 by snicolet          #+#    #+#             */
-/*   Updated: 2016/10/27 02:11:13 by snicolet         ###   ########.fr       */
+/*   Updated: 2016/10/30 18:03:55 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,10 +43,11 @@ static t_m4			make_matrix(GLFWwindow *window)
 	else
 		rot += 0.012;
 	m = geo_mk4_rotxyz(
-		(t_v4d){-rot, rot * -0.5, 0.0, 0.0},
-	//	rotv,
+	//	(t_v4d){-rot, rot * -0.5, 0.0, 0.0},
+		rotv,
 		scale,
 		(t_v4d){0.0, 0.0, 0.0, 1.0});
+	m.w.z -= 15.0;
 	return (m);
 }
 
@@ -74,14 +75,15 @@ static void			display_pack_lines(t_vertex_pack *pack)
 	glEnd();
 }
 
-static void			display_pack(t_vertex_pack *pack)
+static void			display_pack(t_vertex_pack *pack, GLuint texture)
 {
 	size_t		face;
 	t_v3i		*index;
 
 	face = pack->faces_count;
+	glEnable(GL_TEXTURE_2D);
+	glBindTexture(GL_TEXTURE_2D, texture);
 	glBegin(GL_TRIANGLES);
-	glColor3ub(255, 255, 255);
 	while (face--)
 	{
 		index = &pack->faces[face];
@@ -101,14 +103,12 @@ static void			display_pack(t_vertex_pack *pack)
 void				display(const GLuint texture, t_vertex_pack *pack,
 	GLFWwindow *window)
 {
-	int				p;
 	t_m4			m;
 
 	m = make_matrix(window);
-	p = -1;
 	glMatrixMode(GL_MODELVIEW);
 	glLoadMatrixd((GLdouble *)&m);
-	//display_pack(pack);
+	//display_pack(pack, texture);
 	display_pack_lines(pack);
 	(void)display_pack_lines;
 	(void)display_pack;

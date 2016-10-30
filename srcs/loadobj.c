@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/22 12:56:21 by snicolet          #+#    #+#             */
-/*   Updated: 2016/10/25 23:20:44 by snicolet         ###   ########.fr       */
+/*   Updated: 2016/10/30 14:25:29 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,12 +48,10 @@ static t_v3f			load_vertex(const char *line)
 	tab = ft_strsplit(line, ' ');
 	size = ft_tabcount((void**)tab);
 	if (size > 3)
-	{
-		vertex.x = (float)ft_atod(tab[1]);
-		vertex.y = (float)ft_atod(tab[2]);
-		vertex.z = (float)ft_atod(tab[3]);
-		//ft_printf("vertex: %lk\n", &vertex_debug, &vertex);
-	}
+		vertex = (t_v3f){
+			(float)ft_atod(tab[1]),
+			(float)ft_atod(tab[2]),
+			(float)ft_atod(tab[3])};
 	else
 		vertex = (t_v3f){0.0f, 0.0f, 0.0f};
 	ft_freesplit(tab);
