@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/22 12:56:21 by snicolet          #+#    #+#             */
-/*   Updated: 2016/10/30 14:25:29 by snicolet         ###   ########.fr       */
+/*   Updated: 2016/11/01 16:43:07 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,22 +39,10 @@ static t_vertex_pack	*makepack(const size_t points)
 
 static t_v3f			load_vertex(const char *line)
 {
-	char			**tab;
-	size_t			size;
 	t_v3f			vertex;
 
-	if ((!line) || (!*line))
-		return ((t_v3f){0.0f, 0.0f, 0.0f});
-	tab = ft_strsplit(line, ' ');
-	size = ft_tabcount((void**)tab);
-	if (size > 3)
-		vertex = (t_v3f){
-			(float)ft_atod(tab[1]),
-			(float)ft_atod(tab[2]),
-			(float)ft_atod(tab[3])};
-	else
-		vertex = (t_v3f){0.0f, 0.0f, 0.0f};
-	ft_freesplit(tab);
+	vertex = (t_v3f){0.0f, 0.0f, 0.0f};
+	ft_sscanf(line, "v %f\\s%f\\s%f", &vertex.x, &vertex.y, &vertex.z);
 	return (vertex);
 }
 
@@ -83,17 +71,10 @@ static t_vertex_pack	*load_vertexs(t_list *vlist)
 
 static void				load_obj_uv(t_list **lst_uv, char *line)
 {
-	char		**tab;
-	size_t		size;
 	t_v2f		uv;
 
-	tab = ft_strsplit(line, ' ');
-	size = ft_tabcount((void**)tab);
-	if (size > 3)
-	{
-		uv = (t_v2f){(float)ft_atod(tab[1]), (float)ft_atod(tab[2])};
+	if (ft_sscanf(line, "vt %f %f", &uv.x, &uv.y) >= 0)
 		ft_lstpush_back(lst_uv, ft_lstnew(&uv, sizeof(t_v2f)));
-	}
 }
 
 static void				load_obj_uv_final(t_list *lst_uv, t_vertex_pack *pack)

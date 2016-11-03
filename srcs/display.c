@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/22 13:18:49 by snicolet          #+#    #+#             */
-/*   Updated: 2016/10/30 18:03:55 by snicolet         ###   ########.fr       */
+/*   Updated: 2016/11/01 17:57:48 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,12 +104,19 @@ void				display(const GLuint texture, t_vertex_pack *pack,
 	GLFWwindow *window)
 {
 	t_m4			m;
+	static char		mode = 0;
 
+	if (glfwGetKey(window, GLFW_KEY_O) == GLFW_PRESS)
+		mode = 1;
+	else if (glfwGetKey(window, GLFW_KEY_P) == GLFW_PRESS)
+		mode = 0;
 	m = make_matrix(window);
 	glMatrixMode(GL_MODELVIEW);
 	glLoadMatrixd((GLdouble *)&m);
-	//display_pack(pack, texture);
-	display_pack_lines(pack);
+	if (!mode)
+		display_pack(pack, texture);
+	else
+		display_pack_lines(pack);
 	(void)display_pack_lines;
 	(void)display_pack;
 	(void)texture;
