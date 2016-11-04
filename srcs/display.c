@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/22 13:18:49 by snicolet          #+#    #+#             */
-/*   Updated: 2016/11/01 17:57:48 by snicolet         ###   ########.fr       */
+/*   Updated: 2016/11/04 19:17:33 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,9 @@
 static void			matrix_keyboard(GLFWwindow *window, t_v4d *scale,
 	t_v4d *rotv)
 {
-	if (glfwGetKey(window, GLFW_KEY_E) == GLFW_PRESS)
+	if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS)
 		*scale = geo_addv4(*scale, (t_v4d){0.01, 0.01, 0.01, 0.0});
-	else if (glfwGetKey(window, GLFW_KEY_Q) == GLFW_PRESS)
+	else if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS)
 		*scale = geo_addv4(*scale, (t_v4d){-0.01, -0.01, -0.01, 0.0});
 	if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
 		rotv->z += 0.01;
@@ -28,6 +28,10 @@ static void			matrix_keyboard(GLFWwindow *window, t_v4d *scale,
 		rotv->x += 0.01;
 	else if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
 		rotv->x += -0.01;
+	if (glfwGetKey(window, GLFW_KEY_E) == GLFW_PRESS)
+		rotv->z += 0.01;
+	else if (glfwGetKey(window, GLFW_KEY_Q) == GLFW_PRESS)
+		rotv->z -= 0.01;
 }
 
 static t_m4			make_matrix(GLFWwindow *window)
