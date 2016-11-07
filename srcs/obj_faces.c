@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/25 17:32:33 by snicolet          #+#    #+#             */
-/*   Updated: 2016/11/01 17:06:01 by snicolet         ###   ########.fr       */
+/*   Updated: 2016/11/06 14:40:43 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,8 @@ static int			load_faces_while(char *line, t_list **plist, const int max)
 	int		faces;
 
 	faces = 0;
-	if (ft_sscanf(line, "f %d/%d/%d %d/%d/%d %d/%d/%d", 
+	if (ft_sscanf(line, "f %d/%^d/^%d %d/%^d/%^d %^d/%^d/%^d",
+		&point.x, &point.y, &point.z)
 }
 */
 

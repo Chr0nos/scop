@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/22 13:18:49 by snicolet          #+#    #+#             */
-/*   Updated: 2016/11/04 19:17:33 by snicolet         ###   ########.fr       */
+/*   Updated: 2016/11/06 13:04:37 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,8 @@ static t_m4			make_matrix(GLFWwindow *window)
 	else
 		rot += 0.012;
 	m = geo_mk4_rotxyz(
-	//	(t_v4d){-rot, rot * -0.5, 0.0, 0.0},
-		rotv,
+		(t_v4d){-rot, rot * -0.5, 0.0, 0.0},
+	//	rotv,
 		scale,
 		(t_v4d){0.0, 0.0, 0.0, 1.0});
 	m.w.z -= 15.0;
