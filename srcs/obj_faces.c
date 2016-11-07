@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/25 17:32:33 by snicolet          #+#    #+#             */
-/*   Updated: 2016/11/07 20:26:54 by snicolet         ###   ########.fr       */
+/*   Updated: 2016/11/07 20:32:25 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,13 @@ static int			load_faces_while(char *line, t_list **plist, const int max)
 		ft_lstadd(plist, ft_lstnew(&point, sizeof(t_v3i)));
 		return  (1);
 	}
+	if ((ret = ft_sscanf(line, "f %d/%^d/%^d %d/%^d/%^d %d/%^d/%^d", &point.x,
+		&point.y, &point.z)) == 9)
+	{
+		ft_lstadd(plist, ft_lstnew(&point, sizeof(t_v3i)));
+		return (1);
+	}
+	ft_printf("face error: %d\n", ret);
 	return (0);
 }
 
