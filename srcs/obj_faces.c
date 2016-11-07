@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/25 17:32:33 by snicolet          #+#    #+#             */
-/*   Updated: 2016/11/06 14:40:43 by snicolet         ###   ########.fr       */
+/*   Updated: 2016/11/07 20:26:54 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,56 +18,35 @@ static int			valid_face(t_v3i *v, int max)
 
 	p = 3;
 	while (p--)
-	{
 		if ((((int *)v)[p] < 0) || (((int *)v)[p] > max))
 			return (0);
-	}
 	return (1);
 }
 
-/*
 static int			load_faces_while(char *line, t_list **plist, const int max)
 {
 	t_v3i	point;
-	int		faces;
+	int		extra;
+	int		ret;
 
-	faces = 0;
-	if (ft_sscanf(line, "f %d/%^d/^%d %d/%^d/%^d %^d/%^d/%^d",
-		&point.x, &point.y, &point.z)
-}
-*/
-
-static int			load_faces_while(char *line, t_list **plist, const int max)
-{
-	char		**tab;
-	t_v3i		point;
-	size_t		size;
-	int			faces;
-
-	faces = 0;
-	tab = ft_strsplit(line, ' ');
-	size = ft_tabcount((void**)tab);
-	if (size >= 4)
+	if ((ret = ft_sscanf(line, "f %d %d %d %d", &point.x, &point.y, &point.z,
+		&extra)) == 4)
 	{
-		point = (t_v3i){ft_atoi(tab[1]) - 1, ft_atoi(tab[2]) - 1,
-			ft_atoi(tab[3]) - 1};
-		if (valid_face(&point, max))
-		{
-			ft_lstadd(plist, ft_lstnew(&point, sizeof(t_v3i)));
-			faces = 1;
-			if (size > 5)
-			{
-				point = (t_v3i){point.y, point.z, ft_atoi(tab[4]) - 1};
-				if (valid_face(&point, max))
-				{
-					ft_lstadd(plist, ft_lstnew(&point, sizeof(t_v3i)));
-					faces = 2;
-				}
-			}
-		}
+		point = (t_v3i){point.x - 1, point.y - 1, point.z - 1};
+		if (!valid_face(&point, max))
+			return (0);
+		ft_lstadd(plist, ft_lstnew(&point, sizeof(t_v3i)));
+		point = (t_v3i){point.y, point.z, extra - 1};
+		ft_lstadd(plist, ft_lstnew(&point, sizeof(t_v3i)));
+		return (2);
 	}
-	ft_freesplit(tab);
-	return (faces);
+	else if (ret == 3)
+	{
+		point = (t_v3i){point.x - 1, point.y - 1, point.z - 1};
+		ft_lstadd(plist, ft_lstnew(&point, sizeof(t_v3i)));
+		return  (1);
+	}
+	return (0);
 }
 
 static t_v3i		*load_faces_totab(t_list *lst, const size_t size)
