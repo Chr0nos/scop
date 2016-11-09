@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/25 17:32:33 by snicolet          #+#    #+#             */
-/*   Updated: 2016/11/07 20:32:25 by snicolet         ###   ########.fr       */
+/*   Updated: 2016/11/09 19:54:54 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,15 @@ static int			valid_face(t_v3i *v, int max)
 	return (1);
 }
 
-static int			load_faces_while(char *line, t_list **plist, const int max)
+/*
+** loads a standard face, by standard i mean the format provided by 42
+** so: > f 4 5 6 7
+** or >  f 4 5 6
+** return the number of faces parsed, can be : 0 1 2
+*/
+
+static int			load_faces_std(const char *line, t_list **plist,
+	const int max)
 {
 	t_v3i	point;
 	int		extra;
@@ -46,6 +54,17 @@ static int			load_faces_while(char *line, t_list **plist, const int max)
 		ft_lstadd(plist, ft_lstnew(&point, sizeof(t_v3i)));
 		return  (1);
 	}
+	return (0);
+}
+
+static int			load_faces_while(char *line, t_list **plist, const int max)
+{
+	t_v3i	point;
+	int		ret;
+
+	ret = load_faces_std(line, plist, max);
+	if (ret > 0)
+		return (ret);
 	if ((ret = ft_sscanf(line, "f %d/%^d/%^d %d/%^d/%^d %d/%^d/%^d", &point.x,
 		&point.y, &point.z)) == 9)
 	{
