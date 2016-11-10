@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/22 12:56:21 by snicolet          #+#    #+#             */
-/*   Updated: 2016/11/01 16:43:07 by snicolet         ###   ########.fr       */
+/*   Updated: 2016/11/10 13:53:11 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,21 +37,13 @@ static t_vertex_pack	*makepack(const size_t points)
 	return (pack);
 }
 
-static t_v3f			load_vertex(const char *line)
-{
-	t_v3f			vertex;
-
-	vertex = (t_v3f){0.0f, 0.0f, 0.0f};
-	ft_sscanf(line, "v %f\\s%f\\s%f", &vertex.x, &vertex.y, &vertex.z);
-	return (vertex);
-}
-
 static t_vertex_pack	*load_vertexs(t_list *vlist)
 {
 	const size_t		size = ft_lstsize(vlist);
 	size_t				point;
 	t_vertex_pack		*pack;
 	t_list				*lst;
+	t_v3f				*v;
 
 	ft_printf("allocating %d points\n", (int)size);
 	if (!(pack = makepack(size)))
@@ -60,7 +52,9 @@ static t_vertex_pack	*load_vertexs(t_list *vlist)
 	point = 0;
 	while (lst)
 	{
-		pack->vertex[point] = load_vertex(lst->content);
+		v = &pack->vertex[point];
+		*v = (t_v3f){0.0f, 0.0f, 0.0f};
+		ft_sscanf(lst->content, "v %f\\s%f\\s%f", &v->x, &v->y, &v->z);
 		pack->uv[point] = (t_v2f){0.0f, 1.0f};
 		pack->flags[point] = 0;
 		point++;
@@ -90,7 +84,6 @@ static void				load_obj_uv_final(t_list *lst_uv, t_vertex_pack *pack)
 		lst_uv = lst_uv->next;
 	}
 }
-
 
 static t_vertex_pack	*load_obj_real(const int fd)
 {
