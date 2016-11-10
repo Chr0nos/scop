@@ -6,7 +6,7 @@
 #    By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/07/24 07:18:03 by snicolet          #+#    #+#              #
-#    Updated: 2016/10/25 17:33:29 by snicolet         ###   ########.fr        #
+#    Updated: 2016/11/10 17:06:51 by snicolet         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,7 +25,8 @@ else
 	LINKER+=-L./SOIL2-clone -lglfw -lGL -lSOIL2 -L$(LIBFT) -lft
 endif
 NAME=ogl
-SRC=main.c loadobj.c events.c display.c debug.c obj_faces.c
+SRC=main.c loadobj.c events.c display.c debug.c obj_faces.c load_vertex.c \
+	makepack.c
 SRC_DIR=srcs
 OBJ=$(SRC:%.c=$(BUILDDIR)/%.o)
 BUILDDIR=build

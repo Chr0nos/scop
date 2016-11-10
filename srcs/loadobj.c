@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/22 12:56:21 by snicolet          #+#    #+#             */
-/*   Updated: 2016/11/10 13:53:11 by snicolet         ###   ########.fr       */
+/*   Updated: 2016/11/10 17:07:21 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,54 +14,6 @@
 #include "libft.h"
 #include <fcntl.h>
 #include <stdlib.h>
-
-static t_vertex_pack	*makepack(const size_t points)
-{
-	t_vertex_pack	*pack;
-	size_t			rsize;
-
-	rsize = (points *
-		((sizeof(t_v3f) + sizeof(t_v2f) + sizeof(unsigned char))) +
-		sizeof(t_vertex_pack));
-	ft_printf("alloc size: %d\n", (int)rsize);
-	if (!(pack = malloc(rsize)))
-		return (NULL);
-	pack->vertex = (t_v3f*)((unsigned long)pack + sizeof(t_vertex_pack));
-	pack->uv = (t_v2f*)((unsigned long)pack->vertex + (sizeof(t_v3f) * points));
-	pack->flags = (unsigned char*)((unsigned long)pack->uv + sizeof(t_v2f) *
-		points);
-	ft_bzero(pack->flags, points);
-	pack->points = points;
-	pack->faces = NULL;
-	pack->faces_count = 0;
-	return (pack);
-}
-
-static t_vertex_pack	*load_vertexs(t_list *vlist)
-{
-	const size_t		size = ft_lstsize(vlist);
-	size_t				point;
-	t_vertex_pack		*pack;
-	t_list				*lst;
-	t_v3f				*v;
-
-	ft_printf("allocating %d points\n", (int)size);
-	if (!(pack = makepack(size)))
-		return (NULL);
-	lst = vlist;
-	point = 0;
-	while (lst)
-	{
-		v = &pack->vertex[point];
-		*v = (t_v3f){0.0f, 0.0f, 0.0f};
-		ft_sscanf(lst->content, "v %f\\s%f\\s%f", &v->x, &v->y, &v->z);
-		pack->uv[point] = (t_v2f){0.0f, 1.0f};
-		pack->flags[point] = 0;
-		point++;
-		lst = lst->next;
-	}
-	return (pack);
-}
 
 static void				load_obj_uv(t_list **lst_uv, char *line)
 {
@@ -85,6 +37,20 @@ static void				load_obj_uv_final(t_list *lst_uv, t_vertex_pack *pack)
 	}
 }
 
+static t_vertex_pack	*load_obj_real_pack(t_list *lst_vertex,
+	t_list *lst_faces, t_list *lst_uv)
+{
+	t_vertex_pack	*pack;
+
+	pack = load_vertexs(lst_vertex);
+	pack->faces = load_faces(lst_faces, (int)pack->points, &pack->faces_count);
+	load_obj_uv_final(lst_uv, pack);
+	ft_lstdel(&lst_vertex, ft_lstpulverisator);
+	ft_lstdel(&lst_faces, ft_lstpulverisator);
+	ft_lstdel(&lst_uv, ft_lstpulverisator);
+	return (pack);
+}
+
 static t_vertex_pack	*load_obj_real(const int fd)
 {
 	t_list			*lst_vertex;
@@ -92,7 +58,6 @@ static t_vertex_pack	*load_obj_real(const int fd)
 	t_list			*lst_uv;
 	char			*line;
 	size_t			points;
-	t_vertex_pack	*pack;
 
 	lst_vertex = NULL;
 	lst_faces = NULL;
@@ -110,13 +75,7 @@ static t_vertex_pack	*load_obj_real(const int fd)
 			free(line);
 	}
 	free(line);
-	pack = load_vertexs(lst_vertex);
-	pack->faces = load_faces(lst_faces, (int)pack->points, &pack->faces_count);
-	load_obj_uv_final(lst_uv, pack);
-	ft_lstdel(&lst_vertex, ft_lstpulverisator);
-	ft_lstdel(&lst_faces, ft_lstpulverisator);
-	ft_lstdel(&lst_uv, ft_lstpulverisator);
-	return (pack);
+	return (load_obj_real_pack(lst_vertex, lst_faces, lst_uv));
 }
 
 void					clean_pack(t_vertex_pack *pack)
