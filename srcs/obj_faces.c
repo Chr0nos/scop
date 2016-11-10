@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/25 17:32:33 by snicolet          #+#    #+#             */
-/*   Updated: 2016/11/09 19:54:54 by snicolet         ###   ########.fr       */
+/*   Updated: 2016/11/10 12:25:17 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ static int			load_faces_while(char *line, t_list **plist, const int max)
 	if ((ret = ft_sscanf(line, "f %d/%^d/%^d %d/%^d/%^d %d/%^d/%^d", &point.x,
 		&point.y, &point.z)) == 9)
 	{
+		point = (t_v3i){point.x - 1, point.y - 1, point.z - 1};
 		ft_lstadd(plist, ft_lstnew(&point, sizeof(t_v3i)));
 		return (1);
 	}
