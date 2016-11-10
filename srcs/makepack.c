@@ -6,7 +6,7 @@
 /*   By: snicolet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/10 17:07:00 by snicolet          #+#    #+#             */
-/*   Updated: 2016/11/10 17:07:46 by snicolet         ###   ########.fr       */
+/*   Updated: 2016/11/10 17:11:22 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,3 +35,10 @@ t_vertex_pack			*makepack(const size_t points)
 	return (pack);
 }
 
+void					clean_pack(t_vertex_pack *pack)
+{
+	if (!pack)
+		return ;
+	free(pack->faces);
+	free(pack);
+}

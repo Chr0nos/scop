@@ -6,7 +6,7 @@
 /*   By: snicolet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/10 17:05:57 by snicolet          #+#    #+#             */
-/*   Updated: 2016/11/10 17:06:14 by snicolet         ###   ########.fr       */
+/*   Updated: 2016/11/10 17:10:44 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,4 +38,3 @@ t_vertex_pack			*load_vertexs(t_list *vlist)
 	}
 	return (pack);
 }
-

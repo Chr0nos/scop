@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/22 12:56:21 by snicolet          #+#    #+#             */
-/*   Updated: 2016/11/10 17:07:21 by snicolet         ###   ########.fr       */
+/*   Updated: 2016/11/10 17:11:15 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,14 +76,6 @@ static t_vertex_pack	*load_obj_real(const int fd)
 	}
 	free(line);
 	return (load_obj_real_pack(lst_vertex, lst_faces, lst_uv));
-}
-
-void					clean_pack(t_vertex_pack *pack)
-{
-	if (!pack)
-		return ;
-	free(pack->faces);
-	free(pack);
 }
 
 static void				fixcenter(t_vertex_pack *pack)
