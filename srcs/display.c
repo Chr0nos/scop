@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/22 13:18:49 by snicolet          #+#    #+#             */
-/*   Updated: 2016/11/09 20:00:12 by snicolet         ###   ########.fr       */
+/*   Updated: 2016/11/12 14:19:52 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,7 +121,4 @@ void				display(const GLuint texture, t_vertex_pack *pack,
 		display_pack(pack, texture);
 	else
 		display_pack_lines(pack);
-	(void)display_pack_lines;
-	(void)display_pack;
-	(void)texture;
 }

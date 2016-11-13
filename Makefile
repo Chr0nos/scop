@@ -6,12 +6,12 @@
 #    By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/07/24 07:18:03 by snicolet          #+#    #+#              #
-#    Updated: 2016/11/10 17:06:51 by snicolet         ###   ########.fr        #
+#    Updated: 2016/11/12 19:43:58 by snicolet         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 OS=$(shell uname -s)
-CC=clang -g3
+CC=clang -O2 -march=native -mtune=native
 FLAGS=-Werror -Wextra -Wall -Weverything -Wno-reserved-id-macro -Wno-documentation -Wno-documentation-unknown-command -Wno-padded
 DRAW=libdraw
 LIBFT=libft

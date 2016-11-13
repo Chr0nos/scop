@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/22 12:56:21 by snicolet          #+#    #+#             */
-/*   Updated: 2016/11/10 17:11:15 by snicolet         ###   ########.fr       */
+/*   Updated: 2016/11/13 22:43:09 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,12 @@
 
 static void				load_obj_uv(t_list **lst_uv, char *line)
 {
-	t_v2f		uv;
+	static t_list	*last = NULL;
+	t_v2f			uv;
 
 	if (ft_sscanf(line, "vt %f %f", &uv.x, &uv.y) >= 0)
-		ft_lstpush_back(lst_uv, ft_lstnew(&uv, sizeof(t_v2f)));
+		last = ft_lstpush_back((last) ? &last : lst_uv,
+			 ft_lstnew(&uv, sizeof(t_v2f)));
 }
 
 static void				load_obj_uv_final(t_list *lst_uv, t_vertex_pack *pack)
