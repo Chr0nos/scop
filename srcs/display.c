@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/22 13:18:49 by snicolet          #+#    #+#             */
-/*   Updated: 2016/11/14 20:26:48 by snicolet         ###   ########.fr       */
+/*   Updated: 2016/11/14 22:05:48 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,17 +22,17 @@ static void			matrix_keyboard(GLFWwindow *window, t_v4d *scale,
 	else if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS)
 		*scale = geo_addv4(*scale, (t_v4d){-0.01, -0.01, -0.01, 0.0});
 	if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
-		*q = geo_quat_mult(*q, geo_quat_rot((t_v3d){0.0, 0.0, 1.0}, 0.02));
+		*q = geo_quat_mult(*q, geo_quat_rot((t_v3d){0.0, 1.0, 0.0}, 0.02));
 	else if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
-		*q = geo_quat_mult(*q, geo_quat_rot((t_v3d){0.0, 0.0, 1.0}, -0.02));
+		*q = geo_quat_mult(*q, geo_quat_rot((t_v3d){0.0, 1.0, 0.0}, -0.02));
 	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
 		*q = geo_quat_mult(*q, geo_quat_rot((t_v3d){1.0, 0.0, 0.0}, -0.02));
 	else if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
 		*q = geo_quat_mult(*q, geo_quat_rot((t_v3d){1.0, 0.0, 0.0}, 0.02));
 	if (glfwGetKey(window, GLFW_KEY_E) == GLFW_PRESS)
-		*q = geo_quat_mult(*q, geo_quat_rot((t_v3d){0.0, 1.0, 0.0}, -0.02));
+		*q = geo_quat_mult(*q, geo_quat_rot((t_v3d){0.0, 0.0, 1.0}, -0.02));
 	else if (glfwGetKey(window, GLFW_KEY_Q) == GLFW_PRESS)
-		*q = geo_quat_mult(*q, geo_quat_rot((t_v3d){0.0, 1.0, 0.0}, 0.02));
+		*q = geo_quat_mult(*q, geo_quat_rot((t_v3d){0.0, 0.0, 1.0}, 0.02));
 }
 
 static t_m4			make_matrix(GLFWwindow *window)
@@ -49,8 +49,6 @@ static t_m4			make_matrix(GLFWwindow *window)
 		rot = 0.0;
 	else
 		rot += 0.012;
-
-
 	m = geo_mk4_rotxyz(
 		(t_v4d){0.0, 0.0, 0.0, 0.0},
 		scale,
