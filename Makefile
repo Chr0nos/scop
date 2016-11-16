@@ -6,12 +6,12 @@
 #    By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/07/24 07:18:03 by snicolet          #+#    #+#              #
-#    Updated: 2016/11/12 19:43:58 by snicolet         ###   ########.fr        #
+#*   Updated: 2016/11/16 17:19:19 by snicolet         ###   ########.fr       *#
 #                                                                              #
 # **************************************************************************** #
 
 OS=$(shell uname -s)
-CC=clang -O2 -march=native -mtune=native
+CC=clang -O2 -march=native -mtune=native -g3
 FLAGS=-Werror -Wextra -Wall -Weverything -Wno-reserved-id-macro -Wno-documentation -Wno-documentation-unknown-command -Wno-padded
 DRAW=libdraw
 LIBFT=libft
@@ -25,8 +25,7 @@ else
 	LINKER+=-L./SOIL2-clone -lglfw -lGL -lSOIL2 -L$(LIBFT) -lft
 endif
 NAME=ogl
-SRC=main.c loadobj.c events.c display.c debug.c obj_faces.c load_vertex.c \
-	makepack.c
+SRC=main.c events.c display.c debug.c parser.c fixcenter.c
 SRC_DIR=srcs
 OBJ=$(SRC:%.c=$(BUILDDIR)/%.o)
 BUILDDIR=build

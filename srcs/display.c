@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/22 13:18:49 by snicolet          #+#    #+#             */
-/*   Updated: 2016/11/15 17:00:21 by snicolet         ###   ########.fr       */
+/*   Updated: 2016/11/16 16:59:47 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,10 @@ static void			matrix_keyboard(GLFWwindow *window, t_quaternion *q,
 		cam->z += 0.1;
 	else if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS)
 		cam->z -= 0.1;
+	if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS)
+		cam->x += 0.1;
+	else if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS)
+		cam->x -= 0.1;
 	if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
 		*q = geo_quat_mult(*q, geo_quat_rot((t_v3d){0.0, 1.0, 0.0}, 0.02));
 	else if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
@@ -37,18 +41,13 @@ static void			matrix_keyboard(GLFWwindow *window, t_quaternion *q,
 
 static t_m4			make_matrix(GLFWwindow *window)
 {
-	static t_v4d			camera = (t_v4d){0.0, 0.0, -15.0, 0.0};
-	static double			rot = 0;
+	static t_v4d			camera = (t_v4d){0.0, 0.0, -15.0, 1.0};
 	t_m4					m;
 	static t_quaternion		q = (t_quaternion){1.0, 0.0, 0.0, 0.0};
 
 	matrix_keyboard(window, &q, &camera);
-	if (rot > 10000)
-		rot = 0.0;
-	else
-		rot += 0.012;
 	m = geo_quat_tomatrix(q);
-	m.w.z = camera.z;
+	m.w = camera;
 	return (m);
 }
 
@@ -57,7 +56,7 @@ static void			display_pack_lines(t_vertex_pack *pack)
 	size_t		face;
 	t_v3i		*index;
 
-	face = pack->faces_count;
+	face = pack->stats.faces;
 	glDisable(GL_TEXTURE_2D);
 	glBegin(GL_LINES);
 	glColor3ub(255, 255, 255);
@@ -66,10 +65,8 @@ static void			display_pack_lines(t_vertex_pack *pack)
 		index = &pack->faces[face];
 		glVertex3fv((const GLfloat*)&pack->vertex[index->x]);
 		glVertex3fv((const GLfloat*)&pack->vertex[index->y]);
-
 		glVertex3fv((const GLfloat*)&pack->vertex[index->z]);
 		glVertex3fv((const GLfloat*)&pack->vertex[index->x]);
-
 		glVertex3fv((const GLfloat*)&pack->vertex[index->y]);
 		glVertex3fv((const GLfloat*)&pack->vertex[index->z]);
 	}
@@ -81,7 +78,7 @@ static void			display_pack(t_vertex_pack *pack, GLuint texture)
 	size_t		face;
 	t_v3i		*index;
 
-	face = pack->faces_count;
+	face = pack->stats.faces;
 	glEnable(GL_TEXTURE_2D);
 	glBindTexture(GL_TEXTURE_2D, texture);
 	glBegin(GL_TRIANGLES);

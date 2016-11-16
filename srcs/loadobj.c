@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/22 12:56:21 by snicolet          #+#    #+#             */
-/*   Updated: 2016/11/13 22:43:09 by snicolet         ###   ########.fr       */
+/*   Updated: 2016/11/16 16:55:17 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static void				load_obj_uv(t_list **lst_uv, char *line)
 	static t_list	*last = NULL;
 	t_v2f			uv;
 
-	if (ft_sscanf(line, "vt %f %f", &uv.x, &uv.y) >= 0)
+	if (ft_sscanf(line, "vt %f %f", &uv.x, &uv.y) == 2)
 		last = ft_lstpush_back((last) ? &last : lst_uv,
 			 ft_lstnew(&uv, sizeof(t_v2f)));
 }
@@ -80,20 +80,12 @@ static t_vertex_pack	*load_obj_real(const int fd)
 	return (load_obj_real_pack(lst_vertex, lst_faces, lst_uv));
 }
 
-static void				fixcenter(t_vertex_pack *pack)
-{
-	size_t		p;
-
-	p = pack->points;
-	while (p--)
-		pack->vertex[p] = geo_subv3(pack->vertex[p], pack->center);
-}
-
 t_vertex_pack			*load_obj(const char *filepath)
 {
 	int				fd;
 	t_vertex_pack	*pack;
 
+	parser_count(filepath);
 	fd = open(filepath, O_RDONLY);
 	if (fd < 0)
 		return (NULL);

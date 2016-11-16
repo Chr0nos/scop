@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/24 07:24:26 by snicolet          #+#    #+#             */
-/*   Updated: 2016/11/10 17:08:22 by snicolet         ###   ########.fr       */
+/*   Updated: 2016/11/16 17:19:07 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,22 +18,31 @@
 # include <GLFW/glfw3.h>
 # define FLAG_UV		1u
 
+typedef struct			s_obj_stats
+{
+	size_t				vertex;
+	size_t				uv;
+	size_t				faces;
+	size_t				points;
+}						t_obj_stats;
+
 typedef struct			s_vertex_pack
 {
 	t_v3f				*vertex;
 	t_v2f				*uv;
 	unsigned char		*flags;
-	size_t				points;
 	t_v3i				*faces;
-	size_t				faces_count;
+	t_obj_stats			stats;
 	t_v3f				center;
 }						t_vertex_pack;
 
+void					fixcenter(t_vertex_pack *pack);
+t_vertex_pack			*parse_obj(const char *filepath);
+t_obj_stats				parser_count(const char *filepath);
 int						keyboard(GLFWwindow *window);
 void					framebuffer_size_callback(GLFWwindow *window,
 	int width, int height);
 
-t_vertex_pack			*load_obj(const char *filepath);
 void					display(const GLuint texture, t_vertex_pack *pack,
 	GLFWwindow *window);
 void					error_handler(int id, const char *str);
@@ -44,7 +53,5 @@ t_v3i					*load_faces(t_list *faces, const int max,
 void					clean_pack(t_vertex_pack *pack);
 void				load_projection(double ratio, double fov, double far,
 	double near);
-t_vertex_pack			*load_vertexs(t_list *vlist);
-t_vertex_pack			*makepack(const size_t points);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/25 17:36:02 by snicolet          #+#    #+#             */
-/*   Updated: 2016/11/12 14:15:21 by snicolet         ###   ########.fr       */
+/*   Updated: 2016/11/16 18:14:10 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,8 @@ static int			main_loop(GLFWwindow *window, GLuint texture,
 	t_vertex_pack	*pack;
 	t_v2i			geo;
 
-	ft_printf("loading object...");
-	if (!(pack = load_obj(filepath)))
+	ft_printf("loading object...\n");
+	if (!(pack = parse_obj(filepath)))
 	{
 		glfwTerminate();
 		return (-1);
@@ -61,7 +61,7 @@ static int			main_loop(GLFWwindow *window, GLuint texture,
 		glfwPollEvents();
 	}
 	glfwTerminate();
-	clean_pack(pack);
+	free(pack);
 	return (0);
 }
 
