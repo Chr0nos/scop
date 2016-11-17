@@ -6,7 +6,7 @@
 /*   By: snicolet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/16 15:47:56 by snicolet          #+#    #+#             */
-/*   Updated: 2016/11/16 18:17:36 by snicolet         ###   ########.fr       */
+/*   Updated: 2016/11/17 01:03:40 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,11 +27,11 @@ t_obj_stats		parser_count(const char *filepath)
 		return (stats);
 	while (ft_get_next_line(fd, &line) > 0)
 	{
-		if ((ret = ft_sscanf(line, "v %^f %^f %^f")) == 3)
+		if ((ret = ft_sscanf(line, "v %*f %*f %*f")) == 3)
 			stats.vertex++;
-		else if ((ret = ft_sscanf(line, "f %^d %^d %^d %^d")) >= 3)
+		else if ((ret = ft_sscanf(line, "f %*d %*d %*d %*d")) >= 3)
 			stats.faces += (unsigned)ret - 2;
-		else if ((ret = ft_sscanf(line, "vt %^f %^f")) == 2)
+		else if ((ret = ft_sscanf(line, "vt %*f %*f")) == 2)
 			stats.uv++;
 		free(line);
 	}
@@ -107,7 +107,7 @@ t_vertex_pack	*parse_obj(const char *filepath)
 	pack->vertex = (t_v3f*)((size_t)pack + sizeof(t_vertex_pack));
 	pack->uv = (t_v2f*)((size_t)pack->vertex + (sizeof(t_v3f) * stats.vertex));
 	pack->flags = (unsigned char *)((size_t)pack->uv +
-		(sizeof(t_v2f) * stats.vertex));
+		(sizeof(t_v2f) * stats.uv));
 	ft_bzero(pack->flags, stats.vertex);
 	pack->faces = (t_v3i*)((size_t)pack->flags + (sizeof(char) * stats.vertex));
 	pack->stats = stats;
