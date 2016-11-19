@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: snicolet <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/16 15:47:56 by snicolet          #+#    #+#             */
-/*   Updated: 2016/11/17 01:03:40 by snicolet         ###   ########.fr       */
+/*   Updated: 2016/11/19 16:55:43 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,24 @@
 #include "libft.h"
 #include <fcntl.h>
 #include <unistd.h>
+#define PATTERN_F4X3 "f %*d/%*d/%*d %*d/%*d/%*d %*d/%*d/%*d %*d/%*d/%*d"
+#define PATTERN_F4X2 "f %*d/%*d %*d/%*d %*d/%*d %*d/%*d"
+#define PATTERN_F4X1 "f %*d %*d %*d %*d"
+
+static int		parser_count_faces(const char *line, t_obj_stats *stats)
+{
+	int		ret;
+
+	if ((ret = ft_sscanf(line, PATTERN_F4X1)) >= 3)
+		stats->faces += (unsigned)ret - 2;
+	else if ((ret = ft_sscanf(line, PATTERN_F4X3)) >= 9)
+		stats->faces += (ret == 9) ? 1 : 2;
+	else if ((ret = ft_sscanf(line, PATTERN_F4X2)) >= 6)
+		stats->faces += (ret == 6) ? 1 : 2;
+	else
+		return (0);
+	return (1);
+}
 
 t_obj_stats		parser_count(const char *filepath)
 {
@@ -29,8 +47,8 @@ t_obj_stats		parser_count(const char *filepath)
 	{
 		if ((ret = ft_sscanf(line, "v %*f %*f %*f")) == 3)
 			stats.vertex++;
-		else if ((ret = ft_sscanf(line, "f %*d %*d %*d %*d")) >= 3)
-			stats.faces += (unsigned)ret - 2;
+		else if (parser_count_faces(line, &stats))
+			;
 		else if ((ret = ft_sscanf(line, "vt %*f %*f")) == 2)
 			stats.uv++;
 		free(line);
@@ -43,24 +61,25 @@ t_obj_stats		parser_count(const char *filepath)
 
 static int		parse_face(const char *line, t_v3i **face)
 {
-	int		extra;
-	int		ret;
 	t_v3i	*f;
+	int		p;
 
+	p = 0;
 	f = *face;
-	ret = ft_sscanf(line, "f %d %d %d %d", &f->x, &f->y, &f->z, &extra);
-	if (ret >= 3)
+	while ((line) && (*line) && (p < 3))
+		ft_sscanf(line, "\\S%d%N/%*d%N/%*d%N",
+			&((int*)f)[p++], &line, &line, &line);
+	f[0] = (t_v3i){f->x - 1, f->y - 1, f->z - 1};
+	*face += 1;
+	if ((!line) || (!*line))
+		return (1);
+	if (ft_sscanf(line, "%d/%*d/%*d", &p) >= 1)
 	{
-		f[0] = (t_v3i){f->x - 1, f->y - 1, f->z - 1};
-		*face += 1;
-	}
-	if (ret == 4)
-	{
-		f[1] = (t_v3i){f->y, f->z, extra - 1};
+		f[1] = (t_v3i){f->y, f->z, p - 1};
 		*face += 1;
 		return (2);
 	}
-	return (ret >= 3);
+	return (1);
 }
 
 static int		parse_real(const char *filepath, t_vertex_pack *pack)
@@ -81,7 +100,7 @@ static int		parse_real(const char *filepath, t_vertex_pack *pack)
 		if (ft_sscanf(line, "v %f %f %f", &vertex->x, &vertex->y,
 				&vertex->z) == 3)
 			vertex++;
-		else if ((!ft_strncmp(line, "f ", 2)) && (parse_face(line, &faces)))
+		else if ((!ft_strncmp(line, "f ", 2)) && (parse_face(&line[2], &faces)))
 			;
 		else if (ft_sscanf(line, "vt %f %f", &uv->x, &uv->y) == 2)
 			uv++;
