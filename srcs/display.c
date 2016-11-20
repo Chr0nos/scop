@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/22 13:18:49 by snicolet          #+#    #+#             */
-/*   Updated: 2016/11/16 16:59:47 by snicolet         ###   ########.fr       */
+/*   Updated: 2016/11/19 17:56:55 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,14 +17,18 @@
 static void			matrix_keyboard(GLFWwindow *window, t_quaternion *q,
 	t_v4d *cam)
 {
-	if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS)
+	if (glfwGetKey(window, GLFW_KEY_EQUAL) == GLFW_PRESS)
 		cam->z += 0.1;
-	else if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS)
+	else if (glfwGetKey(window, GLFW_KEY_MINUS) == GLFW_PRESS)
 		cam->z -= 0.1;
 	if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS)
 		cam->x += 0.1;
 	else if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS)
 		cam->x -= 0.1;
+	if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS)
+		cam->y -= 0.1;
+	else if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS)
+		cam->y += 0.1;
 	if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
 		*q = geo_quat_mult(*q, geo_quat_rot((t_v3d){0.0, 1.0, 0.0}, 0.02));
 	else if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
@@ -77,6 +81,7 @@ static void			display_pack(t_vertex_pack *pack, GLuint texture)
 {
 	size_t		face;
 	t_v3i		*index;
+	t_v3i		*index_uv;
 
 	face = pack->stats.faces;
 	glEnable(GL_TEXTURE_2D);
@@ -85,14 +90,15 @@ static void			display_pack(t_vertex_pack *pack, GLuint texture)
 	while (face--)
 	{
 		index = &pack->faces[face];
-		if (pack->flags[index->x] & FLAG_UV)
-			glTexCoord2fv((const GLfloat*)&pack->uv[index->x]);
+		index_uv = &pack->fuv[face];
+		if (pack->flags[face] & FLAG_UV)
+			glTexCoord2fv((const GLfloat*)&pack->uv[index_uv->x]);
 		glVertex3fv((const GLfloat*)&pack->vertex[index->x]);
-		if (pack->flags[index->y] & FLAG_UV)
-			glTexCoord2fv((const GLfloat*)&pack->uv[index->y]);
+		if (pack->flags[face] & FLAG_UV)
+			glTexCoord2fv((const GLfloat*)&pack->uv[index_uv->y]);
 		glVertex3fv((const GLfloat*)&pack->vertex[index->y]);
-		if (pack->flags[index->z] & FLAG_UV)
-			glTexCoord2fv((const GLfloat*)&pack->uv[index->z]);
+		if (pack->flags[face] & FLAG_UV)
+			glTexCoord2fv((const GLfloat*)&pack->uv[index_uv->z]);
 		glVertex3fv((const GLfloat*)&pack->vertex[index->z]);
 	}
 	glEnd();

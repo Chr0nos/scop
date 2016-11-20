@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/25 17:36:02 by snicolet          #+#    #+#             */
-/*   Updated: 2016/11/16 18:14:10 by snicolet         ###   ########.fr       */
+/*   Updated: 2016/11/19 16:57:18 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ static int			main_loop(GLFWwindow *window, GLuint texture,
 		glfwTerminate();
 		return (-1);
 	}
-	ft_printf(" done\n");
+	ft_printf("done\n");
 	glfwGetWindowSize(window, &geo.x, &geo.y);
 	load_projection((double)geo.x / (double)geo.y, 75, 1.0, 100.0);
 	glDisable(GL_SMOOTH);
