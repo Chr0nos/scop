@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/16 15:47:56 by snicolet          #+#    #+#             */
-/*   Updated: 2016/11/20 02:09:30 by snicolet         ###   ########.fr       */
+/*   Updated: 2017/04/10 19:09:09 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,11 +49,11 @@ static int		parse_face(const char *line, t_vertex_pack *pack)
 		add_uv(pack, (t_v3i){uv.x - 1, uv.y - 1, uv.z - 1});
 	pack->flags++;
 	if ((line) && (*line) &&
-		((ret = ft_sscanf(line, "\\S%d/%d/%*d", &p, &uv.x)) >= 1))
+		((ret = ft_sscanf(line, "\\S%d/%d/%*d", &p, &uv.y)) >= 1))
 	{
-		add_face(pack, (t_v3i){f.y, f.z, p - 1});
+		add_face(pack, (t_v3i){f.x - 1, f.z - 1, p - 1});
 		if (uvc + ret >= 5)
-			add_uv(pack, (t_v3i){uv.y, uv.z, uv.x - 1});
+			add_uv(pack, (t_v3i){uv.x - 1, uv.z - 1, uv.y - 1});
 		pack->flags++;
 		return (2);
 	}
