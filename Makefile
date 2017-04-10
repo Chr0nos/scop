@@ -6,7 +6,7 @@
 #    By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/07/24 07:18:03 by snicolet          #+#    #+#              #
-#    Updated: 2016/11/20 02:09:45 by snicolet         ###   ########.fr        #
+#    Updated: 2017/04/10 19:34:00 by snicolet         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,7 @@ FLAGS=-Werror -Wextra -Wall -Weverything -Wno-reserved-id-macro -Wno-documentati
 DRAW=libdraw
 LIBFT=libft
 LINKER=-L$(DRAW) -lm -ldraw
-INC=-I$(DRAW)/headers -I $(LIBFT)/ -I./SOIL2-clone/SOIL2/ -Iheaders
+INC=-I$(DRAW)/headers -I $(LIBFT)/ -I./SOIL2-clone/incs -Iheaders
 SOIL=./SOIL2-clone/libSOIL2.a
 ifeq ($(OS),Darwin)
 	INC+=-I ~/.brew/include -I/usr/local/include
