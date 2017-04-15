@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   test.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: snicolet <marvin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/10 22:16:07 by snicolet          #+#    #+#             */
-/*   Updated: 2017/04/15 02:07:09 by snicolet         ###   ########.fr       */
+/*   Updated: 2017/04/15 16:05:54 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ static void		run_program(GLuint vs, GLuint fs, GLFWwindow *window,
 	glAttachShader(program, fs);
 	glAttachShader(program, vs);
 	glLinkProgram(program);
+	ft_printf("program id: %u\n", program);
 
 	vbo = 0;
 	glGenBuffers(1, &vbo);
@@ -59,41 +60,64 @@ static void		run_program(GLuint vs, GLuint fs, GLFWwindow *window,
 	vao = 0;
 	glGenVertexArrays(1, &vao);
 	glBindVertexArray(vao);
-	glEnableVertexAttribArray(0);
+	//glEnableVertexAttribArray(0);
 	glBindBuffer(GL_ARRAY_BUFFER, vbo);
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, NULL);
 	ft_printf("vao: %u\n", vao);
 	display(window, vao, program);
 }
 
+static GLuint	compile_shader(GLuint type, const char *file)
+{
+	int			error_len;
+	char		*error;
+	GLuint		sh;
+	char		*filecontent;
+	GLint		success;
+
+	filecontent = ft_readfile(file);
+	if (!filecontent)
+	{
+		ft_dprintf(2, "error: failed to open file: %s\n", file);
+		return (0);
+	}
+	sh = glCreateShader(type);
+	glShaderSource(sh, 1, (const char **)(size_t)&filecontent, NULL);
+	glCompileShader(sh);
+	glGetShaderiv(sh, GL_COMPILE_STATUS, &success);
+	glGetShaderiv(sh, GL_INFO_LOG_LENGTH, &error_len);
+	free(filecontent);
+	ft_putendl(file);
+	if (error_len)
+	{
+		if ((error = malloc(sizeof(char) * ((unsigned)error_len + 1))))
+		{
+			glGetShaderInfoLog(sh, error_len, NULL, error);
+			error[error_len] = '\0';
+			ft_dprintf(2, "error returned: %s\n", error);
+			free(error);
+		}
+		ft_dprintf(2, "error: failed to compile shader (err len: %d)\n", error_len);
+		return (0);
+	}
+	ft_printf("shader compile stats: %i\n", success);
+	return (sh);
+}
+
 static int		run_shaders(const float *points, GLFWwindow *window)
 {
-	char			*vertex_shader;
-	char			*fragment_shader;
 	GLuint			vs;
 	GLuint			fs;
 
 	ft_putendl("run shaders");
 	//creation des shaders
-	vs = glCreateShader(GL_VERTEX_SHADER);
-	fs = glCreateShader(GL_FRAGMENT_SHADER);
-
-	//recuperation du code source des shaders
-	fragment_shader = ft_readfile("fragment.glsl");
-	vertex_shader = ft_readfile("vertex.glsl");
-	if ((!fragment_shader) || (!vertex_shader))
-	{
-		ft_mfree(2, fragment_shader, vertex_shader);
-		ft_dprintf(2, "error while loading shaders\n");
-		return (1);
-	}
-	glShaderSource(vs, 1, (const char **)(size_t)&vertex_shader, NULL);
-	glCompileShader(vs);
-	glShaderSource(fs, 1, (const char **)(size_t)&fragment_shader, NULL);
-	glCompileShader(fs);
+	if (!(vs = compile_shader(GL_FRAGMENT_SHADER, "fragment.glsl")))
+		return (0);
+	if (!(fs = compile_shader(GL_VERTEX_SHADER, "vertex.glsl")))
+		return (0);
 	ft_printf("shaders:\n\tvs: %4u\n\tfs: %4u\n", vs, fs);
 	run_program(vs, fs, window, points);
-	ft_mfree(2, fragment_shader, vertex_shader);
+	ft_printf("cleaning shaders\n");
 	return (0);
 }
 
@@ -135,5 +159,6 @@ int				main(void)
 	glDepthFunc(GL_LESS);
 	glClearDepth(0.0);
 	glewInit();
+	glClearColor(0.2f, 0.2f, 0.3f, 1.0f);
 	return (main_loop(window));
 }
