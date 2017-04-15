@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/10 22:16:07 by snicolet          #+#    #+#             */
-/*   Updated: 2017/04/15 16:42:32 by snicolet         ###   ########.fr       */
+/*   Updated: 2017/04/15 23:36:02 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,9 +109,9 @@ static int		run_shaders(const float *points, GLFWwindow *window)
 
 	ft_putendl("run shaders");
 	//creation des shaders
-	if (!(vs = compile_shader(GL_FRAGMENT_SHADER, "fragment.glsl")))
+	if (!(fs = compile_shader(GL_FRAGMENT_SHADER, "fragment.glsl")))
 		return (0);
-	if (!(fs = compile_shader(GL_VERTEX_SHADER, "vertex.glsl")))
+	if (!(vs = compile_shader(GL_VERTEX_SHADER, "vertex.glsl")))
 		return (0);
 	ft_printf("shaders:\n\tvs: %4u\n\tfs: %4u\n", vs, fs);
 	run_program(vs, fs, window, points);
@@ -142,8 +142,8 @@ int				main(void)
 		return (1);
 	glfwSetErrorCallback(&error_handler);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 1);
-	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 5);
+	//glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 	if (!(window = glfwCreateWindow(1280, 720, "test", NULL, NULL)))
 	{
 		glfwTerminate();
@@ -157,6 +157,7 @@ int				main(void)
 	glDepthFunc(GL_LESS);
 	glClearDepth(0.0);
 	glewInit();
+	glClearDepth((double)(INFINITY));
 	glClearColor(0.2f, 0.2f, 0.3f, 1.0f);
 	return (main_loop(window));
 }
