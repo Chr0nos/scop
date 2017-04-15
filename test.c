@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/10 22:16:07 by snicolet          #+#    #+#             */
-/*   Updated: 2017/04/15 16:16:51 by snicolet         ###   ########.fr       */
+/*   Updated: 2017/04/15 16:42:32 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ static void		run_program(GLuint vs, GLuint fs, GLFWwindow *window,
 	vao = 0;
 	glGenVertexArrays(1, &vao);
 	glBindVertexArray(vao);
-//	glEnableVertexAttribArray(0);
+	glEnableVertexAttribArray(0);
 	glBindBuffer(GL_ARRAY_BUFFER, vbo);
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, NULL);
 	ft_printf("vao: %u\n", vao);
@@ -75,7 +75,7 @@ static GLuint	compile_shader(GLuint type, const char *file)
 	char		*filecontent;
 	GLint		success;
 
-	filecontent = ft_readfile(file);
+	filecontent = ft_readfile(file, NULL);
 	if (!filecontent)
 	{
 		ft_dprintf(2, "error: failed to open file: %s\n", file);
@@ -97,10 +97,8 @@ static GLuint	compile_shader(GLuint type, const char *file)
 			ft_dprintf(2, "error returned: %s\n", error);
 			free(error);
 		}
-		ft_dprintf(2, "error: failed to compile shader (err len: %d)\n", error_len);
 		return (0);
 	}
-	ft_printf("shader compile stats: %i\n", success);
 	return (sh);
 }
 
