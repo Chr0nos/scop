@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/10 22:16:07 by snicolet          #+#    #+#             */
-/*   Updated: 2017/04/15 16:05:54 by snicolet         ###   ########.fr       */
+/*   Updated: 2017/04/15 16:16:51 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ static void		run_program(GLuint vs, GLuint fs, GLFWwindow *window,
 	vao = 0;
 	glGenVertexArrays(1, &vao);
 	glBindVertexArray(vao);
-	//glEnableVertexAttribArray(0);
+//	glEnableVertexAttribArray(0);
 	glBindBuffer(GL_ARRAY_BUFFER, vbo);
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, NULL);
 	ft_printf("vao: %u\n", vao);
@@ -82,7 +82,7 @@ static GLuint	compile_shader(GLuint type, const char *file)
 		return (0);
 	}
 	sh = glCreateShader(type);
-	glShaderSource(sh, 1, (const char **)(size_t)&filecontent, NULL);
+	glShaderSource(sh, 1, (const GLchar *const *)(size_t)&filecontent, NULL);
 	glCompileShader(sh);
 	glGetShaderiv(sh, GL_COMPILE_STATUS, &success);
 	glGetShaderiv(sh, GL_INFO_LOG_LENGTH, &error_len);
@@ -144,7 +144,7 @@ int				main(void)
 		return (1);
 	glfwSetErrorCallback(&error_handler);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 5);
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 1);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 	if (!(window = glfwCreateWindow(1280, 720, "test", NULL, NULL)))
 	{
