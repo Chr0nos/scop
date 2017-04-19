@@ -6,7 +6,7 @@
 #    By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/07/24 07:18:03 by snicolet          #+#    #+#              #
-#    Updated: 2017/04/10 19:34:00 by snicolet         ###   ########.fr        #
+#*   Updated: 2017/04/19 20:59:20 by snicolet         ###   ########.fr       *#
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,7 +24,7 @@ ifeq ($(OS),Darwin)
 else
 	LINKER+=-L./SOIL2-clone -lglfw -lGL -lSOIL2 -L$(LIBFT) -lft
 endif
-NAME=ogl
+NAME=scope
 SRC=main.c events.c display.c debug.c parser.c fixcenter.c parser_count.c
 SRC_DIR=srcs
 OBJ=$(SRC:%.c=$(BUILDDIR)/%.o)
@@ -50,7 +50,7 @@ fclean: clean
 re: fclean all
 
 $(LIBFT)/libft.a:
-	make -j -C $(LIBFT)
+	make -j CC=clang OPENGL_ENABLED=yes BTREE= -C $(LIBFT)
 
 $(DRAW)/libdraw.a: $(LIBFT)/libft.a
 	make -j -C $(DRAW)

@@ -6,13 +6,13 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/10 22:16:07 by snicolet          #+#    #+#             */
-/*   Updated: 2017/04/15 23:36:02 by snicolet         ###   ########.fr       */
+/*   Updated: 2017/04/19 23:51:27 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+#include "opengl.h"
 #include "draw.h"
-#include <GL/glew.h>
 #include <GLFW/glfw3.h>
 
 static void		error_handler(int id, const char *str)
@@ -67,41 +67,6 @@ static void		run_program(GLuint vs, GLuint fs, GLFWwindow *window,
 	display(window, vao, program);
 }
 
-static GLuint	compile_shader(GLuint type, const char *file)
-{
-	int			error_len;
-	char		*error;
-	GLuint		sh;
-	char		*filecontent;
-	GLint		success;
-
-	filecontent = ft_readfile(file, NULL);
-	if (!filecontent)
-	{
-		ft_dprintf(2, "error: failed to open file: %s\n", file);
-		return (0);
-	}
-	sh = glCreateShader(type);
-	glShaderSource(sh, 1, (const GLchar *const *)(size_t)&filecontent, NULL);
-	glCompileShader(sh);
-	glGetShaderiv(sh, GL_COMPILE_STATUS, &success);
-	glGetShaderiv(sh, GL_INFO_LOG_LENGTH, &error_len);
-	free(filecontent);
-	ft_putendl(file);
-	if (error_len)
-	{
-		if ((error = malloc(sizeof(char) * ((unsigned)error_len + 1))))
-		{
-			glGetShaderInfoLog(sh, error_len, NULL, error);
-			error[error_len] = '\0';
-			ft_dprintf(2, "error returned: %s\n", error);
-			free(error);
-		}
-		return (0);
-	}
-	return (sh);
-}
-
 static int		run_shaders(const float *points, GLFWwindow *window)
 {
 	GLuint			vs;
@@ -109,9 +74,9 @@ static int		run_shaders(const float *points, GLFWwindow *window)
 
 	ft_putendl("run shaders");
 	//creation des shaders
-	if (!(fs = compile_shader(GL_FRAGMENT_SHADER, "fragment.glsl")))
+	if (!(fs = ft_shader_compile(GL_FRAGMENT_SHADER, "fragment.glsl")))
 		return (0);
-	if (!(vs = compile_shader(GL_VERTEX_SHADER, "vertex.glsl")))
+	if (!(vs = ft_shader_compile(GL_VERTEX_SHADER, "vertex.glsl")))
 		return (0);
 	ft_printf("shaders:\n\tvs: %4u\n\tfs: %4u\n", vs, fs);
 	run_program(vs, fs, window, points);
@@ -156,7 +121,12 @@ int				main(void)
 	//glDepthFunc(GL_GREATER);
 	glDepthFunc(GL_LESS);
 	glClearDepth(0.0);
-	glewInit();
+	if (glewInit() != GLEW_OK)
+	{
+		ft_dprintf(2, "error while initialising glew\n");
+		glfwTerminate();
+		return (3);
+	}
 	glClearDepth((double)(INFINITY));
 	glClearColor(0.2f, 0.2f, 0.3f, 1.0f);
 	return (main_loop(window));
