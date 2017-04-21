@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/25 17:36:02 by snicolet          #+#    #+#             */
-/*   Updated: 2016/11/19 16:57:18 by snicolet         ###   ########.fr       */
+/*   Updated: 2017/04/21 19:18:33 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,17 +38,10 @@ void				load_projection(double ratio, double fov, double far,
 }
 
 static int			main_loop(GLFWwindow *window, GLuint texture,
-	const char *filepath)
+	t_vertex_pack *pack)
 {
-	t_vertex_pack	*pack;
 	t_v2i			geo;
 
-	ft_printf("loading object...\n");
-	if (!(pack = parse_obj(filepath)))
-	{
-		glfwTerminate();
-		return (-1);
-	}
 	ft_printf("done\n");
 	glfwGetWindowSize(window, &geo.x, &geo.y);
 	load_projection((double)geo.x / (double)geo.y, 75, 1.0, 100.0);
@@ -74,10 +67,16 @@ int					main(int ac, char **av)
 {
 	GLFWwindow		*window;
 	GLuint			texture;
+	t_vertex_pack	*pack;
 
 	if (!glfwInit())
 		return (1);
 	ft_printf("Init ok\nGlfw version: %s\n", glfwGetVersionString());
+	if (!(pack = parse_obj(av[1])))
+	{
+		glfwTerminate();
+		return (2);
+	}
 	glfwSetErrorCallback(&error_handler);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 2);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 1);
@@ -96,5 +95,5 @@ int					main(int ac, char **av)
 	texture = texture_load((ac > 2) ? av[2] : "herbe.jpg");
 	ft_printf("Renderer: %s\nOpenGL version supported %s\n",
 		glGetString(GL_RENDERER), glGetString(GL_VERSION));
-	return (main_loop(window, texture, av[1]));
+	return (main_loop(window, texture, pack));
 }

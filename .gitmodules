@@ -1,6 +1,3 @@
-[submodule "libSOIL"]
-	path = libSOIL
-	url = https://github.com/smibarber/libSOIL
 [submodule "SOIL2-clone"]
 	path = SOIL2-clone
 	url = https://github.com/alelievr/SOIL2-clone
