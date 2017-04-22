@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/24 07:24:26 by snicolet          #+#    #+#             */
-/*   Updated: 2016/11/19 17:13:01 by snicolet         ###   ########.fr       */
+/*   Updated: 2017/04/22 14:52:32 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 # include "draw.h"
 # include "libft.h"
 # include <SOIL2.h>
+# include <GL/glew.h>
 # include <GLFW/glfw3.h>
 # define FLAG_UV		1u
 
@@ -35,6 +36,14 @@ typedef struct			s_vertex_pack
 	t_v3i				*fuv;
 	t_obj_stats			stats;
 	t_v3f				center;
+	GLuint				fs;
+	GLuint				vs;
+	GLuint				program;
+	GLuint				vbo;
+	GLuint				vao;
+	GLuint				texture;
+	GLint				proj_id;
+	GLint				model_id;
 }						t_vertex_pack;
 
 void					fixcenter(t_vertex_pack *pack);
@@ -52,7 +61,8 @@ void					faces_debug(t_printf *pf);
 t_v3i					*load_faces(t_list *faces, const int max,
 	size_t *faces_count);
 void					clean_pack(t_vertex_pack *pack);
-void				load_projection(double ratio, double fov, double far,
+t_m4					get_projection(double ratio, double fov, double far,
 	double near);
+t_m4					make_matrix(GLFWwindow *window);
 
 #endif

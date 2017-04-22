@@ -6,7 +6,7 @@
 #    By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/07/24 07:18:03 by snicolet          #+#    #+#              #
-#*   Updated: 2017/04/19 20:59:20 by snicolet         ###   ########.fr       *#
+#    Updated: 2017/04/22 13:23:33 by snicolet         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,7 @@ CC=clang -O2 -march=native -mtune=native -g3
 FLAGS=-Werror -Wextra -Wall -Weverything -Wno-reserved-id-macro -Wno-documentation -Wno-documentation-unknown-command -Wno-padded
 DRAW=libdraw
 LIBFT=libft
-LINKER=-L$(DRAW) -lm -ldraw
+LINKER=-L$(DRAW) -lm -ldraw -lglfw -lGL -lGLEW
 INC=-I$(DRAW)/headers -I $(LIBFT)/ -I./SOIL2-clone/incs -Iheaders
 SOIL=./SOIL2-clone/libSOIL2.a
 ifeq ($(OS),Darwin)

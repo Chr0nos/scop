@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/22 13:18:49 by snicolet          #+#    #+#             */
-/*   Updated: 2016/11/19 17:56:55 by snicolet         ###   ########.fr       */
+/*   Updated: 2017/04/22 14:52:20 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ static void			matrix_keyboard(GLFWwindow *window, t_quaternion *q,
 		*q = geo_quat_mult(*q, geo_quat_rot((t_v3d){0.0, 0.0, 1.0}, 0.02));
 }
 
-static t_m4			make_matrix(GLFWwindow *window)
+t_m4				make_matrix(GLFWwindow *window)
 {
 	static t_v4d			camera = (t_v4d){0.0, 0.0, -15.0, 1.0};
 	t_m4					m;

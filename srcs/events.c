@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/22 13:16:55 by snicolet          #+#    #+#             */
-/*   Updated: 2016/10/30 15:05:15 by snicolet         ###   ########.fr       */
+/*   Updated: 2017/04/22 13:43:58 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@ int				keyboard(GLFWwindow *window)
 void			framebuffer_size_callback(GLFWwindow *window,
 	int width, int height)
 {
+	t_m4	proj;
+
 	(void)window;
-	load_projection((double)width / (double)height, 75, 1.0, 1000.0);
+	proj = get_projection((double)width / (double)height, 75, 1.0, 1000.0);
 }

@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/10 22:16:07 by snicolet          #+#    #+#             */
-/*   Updated: 2017/04/19 23:51:27 by snicolet         ###   ########.fr       */
+/*   Updated: 2017/04/21 19:23:36 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ static void		error_handler(int id, const char *str)
 static void		display(GLFWwindow *window, GLuint vao, GLuint program)
 {
 	ft_putendl("entering display loop");
+	//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 	while (!glfwWindowShouldClose(window))
 	{
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
