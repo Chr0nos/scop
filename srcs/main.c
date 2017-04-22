@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/25 17:36:02 by snicolet          #+#    #+#             */
-/*   Updated: 2017/04/22 15:15:54 by snicolet         ###   ########.fr       */
+/*   Updated: 2017/04/22 17:43:09 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,33 +38,32 @@ t_m4				get_projection(double ratio, double fov, double far,
 static int			main_loop(GLFWwindow *window, t_vertex_pack *pack)
 {
 	t_v2i			geo;
-	t_m4			proj;
-	t_m4			modelview;
+	t_m4f			proj;
+	t_m4f			modelview;
 
 	ft_printf("done\n");
 	glfwGetWindowSize(window, &geo.x, &geo.y);
 	ft_putendl("loading projection matrix\n");
-	//proj = get_projection((double)geo.x / (double)geo.y, 75, 1.0, 100.0);
-	proj = geo_mk4_identity();
-	modelview = proj;
-//	modelview = make_matrix(window);
-	geo_putm4(proj, 6);
-	geo_putm4(modelview, 6);
+	proj = geo_mk4_tof(
+		get_projection((double)geo.x / (double)geo.y, 75, 1.0, 100.0));
+	//proj = geo_mk4_identity();
+	modelview = geo_mk4_tof(make_matrix(window));
 	//glDisable(GL_SMOOTH);
 	ft_putstr("entering display loop\n");
+	glUseProgram(pack->program);
 	pack->proj_id = glGetUniformLocation(pack->program, "projection");
 	pack->model_id = glGetUniformLocation(pack->program, "model");
-	glUniformMatrix4dv(pack->proj_id, 1, GL_FALSE, (const GLdouble *)&proj);
+	glUniformMatrix4fv(pack->proj_id, 1, GL_FALSE, (const GLfloat *)&proj);
 	while ((!glfwWindowShouldClose(window)) && (!keyboard(window)))
 	{
-		//modelview = make_matrix(window);
+		modelview = geo_mk4_tof(make_matrix(window));
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		//display(pack->texture, pack, window);
-		glUseProgram(pack->program);
-		glUniformMatrix4dv(pack->model_id, 1, GL_FALSE,
-			(const GLdouble *)&modelview);
+		glUniformMatrix4fv(pack->model_id, 1, GL_FALSE,
+			(const GLfloat *)&modelview);
 		glBindVertexArray(pack->vao);
-		glDrawArrays(GL_TRIANGLES, 0, 3);
+		glDrawElements(GL_TRIANGLES, (int)pack->stats.faces * 3,
+			GL_UNSIGNED_INT, (void *)(pack->faces));
 		glfwPollEvents();
 		glfwSwapBuffers(window);
 	}
@@ -104,15 +103,16 @@ static int			make_program(t_vertex_pack *pack, const char *texture_path)
 	pack->vbo = 0;
 	glGenBuffers(1, &pack->vbo);
 	glBindBuffer(GL_ARRAY_BUFFER, pack->vbo);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(float) * pack->stats.points,
+	glBufferData(GL_ARRAY_BUFFER, sizeof(float) * pack->stats.vertex * 3,
 		(float*)pack->vertex, GL_STATIC_DRAW);
 	ft_putendl("making vao");
 	pack->vao = 0;
 	glGenVertexArrays(1, &pack->vao);
-	glBindBuffer(pack->vao, pack->vbo);
+	glBindVertexArray(pack->vao);
+	glBindBuffer(GL_ARRAY_BUFFER, pack->vbo);
 	glEnableVertexAttribArray(0);
-	glBindBuffer(GL_ARRAY_BUFFER, pack->vao);
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, NULL);
+	glBindVertexArray(0);
 	ft_putendl("program done");
 	return (0);
 }
@@ -139,7 +139,8 @@ int					main(int ac, char **av)
 	glfwMakeContextCurrent(window);
 	//glEnable(GL_DEPTH_TEST);
 	glDepthFunc(GL_LESS);
-	glewInit();
+	if (glewInit() != GLEW_OK)
+		ft_dprintf(2, "HOLY CRAP !\n");
 	glClearDepth((double)(INFINITY));
 	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 	glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
