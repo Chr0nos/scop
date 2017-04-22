@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/22 13:16:55 by snicolet          #+#    #+#             */
-/*   Updated: 2017/04/22 16:10:54 by snicolet         ###   ########.fr       */
+/*   Updated: 2017/04/22 20:07:35 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ void			framebuffer_size_callback(GLFWwindow *window,
 {
 	t_m4	proj;
 
-	(void)window;
-	proj = get_projection((double)width / (double)height, 75, 1.0, 1000.0);
+	(void)width;
+	(void)height;
+	proj = get_projection(window, 75, 1.0, 1000.0);
 }

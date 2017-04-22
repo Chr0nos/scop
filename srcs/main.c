@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/25 17:36:02 by snicolet          #+#    #+#             */
-/*   Updated: 2017/04/22 17:43:09 by snicolet         ###   ########.fr       */
+/*   Updated: 2017/04/22 20:06:02 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,13 +22,19 @@ static GLuint		texture_load(const char *filepath)
 		SOIL_FLAG_MIPMAPS | SOIL_FLAG_INVERT_Y));
 }
 
-t_m4				get_projection(double ratio, double fov, double far,
+t_m4				get_projection(GLFWwindow *window, double fov, double far,
 	double near)
 {
-	const double	height = near * (tan(fov * 0.5 * (M_PI / 180)));
-	const double	width = height * ratio;
+	double			ratio;
+	double			height;
+	double			width;
 	t_m4			proj;
+	t_v2i			geo;
 
+	glfwGetWindowSize(window, &geo.x, &geo.y);
+	ratio = (double)geo.x / (double)geo.y;
+	height = near * (tan(fov * 0.5 * (M_PI / 180)));
+	width = height * ratio;
 	proj = geo_mk4_projection(
 		(t_proj){-width, width, -height, height, near, far});
 	geo_putm4(proj, 6);
@@ -37,19 +43,10 @@ t_m4				get_projection(double ratio, double fov, double far,
 
 static int			main_loop(GLFWwindow *window, t_vertex_pack *pack)
 {
-	t_v2i			geo;
 	t_m4f			proj;
 	t_m4f			modelview;
 
-	ft_printf("done\n");
-	glfwGetWindowSize(window, &geo.x, &geo.y);
-	ft_putendl("loading projection matrix\n");
-	proj = geo_mk4_tof(
-		get_projection((double)geo.x / (double)geo.y, 75, 1.0, 100.0));
-	//proj = geo_mk4_identity();
-	modelview = geo_mk4_tof(make_matrix(window));
-	//glDisable(GL_SMOOTH);
-	ft_putstr("entering display loop\n");
+	proj = geo_mk4_tof(get_projection(window, 75, 1.0, 100.0));
 	glUseProgram(pack->program);
 	pack->proj_id = glGetUniformLocation(pack->program, "projection");
 	pack->model_id = glGetUniformLocation(pack->program, "model");
@@ -58,7 +55,6 @@ static int			main_loop(GLFWwindow *window, t_vertex_pack *pack)
 	{
 		modelview = geo_mk4_tof(make_matrix(window));
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		//display(pack->texture, pack, window);
 		glUniformMatrix4fv(pack->model_id, 1, GL_FALSE,
 			(const GLfloat *)&modelview);
 		glBindVertexArray(pack->vao);
@@ -137,7 +133,7 @@ int					main(int ac, char **av)
 		return (3);
 	}
 	glfwMakeContextCurrent(window);
-	//glEnable(GL_DEPTH_TEST);
+	glEnable(GL_DEPTH_TEST);
 	glDepthFunc(GL_LESS);
 	if (glewInit() != GLEW_OK)
 		ft_dprintf(2, "HOLY CRAP !\n");
