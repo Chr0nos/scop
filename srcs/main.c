@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/25 17:36:02 by snicolet          #+#    #+#             */
-/*   Updated: 2017/04/22 20:06:02 by snicolet         ###   ########.fr       */
+/*   Updated: 2017/04/23 10:30:59 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ static void			configure_opengl()
 {
 	glfwSetErrorCallback(&error_handler);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 5);
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 1);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GLFW_TRUE);
 }
@@ -99,7 +99,7 @@ static int			make_program(t_vertex_pack *pack, const char *texture_path)
 	pack->vbo = 0;
 	glGenBuffers(1, &pack->vbo);
 	glBindBuffer(GL_ARRAY_BUFFER, pack->vbo);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(float) * pack->stats.vertex * 3,
+	glBufferData(GL_ARRAY_BUFFER, (GLsizeiptr)(sizeof(float) * pack->stats.vertex * 3),
 		(float*)pack->vertex, GL_STATIC_DRAW);
 	ft_putendl("making vao");
 	pack->vao = 0;

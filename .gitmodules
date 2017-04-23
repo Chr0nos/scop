@@ -3,7 +3,7 @@
 	url = https://github.com/alelievr/SOIL2-clone
 [submodule "libdraw"]
 	path = libdraw
-	url = git@gitlab.com:Chr0nos/libdraw.git
+	url = git@github.com:Chr0nos/libdraw.git
 [submodule "libft"]
 	path = libft
-	url = git@gitlab.com:Chr0nos/libft.git
+	url = git@github.com:Chr0nos/libft.git
