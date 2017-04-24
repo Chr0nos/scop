@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/24 07:24:26 by snicolet          #+#    #+#             */
-/*   Updated: 2017/04/22 20:05:54 by snicolet         ###   ########.fr       */
+/*   Updated: 2017/04/24 20:28:37 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ typedef struct			s_vertex_pack
 	GLuint				vbo;
 	GLuint				vao;
 	GLuint				texture;
+	GLuint				indices;
 	GLint				proj_id;
 	GLint				model_id;
 }						t_vertex_pack;

@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/25 17:36:02 by snicolet          #+#    #+#             */
-/*   Updated: 2017/04/23 10:30:59 by snicolet         ###   ########.fr       */
+/*   Updated: 2017/04/24 20:57:27 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,16 @@ static void			configure_opengl()
 	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GLFW_TRUE);
 }
 
+static void			make_indices(t_vertex_pack *pack)
+{
+	ft_putendl("making indices");
+	pack->indices = 0;
+	glGenBuffers(1, &pack->indices);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, pack->indices);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, (int)(pack->stats.faces * 3),
+		pack->faces, GL_STATIC_DRAW);
+}
+
 static int			make_program(t_vertex_pack *pack, const char *texture_path)
 {
 	ft_putendl("making program");
@@ -110,6 +120,7 @@ static int			make_program(t_vertex_pack *pack, const char *texture_path)
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, NULL);
 	glBindVertexArray(0);
 	ft_putendl("program done");
+	make_indices(pack);
 	return (0);
 }
 
