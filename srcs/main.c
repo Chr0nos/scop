@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/25 17:36:02 by snicolet          #+#    #+#             */
-/*   Updated: 2017/04/24 22:35:18 by snicolet         ###   ########.fr       */
+/*   Updated: 2017/04/24 22:55:58 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,6 @@ static int			main_loop(GLFWwindow *window, t_vertex_pack *pack)
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, pack->indices);
 		glDrawElements(GL_TRIANGLES, faces_total,
 				GL_UNSIGNED_INT, NULL);
-				//GL_UNSIGNED_INT, (void *)(pack->faces));
 		glfwPollEvents();
 		glfwSwapBuffers(window);
 	}
@@ -91,7 +90,7 @@ static void			make_indices(t_vertex_pack *pack)
 	pack->indices = 0;
 	glGenBuffers(1, &pack->indices);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, pack->indices);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, (int)(pack->stats.faces * 3),
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, (int)(pack->stats.faces * 12),
 		pack->faces, GL_STATIC_DRAW);
 }
 
