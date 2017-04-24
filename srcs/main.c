@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/25 17:36:02 by snicolet          #+#    #+#             */
-/*   Updated: 2017/04/24 22:55:58 by snicolet         ###   ########.fr       */
+/*   Updated: 2017/04/24 23:08:54 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,11 @@ static void			configure_opengl()
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GLFW_TRUE);
 }
+
+/*
+** this function create the indices buffer used to know wich vertices goes
+** with wich face
+*/
 
 static void			make_indices(t_vertex_pack *pack)
 {
