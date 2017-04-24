@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/25 17:36:02 by snicolet          #+#    #+#             */
-/*   Updated: 2017/04/24 23:08:54 by snicolet         ###   ########.fr       */
+/*   Updated: 2017/04/25 00:49:30 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,6 +108,7 @@ static int			make_program(t_vertex_pack *pack, const char *texture_path)
 		return (2);
 	ft_putendl("shaders ok");
 	pack->texture = texture_load(texture_path);
+	glBindTexture(GL_TEXTURE_2D, pack->texture);
 	pack->program = glCreateProgram();
 	glAttachShader(pack->program, pack->fs);
 	glAttachShader(pack->program, pack->vs);
