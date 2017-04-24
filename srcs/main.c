@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/25 17:36:02 by snicolet          #+#    #+#             */
-/*   Updated: 2017/04/24 20:57:27 by snicolet         ###   ########.fr       */
+/*   Updated: 2017/04/24 22:35:18 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ t_m4				get_projection(GLFWwindow *window, double fov, double far,
 
 static int			main_loop(GLFWwindow *window, t_vertex_pack *pack)
 {
+	const int		faces_total = (int)(pack->stats.faces * 3);
 	t_m4f			proj;
 	t_m4f			modelview;
 
@@ -58,8 +59,10 @@ static int			main_loop(GLFWwindow *window, t_vertex_pack *pack)
 		glUniformMatrix4fv(pack->model_id, 1, GL_FALSE,
 			(const GLfloat *)&modelview);
 		glBindVertexArray(pack->vao);
-		glDrawElements(GL_TRIANGLES, (int)pack->stats.faces * 3,
-			GL_UNSIGNED_INT, (void *)(pack->faces));
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, pack->indices);
+		glDrawElements(GL_TRIANGLES, faces_total,
+				GL_UNSIGNED_INT, NULL);
+				//GL_UNSIGNED_INT, (void *)(pack->faces));
 		glfwPollEvents();
 		glfwSwapBuffers(window);
 	}
@@ -111,6 +114,7 @@ static int			make_program(t_vertex_pack *pack, const char *texture_path)
 	glBindBuffer(GL_ARRAY_BUFFER, pack->vbo);
 	glBufferData(GL_ARRAY_BUFFER, (GLsizeiptr)(sizeof(float) * pack->stats.vertex * 3),
 		(float*)pack->vertex, GL_STATIC_DRAW);
+	make_indices(pack);
 	ft_putendl("making vao");
 	pack->vao = 0;
 	glGenVertexArrays(1, &pack->vao);
@@ -120,7 +124,6 @@ static int			make_program(t_vertex_pack *pack, const char *texture_path)
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, NULL);
 	glBindVertexArray(0);
 	ft_putendl("program done");
-	make_indices(pack);
 	return (0);
 }
 
