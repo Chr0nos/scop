@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/20 02:09:01 by snicolet          #+#    #+#             */
-/*   Updated: 2016/11/20 02:10:19 by snicolet         ###   ########.fr       */
+/*   Updated: 2017/04/26 21:29:20 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,10 +51,12 @@ t_obj_stats		parser_count(const char *filepath)
 			;
 		else if ((ret = ft_sscanf(line, "vt %*f %*f")) == 2)
 			stats.uv++;
+		else if ((ret = ft_sscanf(line, "vn %*f %*f %*f")) == 3)
+			stats.normal++;
 		free(line);
 	}
 	close(fd);
-	ft_printf("stats: vertex: %lu / faces: %lu / uv: %lu\n",
-		stats.vertex, stats.faces, stats.uv);
+	ft_printf("stats: vertex: %lu / faces: %lu / uv: %lu / normal: %lu\n",
+		stats.vertex, stats.faces, stats.uv, stats.normal);
 	return (stats);
 }
