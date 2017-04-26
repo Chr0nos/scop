@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/16 15:47:56 by snicolet          #+#    #+#             */
-/*   Updated: 2017/04/10 19:09:09 by snicolet         ###   ########.fr       */
+/*   Updated: 2017/04/26 21:41:25 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ t_vertex_pack	*parse_obj(const char *filepath)
 	stats = parser_count(filepath);
 	size = sizeof(t_vertex_pack) + (sizeof(t_v3f) * stats.vertex) +
 		(sizeof(t_v2f) * stats.uv) + (sizeof(unsigned char) * stats.faces) +
-		(sizeof(t_v3i) * stats.faces * 2);
+		(sizeof(t_v3i) * stats.faces * 2) + (sizeof(t_v3i) * stats.normal);
 	ft_printf("trying to alllocate: %lu bytes\n", size);
 	if (!(pack = malloc(size)))
 		return (NULL);
@@ -104,6 +104,7 @@ t_vertex_pack	*parse_obj(const char *filepath)
 	ft_bzero(pack->flags, stats.faces);
 	pack->faces = (t_v3i*)((size_t)pack->flags + (sizeof(char) * stats.faces));
 	pack->fuv = (t_v3i*)((size_t)pack->faces + (sizeof(t_v3i) * stats.faces));
+	pack->normals = (t_v3i*)((size_t)pack->fuv + (sizeof(t_v3i) * stats.uv));
 	pack->stats = stats;
 	if ((parse_real(filepath, pack) < 0) && (ft_mfree(1, pack)))
 		return (NULL);
