@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/25 17:36:02 by snicolet          #+#    #+#             */
-/*   Updated: 2017/04/25 00:49:30 by snicolet         ###   ########.fr       */
+/*   Updated: 2017/04/28 01:23:10 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ static int			main_loop(GLFWwindow *window, t_vertex_pack *pack)
 	t_m4f			proj;
 	t_m4f			modelview;
 
-	proj = geo_mk4_tof(get_projection(window, 75, 1.0, 100.0));
+	proj = geo_mk4_tof(get_projection(window, 60, 1.0, 100.0));
 	glUseProgram(pack->program);
 	pack->proj_id = glGetUniformLocation(pack->program, "projection");
 	pack->model_id = glGetUniformLocation(pack->program, "model");

@@ -11,21 +11,21 @@
 # **************************************************************************** #
 
 OS=$(shell uname -s)
-CC=clang -O2 -march=native -mtune=native -g3
+CC=clang -O2 -march=native -mtune=native -g3 -fsanitize=address
 FLAGS=-Werror -Wextra -Wall -Weverything -Wno-reserved-id-macro -Wno-documentation -Wno-documentation-unknown-command -Wno-padded
 DRAW=libdraw
 LIBFT=libft
-LINKER=-L$(DRAW) -lm -ldraw -lglfw -lGLEW
+LINKER=-L$(DRAW) -lm -ldraw -lglfw3 -lGLEW
 INC=-I$(DRAW)/headers -I $(LIBFT)/ -I./SOIL2-clone/incs -Iheaders
 SOIL=./SOIL2-clone/libSOIL2.a
 ifeq ($(OS),Darwin)
 	INC+=-I ~/.brew/include -I/usr/local/include
-	LINKER+=-framework OpenGL -L ~/.brew/lib/ -L./SOIL2-clone/ -lSOIL2 -framework CoreFoundation -L/usr/local/lib -lglfw -L$(LIBFT) -lft
+	LINKER+=-framework OpenGL -L $(HOME)/.brew/lib/ -L./SOIL2-clone/ -lSOIL2 -framework CoreFoundation -L/usr/local/lib -lglfw3 -L$(LIBFT) -lft
 else
-	LINKER+=-L./SOIL2-clone -lglfw -lGL -lSOIL2 -L$(LIBFT) -lft
+	LINKER+=-L./SOIL2-clone  -lglfw -lGL -lSOIL2 -L$(LIBFT) -lft
 endif
 NAME=scope
-SRC=main.c events.c display.c debug.c parser.c fixcenter.c parser_count.c
+SRC=main.c events.c display.c debug.c parser.c fixcenter.c parser_count.c parse_calc_size.c
 SRC_DIR=srcs
 OBJ=$(SRC:%.c=$(BUILDDIR)/%.o)
 BUILDDIR=build
