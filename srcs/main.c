@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/25 17:36:02 by snicolet          #+#    #+#             */
-/*   Updated: 2017/04/28 01:23:10 by snicolet         ###   ########.fr       */
+/*   Updated: 2017/05/04 15:53:41 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ t_m4				get_projection(GLFWwindow *window, double fov, double far,
 	return (proj);
 }
 
-static int			main_loop(GLFWwindow *window, t_vertex_pack *pack)
+static int			display_loop(GLFWwindow *window, t_vertex_pack *pack)
 {
 	const int		faces_total = (int)(pack->stats.faces * 3);
 	t_m4f			proj;
@@ -65,7 +65,6 @@ static int			main_loop(GLFWwindow *window, t_vertex_pack *pack)
 		glfwPollEvents();
 		glfwSwapBuffers(window);
 	}
-	glfwTerminate();
 	free(pack);
 	return (0);
 }
@@ -75,15 +74,6 @@ void				error_handler(int id, const char *str)
 	ft_dprintf(2, "[%2d] error: %s\n", id, str);
 }
 
-static void			configure_opengl()
-{
-	glfwSetErrorCallback(&error_handler);
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 1);
-	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GLFW_TRUE);
-}
-
 /*
 ** this function create the indices buffer used to know wich vertices goes
 ** with wich face
@@ -91,33 +81,31 @@ static void			configure_opengl()
 
 static void			make_indices(t_vertex_pack *pack)
 {
-	ft_putendl("making indices");
+	ft_putendl("making faces indices");
 	pack->indices = 0;
 	glGenBuffers(1, &pack->indices);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, pack->indices);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, (int)(pack->stats.faces * 12),
 		pack->faces, GL_STATIC_DRAW);
+	pack->normal = 0;
+	if (pack->stats.normal)
+	{
+		ft_putendl("making normals indices");
+		glGenBuffers(1, &pack->normal);
+		glBindBuffer(GL_ARRAY_BUFFER, pack->normal);
+		glBufferData(GL_ARRAY_BUFFER, (int)pack->stats.normal, pack->normals,
+			GL_STATIC_DRAW);
+	}
 }
 
-static int			make_program(t_vertex_pack *pack, const char *texture_path)
+static int			make_vao(t_vertex_pack *pack)
 {
-	ft_putendl("making program");
-	if (!(pack->fs = ft_shader_compile(GL_FRAGMENT_SHADER, "fragment.glsl")))
-		return (1);
-	if (!(pack->vs = ft_shader_compile(GL_VERTEX_SHADER, "vertex.glsl")))
-		return (2);
-	ft_putendl("shaders ok");
-	pack->texture = texture_load(texture_path);
-	glBindTexture(GL_TEXTURE_2D, pack->texture);
-	pack->program = glCreateProgram();
-	glAttachShader(pack->program, pack->fs);
-	glAttachShader(pack->program, pack->vs);
-	glLinkProgram(pack->program);
 	ft_putendl("making vbo");
 	pack->vbo = 0;
 	glGenBuffers(1, &pack->vbo);
 	glBindBuffer(GL_ARRAY_BUFFER, pack->vbo);
-	glBufferData(GL_ARRAY_BUFFER, (GLsizeiptr)(sizeof(float) * pack->stats.vertex * 3),
+	glBufferData(GL_ARRAY_BUFFER,
+		(GLsizeiptr)(sizeof(float) * pack->stats.vertex * 3),
 		(float*)pack->vertex, GL_STATIC_DRAW);
 	make_indices(pack);
 	ft_putendl("making vao");
@@ -128,40 +116,99 @@ static int			make_program(t_vertex_pack *pack, const char *texture_path)
 	glEnableVertexAttribArray(0);
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, NULL);
 	glBindVertexArray(0);
+	return (0);
+}
+
+static int			make_program(t_vertex_pack *pack)
+{
+	ft_putendl("making program");
+	if (!(pack->fs = ft_shader_compile(GL_FRAGMENT_SHADER, "fragment.glsl")))
+		return (1);
+	if (!(pack->vs = ft_shader_compile(GL_VERTEX_SHADER, "vertex.glsl")))
+		return (2);
+	ft_putendl("shaders ok");
+	ft_printf("loading texture: %s\n", pack->texture_path);
+	pack->texture = texture_load(pack->texture_path);
+	glBindTexture(GL_TEXTURE_2D, pack->texture);
+	pack->program = glCreateProgram();
+	glAttachShader(pack->program, pack->fs);
+	glAttachShader(pack->program, pack->vs);
+	glLinkProgram(pack->program);
+	make_vao(pack);
 	ft_putendl("program done");
 	return (0);
 }
 
-int					main(int ac, char **av)
+static void			configure_opengl(void)
+{
+	glfwSetErrorCallback(&error_handler);
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 1);
+	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GLFW_TRUE);
+}
+
+static int			run_program(t_vertex_pack *pack, GLFWwindow *window)
+{
+	make_program(pack);
+	return (display_loop(window, pack));
+}
+
+static int			run_window(t_vertex_pack *pack)
 {
 	GLFWwindow		*window;
+	int				ret;
+
+	ft_putendl("run window");
+	configure_opengl();
+	window = glfwCreateWindow(1280, 720, "Scope", NULL, NULL);
+	ret = 3;
+	if (window)
+	{
+		ft_printf("Renderer: %s\nOpenGL version supported %s\n",
+			glGetString(GL_RENDERER), glGetString(GL_VERSION));
+		glfwMakeContextCurrent(window);
+		glEnable(GL_DEPTH_TEST);
+		glDepthFunc(GL_LESS);
+		if (glewInit() != GLEW_OK)
+			ret = 31;
+		else
+		{
+			glClearDepth((double)(INFINITY));
+			glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+			glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
+			ret = run_program(pack, window);
+			ft_putendl("deleting window");
+			glfwDestroyWindow(window);
+		}
+	}
+	return (ret);
+}
+
+static int			run_parse(const char *filepath, const char *texture)
+{
+	int				ret;
 	t_vertex_pack	*pack;
 
-	if (!glfwInit())
+	ft_putendl("run parse");
+	pack = parse_obj(filepath);
+	ret = 2;
+	if (pack)
+	{
+		pack->texture_path = (texture) ? texture : "herbe.jpg";
+		ret = run_window(pack);
+	}
+	ft_putendl("cleaning glfw");
+	glfwTerminate();
+	return (ret);
+}
+
+int					main(int ac, char **av)
+{
+	if (ac < 2)
 		return (1);
+	if (!glfwInit())
+		return (11);
 	ft_printf("Init ok\nGlfw version: %s\n", glfwGetVersionString());
-	if (!(pack = parse_obj(av[1])))
-	{
-		glfwTerminate();
-		return (2);
-	}
-	configure_opengl();
-	if (!(window = glfwCreateWindow(1280, 720, "Scope", NULL, NULL)))
-	{
-		glfwTerminate();
-		return (3);
-	}
-	glfwMakeContextCurrent(window);
-	glEnable(GL_DEPTH_TEST);
-	glDepthFunc(GL_LESS);
-	if (glewInit() != GLEW_OK)
-		ft_dprintf(2, "HOLY CRAP !\n");
-	glClearDepth((double)(INFINITY));
-	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-	glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
-	ft_printf("program state: %d\n",
-		make_program(pack, (ac > 2) ? av[2] : "herbe.jpg"));
-	ft_printf("Renderer: %s\nOpenGL version supported %s\n",
-		glGetString(GL_RENDERER), glGetString(GL_VERSION));
-	return (main_loop(window, pack));
+	return (run_parse(av[1], (ac > 2) ? av[2] : NULL));
 }

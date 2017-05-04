@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/16 15:47:56 by snicolet          #+#    #+#             */
-/*   Updated: 2017/05/02 19:15:04 by snicolet         ###   ########.fr       */
+/*   Updated: 2017/05/04 10:45:04 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,7 @@ static int		parse_real(const char *filepath, t_vertex_pack *pack)
 			tp.normals++;
 		free(line);
 	}
+	free(line);
 	close(fd);
 	return (0);
 }

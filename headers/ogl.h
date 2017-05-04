@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/24 07:24:26 by snicolet          #+#    #+#             */
-/*   Updated: 2017/05/02 19:14:10 by snicolet         ###   ########.fr       */
+/*   Updated: 2017/05/04 15:47:26 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,10 @@ typedef struct			s_vertex_pack
 	GLuint				vao;
 	GLuint				texture;
 	GLuint				indices;
+	GLuint				normal;
 	GLint				proj_id;
 	GLint				model_id;
+	const char			*texture_path;
 }						t_vertex_pack;
 
 void					fixcenter(t_vertex_pack *pack);
