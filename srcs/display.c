@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/22 13:18:49 by snicolet          #+#    #+#             */
-/*   Updated: 2017/04/22 19:58:43 by snicolet         ###   ########.fr       */
+/*   Updated: 2017/05/04 16:02:42 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,4 +57,50 @@ t_m4				make_matrix(GLFWwindow *window)
 	m = geo_quat_tomatrix(q);
 	m.w = camera;
 	return (m);
+}
+
+t_m4				get_projection(GLFWwindow *window, double fov, double far,
+	double near)
+{
+	double			ratio;
+	double			height;
+	double			width;
+	t_m4			proj;
+	t_v2i			geo;
+
+	glfwGetWindowSize(window, &geo.x, &geo.y);
+	ratio = (double)geo.x / (double)geo.y;
+	height = near * (tan(fov * 0.5 * (M_PI / 180)));
+	width = height * ratio;
+	proj = geo_mk4_projection(
+		(t_proj){-width, width, -height, height, near, far});
+	geo_putm4(proj, 6);
+	return (proj);
+}
+
+int					display_loop(GLFWwindow *window, t_vertex_pack *pack)
+{
+	const int		faces_total = (int)(pack->stats.faces * 3);
+	t_m4f			proj;
+	t_m4f			modelview;
+
+	proj = geo_mk4_tof(get_projection(window, 60, 1.0, 100.0));
+	glUseProgram(pack->program);
+	pack->proj_id = glGetUniformLocation(pack->program, "projection");
+	pack->model_id = glGetUniformLocation(pack->program, "model");
+	glUniformMatrix4fv(pack->proj_id, 1, GL_FALSE, (const GLfloat *)&proj);
+	while ((!glfwWindowShouldClose(window)) && (!keyboard(window)))
+	{
+		modelview = geo_mk4_tof(make_matrix(window));
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		glUniformMatrix4fv(pack->model_id, 1, GL_FALSE,
+			(const GLfloat *)&modelview);
+		glBindVertexArray(pack->vao);
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, pack->indices);
+		glDrawElements(GL_TRIANGLES, faces_total,
+				GL_UNSIGNED_INT, NULL);
+		glfwPollEvents();
+		glfwSwapBuffers(window);
+	}
+	return (0);
 }

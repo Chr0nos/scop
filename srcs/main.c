@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/25 17:36:02 by snicolet          #+#    #+#             */
-/*   Updated: 2017/05/04 15:53:41 by snicolet         ###   ########.fr       */
+/*   Updated: 2017/05/04 16:02:29 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,53 +20,6 @@ static GLuint		texture_load(const char *filepath)
 		filepath,
 		SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID,
 		SOIL_FLAG_MIPMAPS | SOIL_FLAG_INVERT_Y));
-}
-
-t_m4				get_projection(GLFWwindow *window, double fov, double far,
-	double near)
-{
-	double			ratio;
-	double			height;
-	double			width;
-	t_m4			proj;
-	t_v2i			geo;
-
-	glfwGetWindowSize(window, &geo.x, &geo.y);
-	ratio = (double)geo.x / (double)geo.y;
-	height = near * (tan(fov * 0.5 * (M_PI / 180)));
-	width = height * ratio;
-	proj = geo_mk4_projection(
-		(t_proj){-width, width, -height, height, near, far});
-	geo_putm4(proj, 6);
-	return (proj);
-}
-
-static int			display_loop(GLFWwindow *window, t_vertex_pack *pack)
-{
-	const int		faces_total = (int)(pack->stats.faces * 3);
-	t_m4f			proj;
-	t_m4f			modelview;
-
-	proj = geo_mk4_tof(get_projection(window, 60, 1.0, 100.0));
-	glUseProgram(pack->program);
-	pack->proj_id = glGetUniformLocation(pack->program, "projection");
-	pack->model_id = glGetUniformLocation(pack->program, "model");
-	glUniformMatrix4fv(pack->proj_id, 1, GL_FALSE, (const GLfloat *)&proj);
-	while ((!glfwWindowShouldClose(window)) && (!keyboard(window)))
-	{
-		modelview = geo_mk4_tof(make_matrix(window));
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		glUniformMatrix4fv(pack->model_id, 1, GL_FALSE,
-			(const GLfloat *)&modelview);
-		glBindVertexArray(pack->vao);
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, pack->indices);
-		glDrawElements(GL_TRIANGLES, faces_total,
-				GL_UNSIGNED_INT, NULL);
-		glfwPollEvents();
-		glfwSwapBuffers(window);
-	}
-	free(pack);
-	return (0);
 }
 
 void				error_handler(int id, const char *str)
@@ -165,9 +118,9 @@ static int			run_window(t_vertex_pack *pack)
 	ret = 3;
 	if (window)
 	{
-		ft_printf("Renderer: %s\nOpenGL version supported %s\n",
-			glGetString(GL_RENDERER), glGetString(GL_VERSION));
 		glfwMakeContextCurrent(window);
+		ft_printf("Renderer: %s\nOpenGL version supported %s\n",
+		glGetString(GL_RENDERER), glGetString(GL_VERSION));
 		glEnable(GL_DEPTH_TEST);
 		glDepthFunc(GL_LESS);
 		if (glewInit() != GLEW_OK)
@@ -178,9 +131,9 @@ static int			run_window(t_vertex_pack *pack)
 			glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 			glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
 			ret = run_program(pack, window);
-			ft_putendl("deleting window");
-			glfwDestroyWindow(window);
 		}
+		ft_putendl("deleting window");
+		glfwDestroyWindow(window);
 	}
 	return (ret);
 }
@@ -197,9 +150,12 @@ static int			run_parse(const char *filepath, const char *texture)
 	{
 		pack->texture_path = (texture) ? texture : "herbe.jpg";
 		ret = run_window(pack);
+		ft_putendl("cleaning main structure pack");
+		free(pack);
 	}
 	ft_putendl("cleaning glfw");
 	glfwTerminate();
+	ft_printf("final return code: %d\n", ret);
 	return (ret);
 }
 
