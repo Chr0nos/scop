@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/25 17:36:02 by snicolet          #+#    #+#             */
-/*   Updated: 2017/05/04 16:02:29 by snicolet         ###   ########.fr       */
+/*   Updated: 2017/05/04 18:25:58 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,19 +35,14 @@ void				error_handler(int id, const char *str)
 static void			make_indices(t_vertex_pack *pack)
 {
 	ft_putendl("making faces indices");
-	pack->indices = 0;
-	glGenBuffers(1, &pack->indices);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, pack->indices);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, (int)(pack->stats.faces * 12),
-		pack->faces, GL_STATIC_DRAW);
+	ft_opengl_buffer_load(&pack->indices, GL_ELEMENT_ARRAY_BUFFER,
+		pack->faces, pack->stats.faces * 12);
 	pack->normal = 0;
 	if (pack->stats.normal)
 	{
 		ft_putendl("making normals indices");
-		glGenBuffers(1, &pack->normal);
-		glBindBuffer(GL_ARRAY_BUFFER, pack->normal);
-		glBufferData(GL_ARRAY_BUFFER, (int)pack->stats.normal, pack->normals,
-			GL_STATIC_DRAW);
+		ft_opengl_buffer_load(&pack->normal, GL_ARRAY_BUFFER, pack->normals,
+			pack->stats.normal);
 	}
 }
 
