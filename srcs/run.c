@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/07 12:33:10 by snicolet          #+#    #+#             */
-/*   Updated: 2017/05/07 12:33:40 by snicolet         ###   ########.fr       */
+/*   Updated: 2017/05/07 16:54:44 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,17 @@ static void			configure_opengl(void)
 
 static int			run_program(t_vertex_pack *pack, GLFWwindow *window)
 {
-	make_program(pack);
-	return (display_loop(window, pack));
+	int		ret;
+
+	if (make_program(pack) != 0)
+	{
+		ft_dprintf(2, "error while making program\n");
+		return (41);
+	}
+	ret = display_loop(window, pack);
+	glDisableVertexAttribArray(1);
+	glDisableVertexAttribArray(0);
+	return (ret);
 }
 
 static int			run_window(t_vertex_pack *pack)

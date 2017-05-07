@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/07 12:35:02 by snicolet          #+#    #+#             */
-/*   Updated: 2017/05/07 12:37:08 by snicolet         ###   ########.fr       */
+/*   Updated: 2017/05/07 16:55:59 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,17 @@ static int			make_vao(t_vertex_pack *pack)
 	glEnableVertexAttribArray(0);
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, NULL);
 	glBindVertexArray(0);
+
+	ft_putendl("declaring UV opengl buffer");
+	//les uv sont dans pack->uv (t_v2f *)
+	pack->index_uv = 0;
+	glEnableVertexAttribArray(1);
+	glGenBuffers(1, &pack->index_uv);
+	glBindBuffer(GL_ARRAY_BUFFER, pack->index_uv);
+	glBufferData(GL_ARRAY_BUFFER, (GLsizeiptr)(sizeof(float) * pack->stats.uv),
+		(float*)pack->uv, GL_STATIC_DRAW);
+	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, NULL);
+
 	return (0);
 }
 
@@ -70,14 +81,18 @@ int					make_program(t_vertex_pack *pack)
 	if (!(pack->vs = ft_shader_compile(GL_VERTEX_SHADER, "vertex.glsl")))
 		return (2);
 	ft_putendl("shaders ok");
-	ft_printf("loading texture: %s\n", pack->texture_path);
-	pack->texture = texture_load(pack->texture_path);
-	glBindTexture(GL_TEXTURE_2D, pack->texture);
 	pack->program = glCreateProgram();
 	glAttachShader(pack->program, pack->fs);
 	glAttachShader(pack->program, pack->vs);
 	glLinkProgram(pack->program);
 	make_vao(pack);
 	ft_putendl("program done");
+
+	ft_printf("loading texture: %s\n", pack->texture_path);
+	pack->texture = texture_load(pack->texture_path);
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, pack->texture);
+	pack->texture_id = glGetUniformLocation(pack->program, "texture");
+	glUniform1i(pack->texture_id, pack->texture);
 	return (0);
 }
