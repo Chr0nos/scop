@@ -6,7 +6,7 @@
 #    By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/07/24 07:18:03 by snicolet          #+#    #+#              #
-#*   Updated: 2017/05/04 10:24:04 by snicolet         ###   ########.fr       *#
+#    Updated: 2017/05/07 12:37:55 by snicolet         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,7 +25,8 @@ else
 	LINKER+=-L./SOIL2-clone -lglfw -lGL -lSOIL2 -L$(LIBFT) -lft
 endif
 NAME=scope
-SRC=main.c events.c display.c debug.c parser.c fixcenter.c parser_count.c parse_calc_size.c
+SRC=main.c events.c display.c parser.c fixcenter.c parser_count.c \
+	parse_calc_size.c run.c maker.c
 SRC_DIR=srcs
 OBJ=$(SRC:%.c=$(BUILDDIR)/%.o)
 BUILDDIR=build

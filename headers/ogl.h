@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/24 07:24:26 by snicolet          #+#    #+#             */
-/*   Updated: 2017/05/04 16:01:56 by snicolet         ###   ########.fr       */
+/*   Updated: 2017/05/07 12:35:48 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,5 +68,7 @@ t_m4					get_projection(GLFWwindow *window, double fov,
 t_m4					make_matrix(GLFWwindow *window);
 size_t					parse_calc_size(const t_obj_stats *stats);
 int						display_loop(GLFWwindow *window, t_vertex_pack *pack);
+int						run_parse(const char *filepath, const char *texture);
+int						make_program(t_vertex_pack *pack);
 
 #endif
