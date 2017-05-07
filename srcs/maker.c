@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/07 12:35:02 by snicolet          #+#    #+#             */
-/*   Updated: 2017/05/07 21:03:40 by snicolet         ###   ########.fr       */
+/*   Updated: 2017/05/07 22:21:52 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,13 +72,13 @@ static int			make_texture(t_vertex_pack *pack)
 	glBindTexture(GL_TEXTURE_2D, pack->texture);
 	glActiveTexture(GL_TEXTURE0);
 	pack->texture_id = glGetUniformLocation(pack->program, "texture");
-	glEnableVertexAttribArray(pack->texture_id);
+	glEnableVertexAttribArray((GLuint)pack->texture_id);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	glGenerateMipmap(GL_TEXTURE_2D);
-	glUniform1i(pack->texture_id, pack->texture);
+	glUniform1i(pack->texture_id, (GLint)pack->texture);
 	return (0);
 }
 
