@@ -6,7 +6,7 @@
 #    By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/07/24 07:18:03 by snicolet          #+#    #+#              #
-#    Updated: 2017/05/07 12:37:55 by snicolet         ###   ########.fr        #
+#    Updated: 2017/05/07 12:53:15 by snicolet         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -47,6 +47,12 @@ clean:
 
 fclean: clean
 	$(RM) $(NAME)
+
+fcleanall: fclean
+	make -C $(DRAW) fclean
+	make -C $(LIBFT) fclean
+
+reall: fcleanall all
 
 re: fclean all
 

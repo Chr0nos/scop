@@ -6,12 +6,11 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/25 17:36:02 by snicolet          #+#    #+#             */
-/*   Updated: 2017/05/07 12:36:51 by snicolet         ###   ########.fr       */
+/*   Updated: 2017/05/07 13:03:02 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ogl.h"
-#include "opengl.h"
 
 void				error_handler(int id, const char *str)
 {
