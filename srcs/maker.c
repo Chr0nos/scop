@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/07 12:35:02 by snicolet          #+#    #+#             */
-/*   Updated: 2017/05/07 20:34:19 by snicolet         ###   ########.fr       */
+/*   Updated: 2017/05/07 21:03:40 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,8 @@ static int			make_vao(t_vertex_pack *pack)
 	glGenBuffers(1, &pack->vbo);
 	glBindBuffer(GL_ARRAY_BUFFER, pack->vbo);
 	glBufferData(GL_ARRAY_BUFFER,
-		(GLsizeiptr)(sizeof(float) * pack->stats.vertex * 3),
+		(GLsizeiptr)((sizeof(float) * pack->stats.vertex * 3)
+		+ (sizeof(float) * pack->stats.uv * 2)),
 		(float*)pack->vertex, GL_STATIC_DRAW);
 	make_indices(pack);
 	ft_putendl("making vao");
@@ -49,18 +50,14 @@ static int			make_vao(t_vertex_pack *pack)
 	glBindBuffer(GL_ARRAY_BUFFER, pack->vbo);
 	glEnableVertexAttribArray(0);
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, NULL);
+	if (pack->stats.uv > 0)
+	{
+		ft_putendl("enabling uv by passing vertex offset");
+		glEnableVertexAttribArray(1);
+		glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0,
+			(void*)(sizeof(float) * pack->stats.vertex * 3));
+	}
 	glBindVertexArray(0);
-
-	ft_putendl("declaring UV opengl buffer");
-	//les uv sont dans pack->uv (t_v2f *)
-	pack->index_uv = 0;
-	glEnableVertexAttribArray(1);
-	glGenBuffers(1, &pack->index_uv);
-	glBindBuffer(GL_ARRAY_BUFFER, pack->index_uv);
-	glBufferData(GL_ARRAY_BUFFER,
-		(GLsizeiptr)(sizeof(float) * pack->stats.uv * 3),
-		(float*)pack->uv, GL_STATIC_DRAW);
-	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, NULL);
 	return (0);
 }
 

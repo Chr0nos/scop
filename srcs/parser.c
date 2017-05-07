@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/16 15:47:56 by snicolet          #+#    #+#             */
-/*   Updated: 2017/05/04 10:45:04 by snicolet         ###   ########.fr       */
+/*   Updated: 2017/05/07 21:06:53 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,6 @@ t_vertex_pack	*parse_obj(const char *filepath)
 {
 	t_obj_stats			stats;
 	t_vertex_pack		*pack;
-	size_t				size;
 
 	stats = parser_count(filepath);
 	if (stats.vertex + stats.faces == 0)
@@ -100,9 +99,9 @@ t_vertex_pack	*parse_obj(const char *filepath)
 		ft_dprintf(2, "error: no faces or vertex to display\n");
 		return (NULL);
 	}
-	size = parse_calc_size(&stats);
-	ft_printf("trying to alllocate: %lu bytes\n", size);
-	if (!(pack = malloc(size)))
+	stats.fullsize = parse_calc_size(&stats);
+	ft_printf("trying to alllocate: %lu bytes\n", stats.fullsize);
+	if (!(pack = malloc(stats.fullsize)))
 		return (NULL);
 	pack->vertex = (t_v3f*)((size_t)pack + sizeof(t_vertex_pack));
 	pack->uv = (t_v2f*)((size_t)pack->vertex + (sizeof(t_v3f) * stats.vertex));

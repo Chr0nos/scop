@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/24 07:24:26 by snicolet          #+#    #+#             */
-/*   Updated: 2017/05/07 16:37:22 by snicolet         ###   ########.fr       */
+/*   Updated: 2017/05/07 21:05:25 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 
 typedef struct			s_obj_stats
 {
+	size_t				fullsize;
 	size_t				vertex;
 	size_t				uv;
 	size_t				faces;
