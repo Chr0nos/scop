@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/24 07:24:26 by snicolet          #+#    #+#             */
-/*   Updated: 2017/05/04 16:01:56 by snicolet         ###   ########.fr       */
+/*   Updated: 2017/05/07 21:05:25 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 
 typedef struct			s_obj_stats
 {
+	size_t				fullsize;
 	size_t				vertex;
 	size_t				uv;
 	size_t				faces;
@@ -46,8 +47,10 @@ typedef struct			s_vertex_pack
 	GLuint				texture;
 	GLuint				indices;
 	GLuint				normal;
+	GLuint				index_uv;
 	GLint				proj_id;
 	GLint				model_id;
+	GLint				texture_id;
 	const char			*texture_path;
 }						t_vertex_pack;
 
@@ -68,5 +71,7 @@ t_m4					get_projection(GLFWwindow *window, double fov,
 t_m4					make_matrix(GLFWwindow *window);
 size_t					parse_calc_size(const t_obj_stats *stats);
 int						display_loop(GLFWwindow *window, t_vertex_pack *pack);
+int						run_parse(const char *filepath, const char *texture);
+int						make_program(t_vertex_pack *pack);
 
 #endif
