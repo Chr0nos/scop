@@ -11,6 +11,5 @@ void main() {
 	vec4 normal = vec4(1.0);
 
 	color = texture2D(texture_sampler, uv);
-	frag_color = color;
-	//frag_color = color * lightcolor * normal;
+	frag_color = color * lightcolor * normal;
 }
