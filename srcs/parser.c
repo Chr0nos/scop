@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/16 15:47:56 by snicolet          #+#    #+#             */
-/*   Updated: 2017/05/04 10:45:04 by snicolet         ###   ########.fr       */
+/*   Updated: 2017/05/04 19:58:55 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,29 @@ static int		parse_real(const char *filepath, t_vertex_pack *pack)
 	return (0);
 }
 
+static t_vertex_pack	*fix_negatives(t_vertex_pack *pack)
+{
+	const int			mv = (int)pack->stats.vertex - 1;
+	t_v3i				*face;
+	size_t				p;
+
+	ft_putendl("fixing negatives indexes");
+	p = 0;
+	while (p < pack->stats.faces)
+	{
+		face = &pack->faces[p];
+		if (face->x < 0)
+			face->x = mv - face->x;
+		if (face->y < 0)
+			face->y = mv - face->y;
+		if (face->z < 0)
+			face->z = mv - face->z;
+		p++;
+	}
+	ft_putendl("fix done");
+	return (pack);
+}
+
 t_vertex_pack	*parse_obj(const char *filepath)
 {
 	t_obj_stats			stats;
@@ -117,5 +140,5 @@ t_vertex_pack	*parse_obj(const char *filepath)
 		return (NULL);
 	pack->center = geo_center_v3(pack->vertex, stats.vertex);
 	fixcenter(pack);
-	return (pack);
+	return (fix_negatives(pack));
 }
