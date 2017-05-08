@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/16 15:47:56 by snicolet          #+#    #+#             */
-/*   Updated: 2017/05/08 12:54:53 by snicolet         ###   ########.fr       */
+/*   Updated: 2017/05/08 13:54:52 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,52 +15,7 @@
 #include <fcntl.h>
 #include <unistd.h>
 
-static void		add_uv(t_vertex_pack *pack, const t_v3i uv)
-{
-	*(pack->fuv++) = uv;
-	*pack->flags |= FLAG_UV;
-}
-
-static void		add_face(t_vertex_pack *pack, const t_v3i f)
-{
-	*(pack->faces++) = f;
-}
-
-static int		parse_face(const char *line, t_vertex_pack *pack)
-{
-	t_v3i	f;
-	t_v3i	uv;
-	int		p;
-	int		uvc;
-	int		ret;
-
-	p = -1;
-	uvc = 0;
-	while ((line) && (*line) && (++p < 3))
-	{
-		if ((ret = ft_sscanf(line, "\\S%d%N/%d%N/%*d%N",
-				&((int*)&f)[p], &line, &((int*)&uv)[p], &line, &line)) >= 3)
-			uvc++;
-		else if (ret < 1)
-			return (0);
-	}
-	add_face(pack, (t_v3i){f.x - 1, f.y - 1, f.z - 1});
-	if (uvc == 3)
-		add_uv(pack, (t_v3i){uv.x - 1, uv.y - 1, uv.z - 1});
-	pack->flags++;
-	if ((line) && (*line) &&
-		((ret = ft_sscanf(line, "\\S%d/%d/%*d", &p, &uv.y)) >= 1))
-	{
-		add_face(pack, (t_v3i){f.x - 1, f.z - 1, p - 1});
-		if (uvc + ret >= 5)
-			add_uv(pack, (t_v3i){uv.x - 1, uv.z - 1, uv.y - 1});
-		pack->flags++;
-		return (2);
-	}
-	return (1);
-}
-
-static int		parse_real(const char *filepath, t_vertex_pack *pack)
+static int				parse_real(const char *filepath, t_vertex_pack *pack)
 {
 	int				fd;
 	char			*line;
@@ -88,7 +43,7 @@ static int		parse_real(const char *filepath, t_vertex_pack *pack)
 	return (0);
 }
 
-static t_vertex_pack	*fix_negatives(t_vertex_pack *pack)
+static t_vertex_pack	*parse_post_process(t_vertex_pack *pack)
 {
 	const int			mv = (int)pack->stats.vertex - 1;
 	t_v3i				*face;
@@ -99,6 +54,8 @@ static t_vertex_pack	*fix_negatives(t_vertex_pack *pack)
 	while (p < pack->stats.faces)
 	{
 		face = &pack->faces[p];
+
+		*face = geo_subv3i(*face, (t_v3i){1, 1, 1});
 		if (face->x < 0)
 			face->x = mv - face->x;
 		if (face->y < 0)
@@ -111,7 +68,24 @@ static t_vertex_pack	*fix_negatives(t_vertex_pack *pack)
 	return (pack);
 }
 
-t_vertex_pack	*parse_obj(const char *filepath)
+static t_vertex_pack	*parse_setptrs(t_vertex_pack *pack, t_obj_stats *stats)
+{
+	if (!pack)
+	{
+		ft_putstr_fd("error: failed to alllocate memory ! we are doomed!\n", 2);
+		return (NULL);
+	}
+	pack->vertex = (t_v3f*)((size_t)pack + sizeof(t_vertex_pack));
+	pack->uv = (t_v2f*)((size_t)pack->vertex + (sizeof(t_v3f) * stats->vertex));
+	pack->flags = (unsigned char *)((size_t)pack->uv +
+		(sizeof(t_v2f) * stats->uv));
+	pack->faces = (t_v3i*)((size_t)pack->flags + (sizeof(char) * stats->faces));
+	pack->fuv = (t_v3i*)((size_t)pack->faces + (sizeof(t_v3i) * stats->faces));
+	pack->normals = (t_v3i*)((size_t)pack->fuv + (sizeof(t_v3i) * stats->uv));
+	return (pack);
+}
+
+t_vertex_pack			*parse_obj(const char *filepath)
 {
 	t_obj_stats			stats;
 	t_vertex_pack		*pack;
@@ -124,20 +98,13 @@ t_vertex_pack	*parse_obj(const char *filepath)
 	}
 	stats.fullsize = parse_calc_size(&stats);
 	ft_printf("trying to alllocate: %lu bytes\n", stats.fullsize);
-	if (!(pack = malloc(stats.fullsize)))
+	if (!(pack = parse_setptrs(malloc(stats.fullsize), &stats)))
 		return (NULL);
-	pack->vertex = (t_v3f*)((size_t)pack + sizeof(t_vertex_pack));
-	pack->uv = (t_v2f*)((size_t)pack->vertex + (sizeof(t_v3f) * stats.vertex));
-	pack->flags = (unsigned char *)((size_t)pack->uv +
-		(sizeof(t_v2f) * stats.uv));
-	ft_bzero(pack->flags, stats.faces);
-	pack->faces = (t_v3i*)((size_t)pack->flags + (sizeof(char) * stats.faces));
-	pack->fuv = (t_v3i*)((size_t)pack->faces + (sizeof(t_v3i) * stats.faces));
-	pack->normals = (t_v3i*)((size_t)pack->fuv + (sizeof(t_v3i) * stats.uv));
 	pack->stats = stats;
+	ft_bzero(pack->flags, stats.faces);
 	if ((parse_real(filepath, pack) < 0) && (ft_mfree(1, pack)))
 		return (NULL);
 	pack->center = geo_center_v3(pack->vertex, stats.vertex);
 	fixcenter(pack);
-	return (fix_negatives(pack));
+	return (parse_post_process(pack));
 }

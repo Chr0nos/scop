@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/07 12:33:10 by snicolet          #+#    #+#             */
-/*   Updated: 2017/05/07 18:48:21 by snicolet         ###   ########.fr       */
+/*   Updated: 2017/05/08 13:11:24 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,14 @@ static int			run_program(t_vertex_pack *pack, GLFWwindow *window)
 	return (ret);
 }
 
+static int			run_window_real(t_vertex_pack *pack, GLFWwindow *window)
+{
+	glClearDepth((double)(INFINITY));
+	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+	glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
+	return (run_program(pack, window));
+}
+
 static int			run_window(t_vertex_pack *pack)
 {
 	GLFWwindow		*window;
@@ -56,19 +64,14 @@ static int			run_window(t_vertex_pack *pack)
 		if (glewInit() != GLEW_OK)
 			ret = 31;
 		else
-		{
-			glClearDepth((double)(INFINITY));
-			glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-			glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
-			ret = run_program(pack, window);
-		}
+			ret = run_window_real(pack, window);
 		ft_putendl("deleting window");
 		glfwDestroyWindow(window);
 	}
 	return (ret);
 }
 
-int				run_parse(const char *filepath, const char *texture)
+int					run_parse(const char *filepath, const char *texture)
 {
 	int				ret;
 	t_vertex_pack	*pack;

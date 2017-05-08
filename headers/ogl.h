@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/24 07:24:26 by snicolet          #+#    #+#             */
-/*   Updated: 2017/05/07 21:05:25 by snicolet         ###   ########.fr       */
+/*   Updated: 2017/05/08 13:35:26 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,7 @@ t_m4					make_matrix(GLFWwindow *window);
 size_t					parse_calc_size(const t_obj_stats *stats);
 int						display_loop(GLFWwindow *window, t_vertex_pack *pack);
 int						run_parse(const char *filepath, const char *texture);
+int						parse_face(const char *line, t_vertex_pack *pack);
 int						make_program(t_vertex_pack *pack);
 
 #endif
