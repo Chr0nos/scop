@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/20 02:09:01 by snicolet          #+#    #+#             */
-/*   Updated: 2017/05/04 10:27:07 by snicolet         ###   ########.fr       */
+/*   Updated: 2017/05/08 13:01:53 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,17 @@ static int		parser_count_faces(const char *line, t_obj_stats *stats)
 	return (1);
 }
 
+static int		parse_line_error(const char *line)
+{
+	while (*line)
+	{
+		if (!ft_isprint((int)*line))
+			return (1);
+		line++;
+	}
+	return (0);
+}
+
 t_obj_stats		parser_count(const char *filepath)
 {
 	t_obj_stats			stats;
@@ -43,15 +54,15 @@ t_obj_stats		parser_count(const char *filepath)
 	ft_bzero(&stats, sizeof(t_obj_stats));
 	if ((fd = open(filepath, O_RDONLY)) <= 0)
 		return (stats);
-	while (ft_get_next_line(fd, &line) > 0)
+	while ((ft_get_next_line(fd, &line) > 0) && (!parse_line_error(line)))
 	{
-		if ((ret = ft_sscanf(line, "v %*f %*f %*f")) == 3)
+		if ((ret = ft_sscanf(line, "v \\S%*f %*f %*f")) == 3)
 			stats.vertex++;
 		else if (parser_count_faces(line, &stats))
 			;
-		else if ((ret = ft_sscanf(line, "vt %*f %*f")) == 2)
+		else if ((ret = ft_sscanf(line, "vt \\S%*f %*f")) == 2)
 			stats.uv++;
-		else if ((ret = ft_sscanf(line, "vn %*f %*f %*f")) == 3)
+		else if ((ret = ft_sscanf(line, "vn \\S%*f %*f %*f")) == 3)
 			stats.normal++;
 		free(line);
 	}

@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/16 15:47:56 by snicolet          #+#    #+#             */
-/*   Updated: 2017/05/07 22:19:52 by snicolet         ###   ########.fr       */
+/*   Updated: 2017/05/08 12:54:53 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,11 +74,11 @@ static int		parse_real(const char *filepath, t_vertex_pack *pack)
 		if (ft_sscanf(line, "v %f %f %f", &tp.vertex->x, &tp.vertex->y,
 				&tp.vertex->z) == 3)
 			tp.vertex++;
-		else if ((!ft_strncmp(line, "f ", 2)) && (parse_face(&line[2], &tp)))
+		else if ((!ft_strncmp(line, "f \\S", 2)) && (parse_face(&line[2], &tp)))
 			;
-		else if (ft_sscanf(line, "vt %f %f", &tp.uv->x, &tp.uv->y) == 2)
+		else if (ft_sscanf(line, "vt \\S%f %f", &tp.uv->x, &tp.uv->y) == 2)
 			tp.uv++;
-		else if (ft_sscanf(line, "vn %d %d %d", &tp.normals->x,
+		else if (ft_sscanf(line, "vn \\S%d %d %d", &tp.normals->x,
 					&tp.normals->y, &tp.normals->z) == 3)
 			tp.normals++;
 		free(line);
