@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/16 15:47:56 by snicolet          #+#    #+#             */
-/*   Updated: 2017/05/08 14:31:05 by snicolet         ###   ########.fr       */
+/*   Updated: 2017/05/08 15:18:54 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ static int				parse_real(const char *filepath, t_vertex_pack *pack)
 		if (ft_sscanf(line, "v %f %f %f", &tp.vertex->x, &tp.vertex->y,
 				&tp.vertex->z) == 3)
 			tp.vertex++;
-		else if ((!ft_strncmp(line, "f \\S", 2)) && (parse_face(&line[2], &tp)))
+		else if ((!ft_strncmp(line, "f ", 2)) && (parse_face(&line[2], &tp)))
 			;
 		else if (ft_sscanf(line, "vt \\S%f %f", &tp.uv->x, &tp.uv->y) == 2)
 			tp.uv++;
@@ -56,16 +56,14 @@ static t_vertex_pack	*parse_post_process(t_vertex_pack *pack)
 	size_t				p;
 
 	ft_putendl("fixing negatives indexes");
-	p = 0;
-	while (p < pack->stats.faces)
+	p = pack->stats.faces;
+	while (p--)
 	{
 		pack->faces[p] = geo_subv3i(pack->faces[p], (t_v3i){1, 1, 1});
+		pack->fuv[p] = geo_subv3i(pack->fuv[p], (t_v3i){1, 1, 1});
 		parse_fixnegi((int*)&pack->faces[p], 3, mv);
-		p++;
+		parse_fixnegi((int*)&pack->fuv[p], 3, (int)(pack->stats.vertex - 1));
 	}
-	p = pack->stats.uv;
-	while (p--)
-		parse_fixnegi((int*)&pack->uv[p], 3, (int)(pack->stats.uv - 1));
 	ft_putendl("fix done");
 	return (pack);
 }
