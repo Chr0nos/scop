@@ -6,12 +6,12 @@
 #    By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/07/24 07:18:03 by snicolet          #+#    #+#              #
-#    Updated: 2017/05/08 13:35:40 by snicolet         ###   ########.fr        #
+#*   Updated: 2017/05/09 00:12:03 by snicolet         ###   ########.fr       *#
 #                                                                              #
 # **************************************************************************** #
 
 OS=$(shell uname -s)
-CC=clang -O2 -march=native -mtune=native -g3
+CC=clang -O2 -march=native -mtune=native -g3 -fsanitize=address
 FLAGS=-Werror -Wextra -Wall -Weverything -Wno-reserved-id-macro -Wno-documentation -Wno-documentation-unknown-command -Wno-padded
 DRAW=libdraw
 LIBFT=libft
@@ -20,7 +20,7 @@ INC=-I$(DRAW)/headers -I $(LIBFT)/ -I./SOIL2-clone/incs -Iheaders
 SOIL=./SOIL2-clone/libSOIL2.a
 ifeq ($(OS),Darwin)
 	INC+=-I ~/.brew/include -I/usr/local/include
-	LINKER+=-framework OpenGL -L $(HOME)/.brew/lib/ -L./SOIL2-clone/ -lSOIL2 -framework CoreFoundation -L/usr/local/lib -lglfw3 -L$(LIBFT) -lft
+	LINKER+=-framework OpenGL -L $(HOME)/.brew/lib/ -L./SOIL2-clone/ -lSOIL2 -framework CoreFoundation -L/usr/local/lib -lglfw -L$(LIBFT) -lft
 else
 	LINKER+=-L./SOIL2-clone -lglfw -lGL -lSOIL2 -L$(LIBFT) -lft
 endif

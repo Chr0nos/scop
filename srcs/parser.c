@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/16 15:47:56 by snicolet          #+#    #+#             */
-/*   Updated: 2017/05/08 18:04:30 by snicolet         ###   ########.fr       */
+/*   Updated: 2017/05/08 21:42:08 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static int				parse_real(const char *filepath, t_vertex_pack *pack)
 			;
 		else if (ft_sscanf(line, "vt \\S%f %f", &tp.uv->x, &tp.uv->y) == 2)
 			tp.uv++;
-		else if (ft_sscanf(line, "vn \\S%d %d %d", &tp.normals->x,
+		else if (ft_sscanf(line, "vn \\S%f %f %f", &tp.normals->x,
 					&tp.normals->y, &tp.normals->z) == 3)
 			tp.normals++;
 		free(line);
@@ -81,7 +81,7 @@ static t_vertex_pack	*parse_setptrs(t_vertex_pack *pack, t_obj_stats *stats)
 		(sizeof(t_v2f) * stats->uv));
 	pack->faces = (t_v3i*)((size_t)pack->flags + (sizeof(char) * stats->faces));
 	pack->fuv = (t_v3i*)((size_t)pack->faces + (sizeof(t_v3i) * stats->faces));
-	pack->normals = (t_v3i*)((size_t)pack->fuv + (sizeof(t_v3i) * stats->uv));
+	pack->normals = (t_v3f*)((size_t)pack->fuv + (sizeof(t_v3i) * stats->uv));
 	return (pack);
 }
 

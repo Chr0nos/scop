@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/24 07:24:26 by snicolet          #+#    #+#             */
-/*   Updated: 2017/05/08 13:35:26 by snicolet         ###   ########.fr       */
+/*   Updated: 2017/05/09 00:56:55 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,14 +29,31 @@ typedef struct			s_obj_stats
 	size_t				normal;
 }						t_obj_stats;
 
+typedef struct			s_vertex_item
+{
+	t_v3f				position;
+	t_v4f				color;
+	t_v2f				uv;
+	t_v3f				normal;
+}						t_vertex_item;
+
+typedef struct			s_vertex_attribs
+{
+	GLint				position;
+	GLint				color;
+	GLint				uv;
+	GLint				normal;
+}						t_vertex_attribs;
+
 typedef struct			s_vertex_pack
 {
+	t_vertex_item		*vertex_items;
 	t_v3f				*vertex;
 	t_v2f				*uv;
 	unsigned char		*flags;
 	t_v3i				*faces;
 	t_v3i				*fuv;
-	t_v3i				*normals;
+	t_v3f				*normals;
 	t_obj_stats			stats;
 	t_v3f				center;
 	GLuint				fs;
@@ -48,6 +65,7 @@ typedef struct			s_vertex_pack
 	GLuint				indices;
 	GLuint				normal;
 	GLuint				index_uv;
+	t_vertex_attribs	attribs;
 	GLint				proj_id;
 	GLint				model_id;
 	GLint				texture_id;
@@ -74,5 +92,6 @@ int						display_loop(GLFWwindow *window, t_vertex_pack *pack);
 int						run_parse(const char *filepath, const char *texture);
 int						parse_face(const char *line, t_vertex_pack *pack);
 int						make_program(t_vertex_pack *pack);
+int						make_vertex_items(t_vertex_pack *pack);
 
 #endif
