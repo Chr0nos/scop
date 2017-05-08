@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/22 13:18:49 by snicolet          #+#    #+#             */
-/*   Updated: 2017/05/04 16:02:42 by snicolet         ###   ########.fr       */
+/*   Updated: 2017/05/08 16:32:33 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ int					display_loop(GLFWwindow *window, t_vertex_pack *pack)
 	t_m4f			proj;
 	t_m4f			modelview;
 
-	proj = geo_mk4_tof(get_projection(window, 60, 1.0, 100.0));
+	proj = geo_mk4_tof(get_projection(window, 45, 1.0, 100.0));
 	glUseProgram(pack->program);
 	pack->proj_id = glGetUniformLocation(pack->program, "projection");
 	pack->model_id = glGetUniformLocation(pack->program, "model");
@@ -97,8 +97,7 @@ int					display_loop(GLFWwindow *window, t_vertex_pack *pack)
 			(const GLfloat *)&modelview);
 		glBindVertexArray(pack->vao);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, pack->indices);
-		glDrawElements(GL_TRIANGLES, faces_total,
-				GL_UNSIGNED_INT, NULL);
+		glDrawElements(GL_TRIANGLES, faces_total, GL_UNSIGNED_INT, NULL);
 		glfwPollEvents();
 		glfwSwapBuffers(window);
 	}

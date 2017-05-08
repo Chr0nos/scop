@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/07 12:35:02 by snicolet          #+#    #+#             */
-/*   Updated: 2017/05/07 22:21:52 by snicolet         ###   ########.fr       */
+/*   Updated: 2017/05/08 18:50:54 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static void			make_indices(t_vertex_pack *pack)
 {
 	ft_putendl("making faces indices");
 	ft_opengl_buffer_load(&pack->indices, GL_ELEMENT_ARRAY_BUFFER,
-		pack->faces, pack->stats.faces * 12);
+		pack->faces, pack->stats.faces * sizeof(t_v3i));
 	pack->normal = 0;
 	if (pack->stats.normal)
 	{
