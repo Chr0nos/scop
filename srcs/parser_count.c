@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/20 02:09:01 by snicolet          #+#    #+#             */
-/*   Updated: 2017/05/08 13:01:53 by snicolet         ###   ########.fr       */
+/*   Updated: 2017/05/08 13:03:49 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,8 @@ static int		parser_count_faces(const char *line, t_obj_stats *stats)
 
 static int		parse_line_error(const char *line)
 {
+	if (*line == '#')
+		return (0);
 	while (*line)
 	{
 		if (!ft_isprint((int)*line))
