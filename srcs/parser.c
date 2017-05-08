@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/16 15:47:56 by snicolet          #+#    #+#             */
-/*   Updated: 2017/05/08 13:54:52 by snicolet         ###   ########.fr       */
+/*   Updated: 2017/05/08 14:31:05 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,27 +43,29 @@ static int				parse_real(const char *filepath, t_vertex_pack *pack)
 	return (0);
 }
 
+static void				parse_fixnegi(int *data, unsigned int size, int max)
+{
+	while (size--)
+		if (data[size] < 0)
+			data[size] = max;
+}
+
 static t_vertex_pack	*parse_post_process(t_vertex_pack *pack)
 {
 	const int			mv = (int)pack->stats.vertex - 1;
-	t_v3i				*face;
 	size_t				p;
 
 	ft_putendl("fixing negatives indexes");
 	p = 0;
 	while (p < pack->stats.faces)
 	{
-		face = &pack->faces[p];
-
-		*face = geo_subv3i(*face, (t_v3i){1, 1, 1});
-		if (face->x < 0)
-			face->x = mv - face->x;
-		if (face->y < 0)
-			face->y = mv - face->y;
-		if (face->z < 0)
-			face->z = mv - face->z;
+		pack->faces[p] = geo_subv3i(pack->faces[p], (t_v3i){1, 1, 1});
+		parse_fixnegi((int*)&pack->faces[p], 3, mv);
 		p++;
 	}
+	p = pack->stats.uv;
+	while (p--)
+		parse_fixnegi((int*)&pack->uv[p], 3, (int)(pack->stats.uv - 1));
 	ft_putendl("fix done");
 	return (pack);
 }
