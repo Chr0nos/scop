@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/07 12:35:02 by snicolet          #+#    #+#             */
-/*   Updated: 2017/05/09 23:19:11 by snicolet         ###   ########.fr       */
+/*   Updated: 2017/05/09 23:48:26 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 static void				send_attributes(t_vertex_pack *pack)
 {
 	void	*offset;
-	size_t	step;
+	GLsizei	step;
 
 	pack->attribs.position = glGetAttribLocation(pack->program, "my_position");
 	pack->attribs.color = glGetAttribLocation(pack->program, "my_color");
@@ -29,7 +29,7 @@ static void				send_attributes(t_vertex_pack *pack)
 	glEnableVertexAttribArray((GLuint)pack->attribs.color);
 	glEnableVertexAttribArray((GLuint)pack->attribs.uv);
 	glEnableVertexAttribArray((GLuint)pack->attribs.normal);
-	step = sizeof(t_v3f) + sizeof(t_v4f) + sizeof(t_v2f);
+	step = sizeof(t_v3f) + sizeof(t_v4f) + sizeof(t_v2f) + sizeof(t_v3f);
 	offset = NULL;
 	glVertexAttribPointer((GLuint)pack->attribs.position, 3, GL_FLOAT, GL_FALSE, step, offset);
 	offset = (void*)((size_t)offset + sizeof(float) * 3);
@@ -56,10 +56,12 @@ int						make_vertex_items(t_vertex_pack *pack)
 		pack->vertex_items[p] = (t_vertex_item){
 			.position = pack->vertex[p],
 			.color = (t_v4f){0.2f, 0.2f, 0.2f, 1.0f},
-			//.uv = pack->uv[p],
-			.uv = (t_v2f){0.0f, 0.0f},
+			.uv = pack->uv[p],
+			//.uv = (t_v2f){0.0f, 0.0f},
 			.normal = (t_v3f){0.0f, 1.0f, 0.0f}
 		};
+		//if (pack->flags[p] & FLAG_UV)
+		//	pack->vertex_items[p].uv = pack->uv[p];
 		p++;
 	}
 	return (0);
