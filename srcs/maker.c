@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/07 12:35:02 by snicolet          #+#    #+#             */
-/*   Updated: 2017/05/09 23:48:26 by snicolet         ###   ########.fr       */
+/*   Updated: 2017/05/10 00:18:59 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,7 @@
 
 static void				send_attributes(t_vertex_pack *pack)
 {
-	void	*offset;
-	GLsizei	step;
+	GLsizei					step;
 
 	pack->attribs.position = glGetAttribLocation(pack->program, "my_position");
 	pack->attribs.color = glGetAttribLocation(pack->program, "my_color");
@@ -30,14 +29,14 @@ static void				send_attributes(t_vertex_pack *pack)
 	glEnableVertexAttribArray((GLuint)pack->attribs.uv);
 	glEnableVertexAttribArray((GLuint)pack->attribs.normal);
 	step = sizeof(t_v3f) + sizeof(t_v4f) + sizeof(t_v2f) + sizeof(t_v3f);
-	offset = NULL;
-	glVertexAttribPointer((GLuint)pack->attribs.position, 3, GL_FLOAT, GL_FALSE, step, offset);
-	offset = (void*)((size_t)offset + sizeof(float) * 3);
-	glVertexAttribPointer((GLuint)pack->attribs.color, 4, GL_FLOAT, GL_FALSE, step, offset);
-	offset = (void*)((size_t)offset + sizeof(float) * 4);
-	glVertexAttribPointer((GLuint)pack->attribs.uv, 2, GL_FLOAT, GL_FALSE, step, offset);
-	offset = (void*)((size_t)offset + sizeof(float) * 2);
-	glVertexAttribPointer((GLuint)pack->attribs.normal, 3, GL_FLOAT, GL_TRUE, step, offset);
+	glVertexAttribPointer((GLuint)pack->attribs.position,
+		3, GL_FLOAT, GL_FALSE, step, NULL);
+	glVertexAttribPointer((GLuint)pack->attribs.color,
+		4, GL_FLOAT, GL_FALSE, step, NULL);
+	glVertexAttribPointer((GLuint)pack->attribs.uv,
+		2, GL_FLOAT, GL_FALSE, step, NULL);
+	glVertexAttribPointer((GLuint)pack->attribs.normal,
+		3, GL_FLOAT, GL_TRUE, step, NULL);
 }
 
 int						make_vertex_items(t_vertex_pack *pack)
@@ -82,7 +81,6 @@ static void			make_indices(t_vertex_pack *pack)
 static int			make_vao(t_vertex_pack *pack)
 {
 	make_vertex_items(pack);
-
 	ft_putendl("making vbo");
 	pack->vbo = 0;
 	glGenBuffers(1, &pack->vbo);
@@ -91,27 +89,12 @@ static int			make_vao(t_vertex_pack *pack)
 		(GLsizeiptr)(sizeof(t_vertex_item) * pack->stats.vertex),
 		(float*)pack->vertex_items,
 		GL_STATIC_DRAW);
-
-	// glBufferData(GL_ARRAY_BUFFER,
-	// 	(GLsizeiptr)((sizeof(float) * pack->stats.vertex * 3)
-	// 	+ (sizeof(float) * pack->stats.uv * 2)),
-	// 	(float*)pack->vertex, GL_STATIC_DRAW);
-
 	make_indices(pack);
 	ft_putendl("making vao");
 	pack->vao = 0;
 	glGenVertexArrays(1, &pack->vao);
 	glBindVertexArray(pack->vao);
 	glBindBuffer(GL_ARRAY_BUFFER, pack->vbo);
-	// glEnableVertexAttribArray(0);
-	// glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, NULL);
-	// if (pack->stats.uv > 0)
-	// {
-	// 	ft_putendl("enabling uv by passing vertex offset");
-	// 	glEnableVertexAttribArray(1);
-	// 	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0,
-	// 		(void*)(sizeof(float) * pack->stats.vertex * 3));
-	// }
 	send_attributes(pack);
 	glBindVertexArray(0);
 	return (0);
