@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/07 12:35:02 by snicolet          #+#    #+#             */
-/*   Updated: 2017/05/09 01:02:49 by snicolet         ###   ########.fr       */
+/*   Updated: 2017/05/09 23:19:11 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 static void				send_attributes(t_vertex_pack *pack)
 {
 	void	*offset;
+	size_t	step;
 
 	pack->attribs.position = glGetAttribLocation(pack->program, "my_position");
 	pack->attribs.color = glGetAttribLocation(pack->program, "my_color");
@@ -28,14 +29,15 @@ static void				send_attributes(t_vertex_pack *pack)
 	glEnableVertexAttribArray((GLuint)pack->attribs.color);
 	glEnableVertexAttribArray((GLuint)pack->attribs.uv);
 	glEnableVertexAttribArray((GLuint)pack->attribs.normal);
+	step = sizeof(t_v3f) + sizeof(t_v4f) + sizeof(t_v2f);
 	offset = NULL;
-	glVertexAttribPointer((GLuint)pack->attribs.position, 3, GL_FLOAT, GL_FALSE, sizeof(t_v3f), offset);
-	offset = (void*)((size_t)offset + sizeof(t_v3f));
-	glVertexAttribPointer((GLuint)pack->attribs.color, 4, GL_FLOAT, GL_FALSE, sizeof(t_v4f), offset);
-	offset = (void*)((size_t)offset + sizeof(t_v4f));
-	glVertexAttribPointer((GLuint)pack->attribs.uv, 2, GL_FLOAT, GL_FALSE, sizeof(t_v2f), offset);
-	offset = (void*)((size_t)offset + sizeof(t_v2f));
-	glVertexAttribPointer((GLuint)pack->attribs.normal, 3, GL_FLOAT, GL_TRUE, sizeof(t_v3f), offset);
+	glVertexAttribPointer((GLuint)pack->attribs.position, 3, GL_FLOAT, GL_FALSE, step, offset);
+	offset = (void*)((size_t)offset + sizeof(float) * 3);
+	glVertexAttribPointer((GLuint)pack->attribs.color, 4, GL_FLOAT, GL_FALSE, step, offset);
+	offset = (void*)((size_t)offset + sizeof(float) * 4);
+	glVertexAttribPointer((GLuint)pack->attribs.uv, 2, GL_FLOAT, GL_FALSE, step, offset);
+	offset = (void*)((size_t)offset + sizeof(float) * 2);
+	glVertexAttribPointer((GLuint)pack->attribs.normal, 3, GL_FLOAT, GL_TRUE, step, offset);
 }
 
 int						make_vertex_items(t_vertex_pack *pack)
