@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/07 12:35:02 by snicolet          #+#    #+#             */
-/*   Updated: 2017/05/10 00:18:59 by snicolet         ###   ########.fr       */
+/*   Updated: 2017/05/10 19:52:46 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 static void				send_attributes(t_vertex_pack *pack)
 {
-	GLsizei					step;
+	const GLsizei		step = sizeof(t_vertex_item);
 
 	pack->attribs.position = glGetAttribLocation(pack->program, "my_position");
 	pack->attribs.color = glGetAttribLocation(pack->program, "my_color");
@@ -28,7 +28,6 @@ static void				send_attributes(t_vertex_pack *pack)
 	glEnableVertexAttribArray((GLuint)pack->attribs.color);
 	glEnableVertexAttribArray((GLuint)pack->attribs.uv);
 	glEnableVertexAttribArray((GLuint)pack->attribs.normal);
-	step = sizeof(t_v3f) + sizeof(t_v4f) + sizeof(t_v2f) + sizeof(t_v3f);
 	glVertexAttribPointer((GLuint)pack->attribs.position,
 		3, GL_FLOAT, GL_FALSE, step, NULL);
 	glVertexAttribPointer((GLuint)pack->attribs.color,
