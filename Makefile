@@ -6,7 +6,7 @@
 #    By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/07/24 07:18:03 by snicolet          #+#    #+#              #
-#*   Updated: 2017/05/09 00:12:03 by snicolet         ###   ########.fr       *#
+#    Updated: 2017/05/11 18:44:25 by snicolet         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,7 +26,7 @@ else
 endif
 NAME=scope
 SRC=main.c events.c display.c parser.c fixcenter.c parser_count.c \
-	parse_calc_size.c run.c maker.c parse_face.c
+	parse_calc_size.c run.c maker.c parse_face.c attributes.c
 SRC_DIR=srcs
 OBJ=$(SRC:%.c=$(BUILDDIR)/%.o)
 BUILDDIR=build

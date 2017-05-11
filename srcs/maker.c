@@ -6,39 +6,14 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/07 12:35:02 by snicolet          #+#    #+#             */
-/*   Updated: 2017/05/10 19:52:46 by snicolet         ###   ########.fr       */
+/*   Updated: 2017/05/11 18:44:03 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ogl.h"
 #include "opengl.h"
 
-static void				send_attributes(t_vertex_pack *pack)
-{
-	const GLsizei		step = sizeof(t_vertex_item);
-
-	pack->attribs.position = glGetAttribLocation(pack->program, "my_position");
-	pack->attribs.color = glGetAttribLocation(pack->program, "my_color");
-	pack->attribs.uv = glGetAttribLocation(pack->program, "my_uv");
-	pack->attribs.normal = glGetAttribLocation(pack->program, "my_normal");
-	ft_printf("%d %d %d %d\n", pack->attribs.position, pack->attribs.color,
-		pack->attribs.uv, pack->attribs.normal);
-
-	glEnableVertexAttribArray((GLuint)pack->attribs.position);
-	glEnableVertexAttribArray((GLuint)pack->attribs.color);
-	glEnableVertexAttribArray((GLuint)pack->attribs.uv);
-	glEnableVertexAttribArray((GLuint)pack->attribs.normal);
-	glVertexAttribPointer((GLuint)pack->attribs.position,
-		3, GL_FLOAT, GL_FALSE, step, NULL);
-	glVertexAttribPointer((GLuint)pack->attribs.color,
-		4, GL_FLOAT, GL_FALSE, step, NULL);
-	glVertexAttribPointer((GLuint)pack->attribs.uv,
-		2, GL_FLOAT, GL_FALSE, step, NULL);
-	glVertexAttribPointer((GLuint)pack->attribs.normal,
-		3, GL_FLOAT, GL_TRUE, step, NULL);
-}
-
-int						make_vertex_items(t_vertex_pack *pack)
+int					make_vertex_items(t_vertex_pack *pack)
 {
 	size_t				p;
 
@@ -55,11 +30,8 @@ int						make_vertex_items(t_vertex_pack *pack)
 			.position = pack->vertex[p],
 			.color = (t_v4f){0.2f, 0.2f, 0.2f, 1.0f},
 			.uv = pack->uv[p],
-			//.uv = (t_v2f){0.0f, 0.0f},
 			.normal = (t_v3f){0.0f, 1.0f, 0.0f}
 		};
-		//if (pack->flags[p] & FLAG_UV)
-		//	pack->vertex_items[p].uv = pack->uv[p];
 		p++;
 	}
 	return (0);

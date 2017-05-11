@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/07 12:33:10 by snicolet          #+#    #+#             */
-/*   Updated: 2017/05/08 23:27:08 by snicolet         ###   ########.fr       */
+/*   Updated: 2017/05/11 18:33:16 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,10 +32,6 @@ static int			run_program(t_vertex_pack *pack, GLFWwindow *window)
 		return (41);
 	}
 	ret = display_loop(window, pack);
-//	glDisableVertexAttribArray(pack->attribs.normal);
-//	glDisableVertexAttribArray(pack->attribs.uv);
-//	glDisableVertexAttribArray(pack->attribs.color);
-//	glDisableVertexAttribArray(pack->attribs.position);
 	return (ret);
 }
 
