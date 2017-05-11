@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/07 12:33:10 by snicolet          #+#    #+#             */
-/*   Updated: 2017/05/11 18:33:16 by snicolet         ###   ########.fr       */
+/*   Updated: 2017/05/11 18:54:46 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,11 @@ static int			run_program(t_vertex_pack *pack, GLFWwindow *window)
 		return (41);
 	}
 	ret = display_loop(window, pack);
+	ft_putendl("cleaning shaders");
+	glDeleteShader(pack->fs);
+	glDeleteShader(pack->vs);
+	ft_putendl("cleaning glProgram");
+	glDeleteProgram(pack->program);
 	return (ret);
 }
 
