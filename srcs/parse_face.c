@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/08 13:34:37 by snicolet          #+#    #+#             */
-/*   Updated: 2017/05/08 15:00:45 by snicolet         ###   ########.fr       */
+/*   Updated: 2017/05/11 18:18:20 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static int				parse_face_x4(t_vertex_pack *pack, t_v3i uv, t_v3i face,
 	const int		ret = cheat[1];
 	const int		uvc = cheat[2];
 
-	add_face(pack, (t_v3i){face.x, face.z, p - 1});
+	add_face(pack, (t_v3i){face.x, face.z, p});
 	if (uvc + ret >= 5)
 		add_uv(pack, (t_v3i){uv.x, uv.z, uv.y});
 	pack->flags++;
