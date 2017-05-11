@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_calc_size.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: snicolet <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/02 19:13:38 by snicolet          #+#    #+#             */
-/*   Updated: 2017/05/02 19:14:45 by snicolet         ###   ########.fr       */
+/*   Updated: 2017/05/11 20:11:18 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,5 +28,6 @@ size_t			parse_calc_size(const t_obj_stats *stats)
 	size = sizeof(t_vertex_pack) + (sizeof(t_v3f) * stats->vertex) +
 		(sizeof(t_v2f) * stats->uv) + (sizeof(unsigned char) * stats->faces) +
 		(sizeof(t_v3i) * stats->faces * 2) + (sizeof(t_v3i) * stats->normal);
+	size += sizeof(t_vertex_item) * stats->vertex;
 	return (size);
 }

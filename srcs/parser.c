@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/16 15:47:56 by snicolet          #+#    #+#             */
-/*   Updated: 2017/05/08 21:42:08 by snicolet         ###   ########.fr       */
+/*   Updated: 2017/05/11 20:16:03 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,9 @@ static t_vertex_pack	*parse_setptrs(t_vertex_pack *pack, t_obj_stats *stats)
 		ft_putstr_fd("error: failed to alllocate memory ! we are doomed!\n", 2);
 		return (NULL);
 	}
-	pack->vertex = (t_v3f*)((size_t)pack + sizeof(t_vertex_pack));
+	pack->vertex_items = (t_vertex_item*)((size_t)pack + sizeof(t_vertex_pack));
+	pack->vertex = (t_v3f*)((size_t)pack +
+		(sizeof(t_vertex_item) * stats->vertex));
 	pack->uv = (t_v2f*)((size_t)pack->vertex + (sizeof(t_v3f) * stats->vertex));
 	pack->flags = (unsigned char *)((size_t)pack->uv +
 		(sizeof(t_v2f) * stats->uv));
