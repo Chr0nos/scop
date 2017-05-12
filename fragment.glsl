@@ -8,13 +8,13 @@ in		vec3 fnormal;
 out		vec4 frag_color;
 
 void main() {
-	vec4 lightcolor = vec4(1.0, 1.0, 1.0, 1.0);
+	vec4 lightcolor = vec4(1.0, 1.0, 1.0, 0.5);
 	vec4 color = vec4(0.5, 0.2, 0.5, 1.0);
 	vec4 normal = vec4(1.0, 0.0, 0.0, 0.0);
 
 	//color = fcolor;
 	color = texture(texture_sampler, uv);
-	color.x *= uv.x;
-	color.y *= (uv.y + 0.7);
+//	color.x *= uv.x;
+//	color.y *= (uv.y + 0.7);
 	frag_color = color * lightcolor;
 }

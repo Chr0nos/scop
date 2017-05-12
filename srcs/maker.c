@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/07 12:35:02 by snicolet          #+#    #+#             */
-/*   Updated: 2017/05/11 20:14:04 by snicolet         ###   ########.fr       */
+/*   Updated: 2017/05/11 20:47:45 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ int					make_vertex_items(t_vertex_pack *pack)
 	ft_printf("vertex items size: %lu\n", p);
 	if (!pack->vertex_items)
 		return (-1);
-	ft_putendl("vertex items alloc ok\n");
 	p = 0;
 	while (p < pack->stats.vertex)
 	{
