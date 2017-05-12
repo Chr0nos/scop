@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/07 12:35:02 by snicolet          #+#    #+#             */
-/*   Updated: 2017/05/11 20:47:45 by snicolet         ###   ########.fr       */
+/*   Updated: 2017/05/12 16:31:37 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,8 @@
 int					make_vertex_items(t_vertex_pack *pack)
 {
 	size_t				p;
+	t_vertex_item		*item;
 
-	p = sizeof(t_vertex_item) * pack->stats.vertex;
-	ft_printf("vertex items size: %lu\n", p);
-	if (!pack->vertex_items)
-		return (-1);
 	p = 0;
 	while (p < pack->stats.vertex)
 	{
@@ -31,6 +28,20 @@ int					make_vertex_items(t_vertex_pack *pack)
 			.normal = (t_v3f){0.0f, 1.0f, 0.0f}
 		};
 		p++;
+	}
+	p = pack->stats.faces;
+	ft_printf("patching %lu faces\n", p);
+	while (p--)
+	{
+		//A
+		item = &pack->vertex_items[pack->faces[p].x];
+		item->uv = pack->uv[pack->fuv[p].x];
+		//B
+		item = &pack->vertex_items[pack->faces[p].y];
+		item->uv = pack->uv[pack->fuv[p].y];
+		//C
+		item = &pack->vertex_items[pack->faces[p].z];
+		item->uv = pack->uv[pack->fuv[p].z];
 	}
 	return (0);
 }
