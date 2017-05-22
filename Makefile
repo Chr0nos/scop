@@ -6,7 +6,7 @@
 #    By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/07/24 07:18:03 by snicolet          #+#    #+#              #
-#    Updated: 2017/05/22 16:51:23 by snicolet         ###   ########.fr        #
+#    Updated: 2017/05/22 18:49:01 by snicolet         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,14 +19,14 @@ ifeq ($(DEBUG), 1)
 endif
 DRAW=libdraw
 LIBFT=libft
-LINKER=-L$(DRAW) -lm -ldraw -lGLEW
-INC=-I$(DRAW)/headers -I $(LIBFT)/ -I./SOIL2-clone/incs -Iheaders
+LINKER=-L$(DRAW) -lm -ldraw -Lglfw/src/ -lglfw3
+INC=-I$(DRAW)/headers -I $(LIBFT)/ -I./SOIL2-clone/incs -Iheaders -Iglew/include
 SOIL=./SOIL2-clone/libSOIL2.a
 ifeq ($(OS),Darwin)
 	INC+=-I ~/.brew/include -I/usr/local/include
-	LINKER+=-framework OpenGL -L $(HOME)/.brew/lib/ -L./SOIL2-clone/ -lSOIL2 -framework CoreFoundation -L/usr/local/lib -lglfw3 -L$(LIBFT) -lft
+	LINKER+=-framework OpenGL -L./SOIL2-clone/ -lSOIL2 -framework CoreFoundation -L/usr/local/lib -L$(LIBFT) -lft
 else
-	LINKER+=-L./SOIL2-clone -lglfw -lGL -lSOIL2 -L$(LIBFT) -lft
+	LINKER+=-L./SOIL2-clone -lGL -lSOIL2 -L$(LIBFT) -lft
 endif
 NAME=scope
 SRC=main.c events.c display.c parser.c fixcenter.c parser_count.c \
@@ -40,7 +40,7 @@ all: $(NAME)
 $(BUILDDIR):
 	mkdir -p $@
 
-$(NAME): $(SOIL) $(DRAW)/libdraw.a $(BUILDDIR) $(OBJ)
+$(NAME): $(SOIL) $(DRAW)/libdraw.a ./glfw/src/libglfw3.a $(BUILDDIR) $(OBJ)
 	$(CC) $(FLAGS) $(OBJ) -o $(NAME) $(LINKER)
 
 $(BUILDDIR)/%.o: $(SRC_DIR)/%.c
@@ -69,6 +69,9 @@ $(DRAW)/libdraw.a: $(LIBFT)/libft.a
 ./SOIL2-clone/Makefile:
 	git submodule init
 	git submodule update
+
+./glfw/src/libglfw3.a:
+	cd glfw && cmake -D-DBUILD_SHARED_LIBS=OFF . && make
 
 $(SOIL): ./SOIL2-clone/Makefile
 	make -C ./SOIL2-clone/
