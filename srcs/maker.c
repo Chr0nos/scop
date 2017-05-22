@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/07 12:35:02 by snicolet          #+#    #+#             */
-/*   Updated: 2017/05/12 16:31:37 by snicolet         ###   ########.fr       */
+/*   Updated: 2017/05/22 12:38:14 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int					make_vertex_items(t_vertex_pack *pack)
 		pack->vertex_items[p] = (t_vertex_item){
 			.position = pack->vertex[p],
 			.color = (t_v4f){0.2f, 0.2f, 0.2f, 1.0f},
-			.uv = pack->uv[p],
+			.uv = (t_v2f){0.0f, 0.0f},
 			.normal = (t_v3f){0.0f, 1.0f, 0.0f}
 		};
 		p++;

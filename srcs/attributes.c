@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/11 18:43:49 by snicolet          #+#    #+#             */
-/*   Updated: 2017/05/11 18:44:57 by snicolet         ###   ########.fr       */
+/*   Updated: 2017/05/22 14:08:39 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 void			send_attributes(t_vertex_pack *pack)
 {
 	const GLsizei		step = sizeof(t_vertex_item);
+	const size_t		offset_uv = (pack->stats.uv > 0) ? 7 : 0;
 
 	pack->attribs.position = glGetAttribLocation(pack->program, "my_position");
 	pack->attribs.color = glGetAttribLocation(pack->program, "my_color");
@@ -29,9 +30,9 @@ void			send_attributes(t_vertex_pack *pack)
 	glVertexAttribPointer((GLuint)pack->attribs.position,
 		3, GL_FLOAT, GL_FALSE, step, NULL);
 	glVertexAttribPointer((GLuint)pack->attribs.color,
-		4, GL_FLOAT, GL_FALSE, step, NULL);
+		4, GL_FLOAT, GL_FALSE, step, (void*)(sizeof(float) * 3));
 	glVertexAttribPointer((GLuint)pack->attribs.uv,
-		2, GL_FLOAT, GL_FALSE, step, NULL);
+		2, GL_FLOAT, GL_TRUE, step, (void*)(sizeof(float) * offset_uv));
 	glVertexAttribPointer((GLuint)pack->attribs.normal,
-		3, GL_FLOAT, GL_TRUE, step, NULL);
+		3, GL_FLOAT, GL_TRUE, step, (void*)(sizeof(float) * 9));
 }

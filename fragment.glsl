@@ -12,9 +12,9 @@ void main() {
 	vec4 color = vec4(0.5, 0.2, 0.5, 1.0);
 	vec4 normal = vec4(1.0, 0.0, 0.0, 0.0);
 
-	//color = fcolor;
 	color = texture(texture_sampler, uv);
-//	color.x *= uv.x;
-//	color.y *= (uv.y + 0.7);
+	//color *= fcolor;
+	//color.x *= uv.x;
+	//color.y *= (uv.y + 0.7);
 	frag_color = color * lightcolor;
 }
