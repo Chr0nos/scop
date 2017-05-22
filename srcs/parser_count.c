@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/20 02:09:01 by snicolet          #+#    #+#             */
-/*   Updated: 2017/05/08 15:19:38 by snicolet         ###   ########.fr       */
+/*   Updated: 2017/05/22 14:23:35 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,19 +14,19 @@
 #include <fcntl.h>
 #include <stdlib.h>
 
-#define PATTERN_F4X3 "f \\S%*d/%*d/%*d %*d/%*d/%*d %*d/%*d/%*d %*d/%*d/%*d"
-#define PATTERN_F4X2 "f \\S%*d/%*d %*d/%*d %*d/%*d %*d/%*d"
-#define PATTERN_F4X1 "f \\S%*d %*d %*d %*d"
+#define F4X3 "f \\S%*d/%*d/%*d \\S%*d/%*d/%*d \\S%*d/%*d/%*d \\S%*d/%*d/%*d"
+#define F4X2 "f \\S%*d/%*d \\S%*d/%*d \\S%*d/%*d \\S%*d/%*d"
+#define F4X1 "f \\S%*d \\S%*d \\S%*d \\S%*d"
 
 static int		parser_count_faces(const char *line, t_obj_stats *stats)
 {
 	int		ret;
 
-	if ((ret = ft_sscanf(line, PATTERN_F4X1)) >= 3)
+	if ((ret = ft_sscanf(line, F4X1)) >= 3)
 		stats->faces += (unsigned)ret - 2;
-	else if ((ret = ft_sscanf(line, PATTERN_F4X3)) >= 9)
+	else if ((ret = ft_sscanf(line, F4X3)) >= 9)
 		stats->faces += (ret == 9) ? 1 : 2;
-	else if ((ret = ft_sscanf(line, PATTERN_F4X2)) >= 6)
+	else if ((ret = ft_sscanf(line, F4X2)) >= 6)
 		stats->faces += (ret == 6) ? 1 : 2;
 	else
 		return (0);
@@ -58,13 +58,13 @@ t_obj_stats		parser_count(const char *filepath)
 		return (stats);
 	while ((ft_get_next_line(fd, &line) > 0) && (!parse_line_error(line)))
 	{
-		if ((ret = ft_sscanf(line, "v \\S%*f %*f %*f")) == 3)
+		if ((ret = ft_sscanf(line, "v \\S%*f \\S%*f \\S%*f")) == 3)
 			stats.vertex++;
 		else if (parser_count_faces(line, &stats))
 			;
-		else if ((ret = ft_sscanf(line, "vt \\S%*f %*f")) == 2)
+		else if ((ret = ft_sscanf(line, "vt \\S%*f \\S%*f")) == 2)
 			stats.uv++;
-		else if ((ret = ft_sscanf(line, "vn \\S%*f %*f %*f")) == 3)
+		else if ((ret = ft_sscanf(line, "vn \\S%*f \\S%*f \\S%*f")) == 3)
 			stats.normal++;
 		free(line);
 	}

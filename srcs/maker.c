@@ -6,17 +6,36 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/07 12:35:02 by snicolet          #+#    #+#             */
-/*   Updated: 2017/05/22 12:38:14 by snicolet         ###   ########.fr       */
+/*   Updated: 2017/05/22 15:01:23 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ogl.h"
 #include "opengl.h"
 
+static void			make_vertex_items_uv(t_vertex_pack *pack, const size_t p)
+{
+	t_vertex_item		*item;
+	const int			max_vertex = (int)pack->stats.vertex;
+	const int			max_faces = (int)pack->stats.faces;
+
+	if (p > pack->stats.faces)
+		return ;
+	if ((pack->faces[p].x >= max_faces) || (pack->fuv[p].x >= max_vertex) ||
+		(pack->faces[p].y >= max_faces) || (pack->fuv[p].y >= max_vertex) ||
+		(pack->faces[p].z >= max_faces) || (pack->fuv[p].z >= max_vertex))
+		return ;
+	item = &pack->vertex_items[pack->faces[p].x];
+	item->uv = pack->uv[pack->fuv[p].x];
+	item = &pack->vertex_items[pack->faces[p].y];
+	item->uv = pack->uv[pack->fuv[p].y];
+	item = &pack->vertex_items[pack->faces[p].z];
+	item->uv = pack->uv[pack->fuv[p].z];
+}
+
 int					make_vertex_items(t_vertex_pack *pack)
 {
 	size_t				p;
-	t_vertex_item		*item;
 
 	p = 0;
 	while (p < pack->stats.vertex)
@@ -32,30 +51,8 @@ int					make_vertex_items(t_vertex_pack *pack)
 	p = pack->stats.faces;
 	ft_printf("patching %lu faces\n", p);
 	while (p--)
-	{
-		//A
-		item = &pack->vertex_items[pack->faces[p].x];
-		item->uv = pack->uv[pack->fuv[p].x];
-		//B
-		item = &pack->vertex_items[pack->faces[p].y];
-		item->uv = pack->uv[pack->fuv[p].y];
-		//C
-		item = &pack->vertex_items[pack->faces[p].z];
-		item->uv = pack->uv[pack->fuv[p].z];
-	}
+		make_vertex_items_uv(pack, p);
 	return (0);
-}
-
-/*
-** this function create the indices buffer used to know wich vertices goes
-** with wich face
-*/
-
-static void			make_indices(t_vertex_pack *pack)
-{
-	ft_putendl("making faces indices");
-	ft_opengl_buffer_load(&pack->indices, GL_ELEMENT_ARRAY_BUFFER,
-		pack->faces, pack->stats.faces * sizeof(t_v3i));
 }
 
 static int			make_vao(t_vertex_pack *pack)
@@ -69,7 +66,9 @@ static int			make_vao(t_vertex_pack *pack)
 		(GLsizeiptr)(sizeof(t_vertex_item) * pack->stats.vertex),
 		(float*)pack->vertex_items,
 		GL_STATIC_DRAW);
-	make_indices(pack);
+	ft_putendl("making faces indices");
+	ft_opengl_buffer_load(&pack->indices, GL_ELEMENT_ARRAY_BUFFER,
+		pack->faces, pack->stats.faces * sizeof(t_v3i));
 	ft_putendl("making vao");
 	pack->vao = 0;
 	glGenVertexArrays(1, &pack->vao);

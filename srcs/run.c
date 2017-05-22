@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/07 12:33:10 by snicolet          #+#    #+#             */
-/*   Updated: 2017/05/11 18:54:46 by snicolet         ###   ########.fr       */
+/*   Updated: 2017/05/22 14:39:53 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ static int			run_window(t_vertex_pack *pack)
 
 	ft_putendl("run window");
 	configure_opengl();
-	window = glfwCreateWindow(1280, 720, "Scope", NULL, NULL);
+	window = glfwCreateWindow(1280, 720, "Scop", NULL, NULL);
 	ret = 3;
 	if (window)
 	{
@@ -84,7 +84,7 @@ int					run_parse(const char *filepath, const char *texture)
 	ret = 2;
 	if (pack)
 	{
-		pack->texture_path = (texture) ? texture : "herbe.jpg";
+		pack->texture_path = (texture) ? texture : "textures/herbe.jpg";
 		ret = run_window(pack);
 		ft_putendl("cleaning main structure pack");
 		free(pack);
