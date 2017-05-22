@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/20 02:09:01 by snicolet          #+#    #+#             */
-/*   Updated: 2017/05/22 14:23:35 by snicolet         ###   ########.fr       */
+/*   Updated: 2017/05/22 16:14:21 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 
 #define F4X3 "f \\S%*d/%*d/%*d \\S%*d/%*d/%*d \\S%*d/%*d/%*d \\S%*d/%*d/%*d"
 #define F4X2 "f \\S%*d/%*d \\S%*d/%*d \\S%*d/%*d \\S%*d/%*d"
+#define F4X2B "f \\S%*d//%*d \\S%*d//%*d \\S%*d//%*d"
 #define F4X1 "f \\S%*d \\S%*d \\S%*d \\S%*d"
 
 static int		parser_count_faces(const char *line, t_obj_stats *stats)
@@ -28,6 +29,8 @@ static int		parser_count_faces(const char *line, t_obj_stats *stats)
 		stats->faces += (ret == 9) ? 1 : 2;
 	else if ((ret = ft_sscanf(line, F4X2)) >= 6)
 		stats->faces += (ret == 6) ? 1 : 2;
+	else if ((ret = ft_sscanf(line, F4X2B)) == 4)
+		stats->faces += 1;
 	else
 		return (0);
 	return (1);
@@ -35,12 +38,15 @@ static int		parser_count_faces(const char *line, t_obj_stats *stats)
 
 static int		parse_line_error(const char *line)
 {
-	if (*line == '#')
+	if ((*line == '#') || (!(*line)))
 		return (0);
 	while (*line)
 	{
-		if (!ft_isprint((int)*line))
+		if ((!ft_isprint((int)*line)) && (*line != '\n') && (*line != 13))
+		{
+			ft_dprintf(2, "error: invalid file detected\n");
 			return (1);
+		}
 		line++;
 	}
 	return (0);

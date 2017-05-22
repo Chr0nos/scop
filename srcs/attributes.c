@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/11 18:43:49 by snicolet          #+#    #+#             */
-/*   Updated: 2017/05/22 14:08:39 by snicolet         ###   ########.fr       */
+/*   Updated: 2017/05/22 16:34:34 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void			send_attributes(t_vertex_pack *pack)
 	glVertexAttribPointer((GLuint)pack->attribs.color,
 		4, GL_FLOAT, GL_FALSE, step, (void*)(sizeof(float) * 3));
 	glVertexAttribPointer((GLuint)pack->attribs.uv,
-		2, GL_FLOAT, GL_TRUE, step, (void*)(sizeof(float) * offset_uv));
+		2, GL_FLOAT, GL_FALSE, step, (void*)(sizeof(float) * offset_uv));
 	glVertexAttribPointer((GLuint)pack->attribs.normal,
-		3, GL_FLOAT, GL_TRUE, step, (void*)(sizeof(float) * 9));
+		3, GL_FLOAT, GL_FALSE, step, (void*)(sizeof(float) * 9));
 }

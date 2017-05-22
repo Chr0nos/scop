@@ -6,13 +6,17 @@
 #    By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/07/24 07:18:03 by snicolet          #+#    #+#              #
-#    Updated: 2017/05/11 18:44:25 by snicolet         ###   ########.fr        #
+#    Updated: 2017/05/22 16:51:23 by snicolet         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 OS=$(shell uname -s)
-CC=clang -O2 -march=native -mtune=native -g3 -fsanitize=address
+DEBUG=1
+CC=clang -O2 -march=native -mtune=native
 FLAGS=-Werror -Wextra -Wall -Weverything -Wno-reserved-id-macro -Wno-documentation -Wno-documentation-unknown-command -Wno-padded
+ifeq ($(DEBUG), 1)
+	FLAGS += -g3 -fsanitize=address
+endif
 DRAW=libdraw
 LIBFT=libft
 LINKER=-L$(DRAW) -lm -ldraw -lGLEW
