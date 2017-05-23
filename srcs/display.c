@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/22 13:18:49 by snicolet          #+#    #+#             */
-/*   Updated: 2017/05/23 13:55:31 by snicolet         ###   ########.fr       */
+/*   Updated: 2017/05/23 14:00:02 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,7 @@ static void			send_uniforms(GLFWwindow *window, t_vertex_pack *pack)
 ** the default state of u->texture_switch_mode is FLAG_SW_NONE
 */
 
-static void			event_textue_mode(GLFWwindow *window, t_uniforms *u)
+static void			event_texture_mode(GLFWwindow *window, t_uniforms *u)
 {
 	if (glfwGetKey(window, GLFW_KEY_Z) == GLFW_PRESS)
 		u->texture_switch_val -= 0.05f;
@@ -131,6 +131,10 @@ static void			event_textue_mode(GLFWwindow *window, t_uniforms *u)
 	glUniform1f(u->texture_switch, u->texture_switch_val);
 }
 
+/*
+** main display_loop
+*/
+
 int					display_loop(GLFWwindow *window, t_vertex_pack *pack)
 {
 	const int		faces_total = (int)(pack->stats.faces * 3);
@@ -140,7 +144,7 @@ int					display_loop(GLFWwindow *window, t_vertex_pack *pack)
 	send_uniforms(window, pack);
 	while ((!glfwWindowShouldClose(window)) && (!keyboard(window)))
 	{
-		event_textue_mode(window, &pack->uniforms);
+		event_texture_mode(window, &pack->uniforms);
 		modelview = geo_mk4_tof(make_matrix(window));
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		glUniformMatrix4fv(pack->uniforms.model_view, 1, GL_FALSE,
