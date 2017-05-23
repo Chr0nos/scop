@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/24 07:24:26 by snicolet          #+#    #+#             */
-/*   Updated: 2017/05/23 11:56:57 by snicolet         ###   ########.fr       */
+/*   Updated: 2017/05/23 13:30:57 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,9 @@
 # include <GL/glew.h>
 # include <GLFW/glfw3.h>
 # define FLAG_UV		1u
+# define FLAG_SW_NONE	0
+# define FLAG_SW_IN		1
+# define FLAG_SW_OUT	2
 
 typedef struct			s_obj_stats
 {

@@ -6,7 +6,7 @@
 #    By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/07/24 07:18:03 by snicolet          #+#    #+#              #
-#*   Updated: 2017/05/23 11:53:31 by snicolet         ###   ########.fr       *#
+#*   Updated: 2017/05/23 13:04:17 by snicolet         ###   ########.fr       *#
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,7 +28,7 @@ ifeq ($(OS),Darwin)
 else
 	LINKER+=-L./SOIL2-clone -lGL -ldl -lpthread -lSOIL2 -L$(LIBFT) -lft -lX11 -lGLEW -lXrandr -lXinerama -lXcursor
 endif
-NAME=scope
+NAME=scop
 SRC=main.c events.c display.c parser.c fixcenter.c parser_count.c \
 	parse_calc_size.c run.c maker.c parse_face.c attributes.c
 SRC_DIR=srcs
