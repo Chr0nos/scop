@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/22 13:18:49 by snicolet          #+#    #+#             */
-/*   Updated: 2017/05/09 00:32:33 by snicolet         ###   ########.fr       */
+/*   Updated: 2017/05/23 02:04:08 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,20 +15,20 @@
 #include "quaternion.h"
 
 static void			matrix_keyboard(GLFWwindow *window, t_quaternion *q,
-	t_v4d *cam)
+	t_v4d *cam, const double speed)
 {
 	if (glfwGetKey(window, GLFW_KEY_EQUAL) == GLFW_PRESS)
-		cam->z -= 0.1;
+		cam->z -= speed;
 	else if (glfwGetKey(window, GLFW_KEY_MINUS) == GLFW_PRESS)
-		cam->z += 0.1;
+		cam->z += speed;
 	if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS)
-		cam->x -= 0.1;
+		cam->x -= speed;
 	else if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS)
-		cam->x += 0.1;
+		cam->x += speed;
 	if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS)
-		cam->y += 0.1;
+		cam->y += speed;
 	else if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS)
-		cam->y -= 0.1;
+		cam->y -= speed;
 	if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
 		*q = geo_quat_mult(*q, geo_quat_rot((t_v3d){0.0, 1.0, 0.0}, 0.02));
 	else if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
@@ -49,7 +49,8 @@ t_m4				make_matrix(GLFWwindow *window)
 	t_m4					m;
 	static t_quaternion		q = (t_quaternion){1.0, 0.0, 0.0, 0.0};
 
-	matrix_keyboard(window, &q, &camera);
+	matrix_keyboard(window, &q, &camera,
+		glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS ? 0.5 : 0.1);
 	if (glfwGetKey(window, GLFW_KEY_O) == GLFW_PRESS)
 		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 	else if (glfwGetKey(window, GLFW_KEY_P) == GLFW_PRESS)
