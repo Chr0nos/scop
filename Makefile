@@ -6,7 +6,7 @@
 #    By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/07/24 07:18:03 by snicolet          #+#    #+#              #
-#    Updated: 2017/05/22 18:49:01 by snicolet         ###   ########.fr        #
+#*   Updated: 2017/05/23 01:49:26 by snicolet         ###   ########.fr       *#
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,7 +26,7 @@ ifeq ($(OS),Darwin)
 	INC+=-I ~/.brew/include -I/usr/local/include
 	LINKER+=-framework OpenGL -L./SOIL2-clone/ -lSOIL2 -framework CoreFoundation -L/usr/local/lib -L$(LIBFT) -lft
 else
-	LINKER+=-L./SOIL2-clone -lGL -lSOIL2 -L$(LIBFT) -lft
+	LINKER+=-L./SOIL2-clone -lGL -lSOIL2 -L$(LIBFT) -lft -lX11 -lGLEW -lXrandr -lXinerama -lXcursor
 endif
 NAME=scope
 SRC=main.c events.c display.c parser.c fixcenter.c parser_count.c \
@@ -55,6 +55,7 @@ fclean: clean
 fcleanall: fclean
 	make -C $(DRAW) fclean
 	make -C $(LIBFT) fclean
+	make -C ./glfw/ clean
 
 reall: fcleanall all
 
