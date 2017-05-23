@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/25 17:36:02 by snicolet          #+#    #+#             */
-/*   Updated: 2017/05/23 14:33:03 by snicolet         ###   ########.fr       */
+/*   Updated: 2017/05/23 15:40:18 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,10 @@ t_vertex_pack		*get_pack(t_vertex_pack *pack)
 int					main(int ac, char **av)
 {
 	if (ac < 2)
+	{
+		ft_dprintf(2, "error: missing parameter(s)\n");
 		return (1);
+	}
 	if (!glfwInit())
 		return (11);
 	ft_printf("Init ok\nGlfw version: %s\n", glfwGetVersionString());
