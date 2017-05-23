@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/22 13:18:49 by snicolet          #+#    #+#             */
-/*   Updated: 2017/05/23 02:04:08 by snicolet         ###   ########.fr       */
+/*   Updated: 2017/05/23 10:50:09 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,7 @@ int					display_loop(GLFWwindow *window, t_vertex_pack *pack)
 	glUseProgram(pack->program);
 	pack->proj_id = glGetUniformLocation(pack->program, "projection");
 	pack->model_id = glGetUniformLocation(pack->program, "model");
+	pack->texture_switch = glGetUniformLocation(pack->program, "tex_switch");
 	glUniformMatrix4fv(pack->proj_id, 1, GL_FALSE, (const GLfloat *)&proj);
 	while ((!glfwWindowShouldClose(window)) && (!keyboard(window)))
 	{

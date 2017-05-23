@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/24 07:24:26 by snicolet          #+#    #+#             */
-/*   Updated: 2017/05/11 18:43:30 by snicolet         ###   ########.fr       */
+/*   Updated: 2017/05/23 10:48:31 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,7 @@ typedef struct			s_vertex_pack
 	GLint				proj_id;
 	GLint				model_id;
 	GLint				texture_id;
+	GLint				texture_switch;
 	const char			*texture_path;
 }						t_vertex_pack;
 
