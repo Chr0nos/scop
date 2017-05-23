@@ -1,5 +1,7 @@
 #version 400 core
 uniform sampler2D texture_sampler;
+uniform float tex_switch;
+uniform int tex_mode;
 
 in		vec2 uv;
 in		vec4 fcolor;
@@ -13,6 +15,7 @@ void main() {
 	vec4 normal = vec4(1.0, 0.0, 0.0, 0.0);
 
 	color = texture(texture_sampler, uv);
+	color = mix(color, fcolor, clamp(tex_switch, 0, 1));
 	//color *= fcolor;
 	//color.x *= uv.x;
 	//color.y *= (uv.y + 0.7);

@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/22 13:18:49 by snicolet          #+#    #+#             */
-/*   Updated: 2017/05/23 10:50:09 by snicolet         ###   ########.fr       */
+/*   Updated: 2017/05/23 11:37:26 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,23 +79,41 @@ t_m4				get_projection(GLFWwindow *window, double fov, double far,
 	return (proj);
 }
 
+static void			send_uniforms(GLFWwindow *window, t_vertex_pack *pack)
+{
+	t_uniforms		*u;
+	t_m4f			proj;
+
+	u = &pack->uniforms;
+	proj = geo_mk4_tof(get_projection(window, 45, 1.0, 100.0));
+	u->proj = glGetUniformLocation(pack->program, "projection");
+	u->model_view = glGetUniformLocation(pack->program, "model");
+	u->texture_switch = glGetUniformLocation(pack->program, "tex_switch");
+	u->texture_switch_mode = glGetUniformLocation(pack->program, "tex_mode");
+	u->texture_switch_val = 0.0f;
+	glUniformMatrix4fv(u->proj, 1, GL_FALSE, (const GLfloat *)&proj);
+	glUniform1f(u->texture_switch, u->texture_switch_val);
+	glUniform1i(u->texture_switch_mode, 0);
+}
+
 int					display_loop(GLFWwindow *window, t_vertex_pack *pack)
 {
 	const int		faces_total = (int)(pack->stats.faces * 3);
-	t_m4f			proj;
 	t_m4f			modelview;
 
-	proj = geo_mk4_tof(get_projection(window, 45, 1.0, 100.0));
 	glUseProgram(pack->program);
-	pack->proj_id = glGetUniformLocation(pack->program, "projection");
-	pack->model_id = glGetUniformLocation(pack->program, "model");
-	pack->texture_switch = glGetUniformLocation(pack->program, "tex_switch");
-	glUniformMatrix4fv(pack->proj_id, 1, GL_FALSE, (const GLfloat *)&proj);
+	send_uniforms(window, pack);
 	while ((!glfwWindowShouldClose(window)) && (!keyboard(window)))
 	{
+		if (glfwGetKey(window, GLFW_KEY_Z) == GLFW_PRESS)
+			pack->uniforms.texture_switch_val -= 0.05f;
+		else if (glfwGetKey(window, GLFW_KEY_X) == GLFW_PRESS)
+			pack->uniforms.texture_switch_val += 0.05f;
+		glUniform1f(pack->uniforms.texture_switch,
+				pack->uniforms.texture_switch_val);
 		modelview = geo_mk4_tof(make_matrix(window));
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		glUniformMatrix4fv(pack->model_id, 1, GL_FALSE,
+		glUniformMatrix4fv(pack->uniforms.model_view, 1, GL_FALSE,
 			(const GLfloat *)&modelview);
 		glBindVertexArray(pack->vao);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, pack->indices);

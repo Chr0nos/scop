@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/24 07:24:26 by snicolet          #+#    #+#             */
-/*   Updated: 2017/05/23 10:48:31 by snicolet         ###   ########.fr       */
+/*   Updated: 2017/05/23 11:40:29 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,15 @@ typedef struct			s_vertex_attribs
 	GLint				normal;
 }						t_vertex_attribs;
 
+typedef struct			s_uniforms
+{
+	GLint				proj;
+	GLint				model_view;
+	GLint				texture_switch;
+	GLint				texture_switch_mode;
+	float				texture_switch_val;
+}						t_uniforms;
+
 typedef struct			s_vertex_pack
 {
 	t_vertex_item		*vertex_items;
@@ -66,10 +75,8 @@ typedef struct			s_vertex_pack
 	GLuint				normal;
 	GLuint				index_uv;
 	t_vertex_attribs	attribs;
-	GLint				proj_id;
-	GLint				model_id;
 	GLint				texture_id;
-	GLint				texture_switch;
+	t_uniforms			uniforms;
 	const char			*texture_path;
 }						t_vertex_pack;
 
