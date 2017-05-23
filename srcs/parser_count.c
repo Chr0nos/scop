@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/20 02:09:01 by snicolet          #+#    #+#             */
-/*   Updated: 2017/05/22 16:14:21 by snicolet         ###   ########.fr       */
+/*   Updated: 2017/05/23 17:29:26 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,11 +38,15 @@ static int		parser_count_faces(const char *line, t_obj_stats *stats)
 
 static int		parse_line_error(const char *line)
 {
+	const char	alloweds[4] = {
+		(char)'\n', (char)'\t', (char)13, (char)'\0'
+	};
+
 	if ((*line == '#') || (!(*line)))
 		return (0);
 	while (*line)
 	{
-		if ((!ft_isprint((int)*line)) && (*line != '\n') && (*line != 13))
+		if ((!ft_isprint((int)*line)) && (!ft_strany(*line, alloweds)))
 		{
 			ft_dprintf(2, "error: invalid file detected\n");
 			return (1);

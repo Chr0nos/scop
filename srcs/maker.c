@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/07 12:35:02 by snicolet          #+#    #+#             */
-/*   Updated: 2017/05/22 15:01:23 by snicolet         ###   ########.fr       */
+/*   Updated: 2017/05/23 19:17:32 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,17 +35,16 @@ static void			make_vertex_items_uv(t_vertex_pack *pack, const size_t p)
 
 int					make_vertex_items(t_vertex_pack *pack)
 {
+	t_vertex_item		*item;
 	size_t				p;
 
 	p = 0;
 	while (p < pack->stats.vertex)
 	{
-		pack->vertex_items[p] = (t_vertex_item){
-			.position = pack->vertex[p],
-			.color = (t_v4f){0.2f, 0.2f, 0.2f, 1.0f},
-			.uv = (t_v2f){0.0f, 0.0f},
-			.normal = (t_v3f){0.0f, 1.0f, 0.0f}
-		};
+		item = &pack->vertex_items[p];
+		item->position = pack->vertex[p];
+		item->normal = (t_v3f){0.0f, 1.0f, 0.0f};
+		item->uv = pack->uv[p];
 		p++;
 	}
 	p = pack->stats.faces;
