@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/07 12:33:10 by snicolet          #+#    #+#             */
-/*   Updated: 2017/05/23 14:32:33 by snicolet         ###   ########.fr       */
+/*   Updated: 2017/05/23 14:59:05 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,16 @@ static int			run_program(t_vertex_pack *pack, GLFWwindow *window)
 	return (ret);
 }
 
+/*
+** here the callback function for keyboard is casted in something nasty but
+** i had no others choices: the coding rules of 42 school are strict on this
+** point: no more than 4 parameters for a function
+*/
+
 static int			run_window_real(t_vertex_pack *pack, GLFWwindow *window)
 {
+	glfwSetKeyCallback(window,
+			(void(*)(GLFWwindow *, int, int, int, int))(size_t)&key_callback);
 	glClearDepth((double)(INFINITY));
 	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 	glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
@@ -85,7 +93,7 @@ int					run_parse(const char *filepath, const char *texture)
 	if (pack)
 	{
 		get_pack(pack);
-		pack->texture_path = (texture) ? texture : "textures/herbe.jpg";
+		pack->texture_path = (texture) ? texture : "textures/default.jpg";
 		ret = run_window(pack);
 		ft_putendl("cleaning main structure pack");
 		free(pack);

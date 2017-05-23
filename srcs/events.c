@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/22 13:16:55 by snicolet          #+#    #+#             */
-/*   Updated: 2017/04/22 20:07:35 by snicolet         ###   ########.fr       */
+/*   Updated: 2017/05/23 14:45:12 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,4 +28,15 @@ void			framebuffer_size_callback(GLFWwindow *window,
 	(void)width;
 	(void)height;
 	proj = get_projection(window, 75, 1.0, 1000.0);
+}
+
+void			key_callback(GLFWwindow *window, int key, int scancode)
+{
+	t_vertex_pack	*pack;
+
+	(void)window;
+	(void)key;
+	(void)scancode;
+	pack = get_pack(NULL);
+	//ft_printf("key pressed: %d - %d\n", key, scancode);
 }
