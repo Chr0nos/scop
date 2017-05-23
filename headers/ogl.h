@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/24 07:24:26 by snicolet          #+#    #+#             */
-/*   Updated: 2017/05/23 11:40:29 by snicolet         ###   ########.fr       */
+/*   Updated: 2017/05/23 11:56:57 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,8 +87,6 @@ int						keyboard(GLFWwindow *window);
 void					framebuffer_size_callback(GLFWwindow *window,
 	int width, int height);
 void					error_handler(int id, const char *str);
-void					vertex_debug(t_printf *pf);
-void					faces_debug(t_printf *pf);
 t_v3i					*load_faces(t_list *faces, const int max,
 	size_t *faces_count);
 void					clean_pack(t_vertex_pack *pack);
