@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/22 13:18:49 by snicolet          #+#    #+#             */
-/*   Updated: 2017/05/23 14:00:02 by snicolet         ###   ########.fr       */
+/*   Updated: 2017/05/23 14:06:39 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,8 +126,8 @@ static void			event_texture_mode(GLFWwindow *window, t_uniforms *u)
 			(u->texture_switch_mode & FLAG_SW_IN) ? -0.015f : 0.015f;
 		if ((u->texture_switch_val <= 0.0f) || (u->texture_switch_val >= 1.0f))
 			u->texture_switch_mode = FLAG_SW_NONE;
-		u->texture_switch_val = geo_clamp(u->texture_switch_val, 0.0f, 1.0f);
 	}
+	u->texture_switch_val = geo_clamp(u->texture_switch_val, 0.0f, 1.0f);
 	glUniform1f(u->texture_switch, u->texture_switch_val);
 }
 
