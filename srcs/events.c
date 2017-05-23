@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/22 13:16:55 by snicolet          #+#    #+#             */
-/*   Updated: 2017/05/23 14:45:12 by snicolet         ###   ########.fr       */
+/*   Updated: 2017/05/23 15:34:36 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,16 +27,30 @@ void			framebuffer_size_callback(GLFWwindow *window,
 
 	(void)width;
 	(void)height;
-	proj = get_projection(window, 75, 1.0, 1000.0);
+	proj = get_projection(window, 45, 1.0, 1000.0);
 }
 
-void			key_callback(GLFWwindow *window, int key, int scancode)
+static void		key_press(GLFWwindow *window, t_vertex_pack *pack, int key)
 {
-	t_vertex_pack	*pack;
+	t_uniforms		*u;
 
 	(void)window;
-	(void)key;
+	u = &pack->uniforms;
+	if (key == GLFW_KEY_C)
+	{
+		if ((u->texture_switch_mode == FLAG_SW_NONE) &&
+				(u->texture_switch_val < 1.0f))
+			u->texture_switch_mode = FLAG_SW_OUT;
+		else
+			u->texture_switch_mode = FLAG_SW_IN;
+	}
+}
+
+void			key_callback(GLFWwindow *window, int key, int scancode,
+		int action)
+{
 	(void)scancode;
-	pack = get_pack(NULL);
-	//ft_printf("key pressed: %d - %d\n", key, scancode);
+	if (action == 1)
+		key_press(window, get_pack(NULL), key);
+	//ft_printf("key pressed: %d - %d -- %d\n", key, scancode, action);
 }

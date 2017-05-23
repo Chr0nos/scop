@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/22 13:18:49 by snicolet          #+#    #+#             */
-/*   Updated: 2017/05/23 14:06:39 by snicolet         ###   ########.fr       */
+/*   Updated: 2017/05/23 15:34:26 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,6 +112,7 @@ static void			event_texture_mode(GLFWwindow *window, t_uniforms *u)
 		u->texture_switch_val -= 0.05f;
 	else if (glfwGetKey(window, GLFW_KEY_X) == GLFW_PRESS)
 		u->texture_switch_val += 0.05f;
+	/*
 	if (glfwGetKey(window, GLFW_KEY_C) == GLFW_PRESS)
 	{
 		if ((u->texture_switch_mode == FLAG_SW_NONE) &&
@@ -120,6 +121,7 @@ static void			event_texture_mode(GLFWwindow *window, t_uniforms *u)
 		else
 			u->texture_switch_mode = FLAG_SW_IN;
 	}
+	*/
 	if (u->texture_switch_mode != FLAG_SW_NONE)
 	{
 		u->texture_switch_val +=

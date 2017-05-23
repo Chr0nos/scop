@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/24 07:24:26 by snicolet          #+#    #+#             */
-/*   Updated: 2017/05/23 14:40:18 by snicolet         ###   ########.fr       */
+/*   Updated: 2017/05/23 15:29:03 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,6 +104,7 @@ int						make_program(t_vertex_pack *pack);
 int						make_vertex_items(t_vertex_pack *pack);
 void					send_attributes(t_vertex_pack *pack);
 t_vertex_pack			*get_pack(t_vertex_pack *pack);
-void					key_callback(GLFWwindow *window, int key, int scancode);
+void					key_callback(GLFWwindow *window, int key, int scancode,
+		int action);
 
 #endif
