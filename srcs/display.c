@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/22 13:18:49 by snicolet          #+#    #+#             */
-/*   Updated: 2017/05/23 15:34:26 by snicolet         ###   ########.fr       */
+/*   Updated: 2017/05/23 16:19:38 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@ t_m4				get_projection(GLFWwindow *window, double fov, double far,
 	t_v2i			geo;
 
 	glfwGetWindowSize(window, &geo.x, &geo.y);
+	ft_printf("window resolution: %dx%d\n", geo.x, geo.y);
 	ratio = (double)geo.x / (double)geo.y;
 	height = near * (tan(fov * 0.5 * (M_PI / 180)));
 	width = height * ratio;
@@ -86,7 +87,7 @@ static void			send_uniforms(GLFWwindow *window, t_vertex_pack *pack)
 	t_m4f			proj;
 
 	u = &pack->uniforms;
-	proj = geo_mk4_tof(get_projection(window, 45, 1.0, 100.0));
+	proj = geo_mk4_tof(get_projection(window, DISPLAY_FOV, 1.0, 100.0));
 	u->proj = glGetUniformLocation(pack->program, "projection");
 	u->model_view = glGetUniformLocation(pack->program, "model");
 	u->texture_switch = glGetUniformLocation(pack->program, "tex_switch");
@@ -112,16 +113,6 @@ static void			event_texture_mode(GLFWwindow *window, t_uniforms *u)
 		u->texture_switch_val -= 0.05f;
 	else if (glfwGetKey(window, GLFW_KEY_X) == GLFW_PRESS)
 		u->texture_switch_val += 0.05f;
-	/*
-	if (glfwGetKey(window, GLFW_KEY_C) == GLFW_PRESS)
-	{
-		if ((u->texture_switch_mode == FLAG_SW_NONE) &&
-				(u->texture_switch_val < 1.0f))
-			u->texture_switch_mode = FLAG_SW_OUT;
-		else
-			u->texture_switch_mode = FLAG_SW_IN;
-	}
-	*/
 	if (u->texture_switch_mode != FLAG_SW_NONE)
 	{
 		u->texture_switch_val +=

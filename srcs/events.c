@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/22 13:16:55 by snicolet          #+#    #+#             */
-/*   Updated: 2017/05/23 15:34:36 by snicolet         ###   ########.fr       */
+/*   Updated: 2017/05/23 16:08:11 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,13 @@ int				keyboard(GLFWwindow *window)
 void			framebuffer_size_callback(GLFWwindow *window,
 	int width, int height)
 {
-	t_m4	proj;
+	t_m4f			proj;
 
 	(void)width;
 	(void)height;
-	proj = get_projection(window, 45, 1.0, 1000.0);
+	proj = geo_mk4_tof(get_projection(window, DISPLAY_FOV, 1.0, 1000.0));
+	glUniformMatrix4fv(get_pack(NULL)->uniforms.proj, 1, GL_FALSE,
+		(const float *)&proj);
 }
 
 static void		key_press(GLFWwindow *window, t_vertex_pack *pack, int key)

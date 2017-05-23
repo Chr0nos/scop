@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/24 07:24:26 by snicolet          #+#    #+#             */
-/*   Updated: 2017/05/23 15:29:03 by snicolet         ###   ########.fr       */
+/*   Updated: 2017/05/23 16:04:19 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 # define FLAG_SW_NONE	0
 # define FLAG_SW_IN		1
 # define FLAG_SW_OUT	2
+# define DISPLAY_FOV	45
 
 typedef struct			s_obj_stats
 {
