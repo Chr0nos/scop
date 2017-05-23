@@ -6,12 +6,12 @@
 #    By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/07/24 07:18:03 by snicolet          #+#    #+#              #
-#*   Updated: 2017/05/23 09:49:06 by snicolet         ###   ########.fr       *#
+#*   Updated: 2017/05/23 11:53:31 by snicolet         ###   ########.fr       *#
 #                                                                              #
 # **************************************************************************** #
 
 OS=$(shell uname -s)
-DEBUG=1
+DEBUG=0
 CC=clang -O2 -march=native -mtune=native
 FLAGS=-Werror -Wextra -Wall -Weverything -Wno-reserved-id-macro -Wno-documentation -Wno-documentation-unknown-command -Wno-padded
 ifeq ($(DEBUG), 1)
@@ -26,7 +26,7 @@ ifeq ($(OS),Darwin)
 	INC+=-I ~/.brew/include -I/usr/local/include
 	LINKER+=-framework OpenGL -L./SOIL2-clone/ -lSOIL2 -framework CoreFoundation -framework Cocoa -framework IOKit -framework CoreVideo -L/usr/local/lib -L$(LIBFT) -lft -lGLEW
 else
-	LINKER+=-L./SOIL2-clone -lGL -lSOIL2 -L$(LIBFT) -lft -lX11 -lGLEW -lXrandr -lXinerama -lXcursor
+	LINKER+=-L./SOIL2-clone -lGL -ldl -lpthread -lSOIL2 -L$(LIBFT) -lft -lX11 -lGLEW -lXrandr -lXinerama -lXcursor
 endif
 NAME=scope
 SRC=main.c events.c display.c parser.c fixcenter.c parser_count.c \
