@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/22 13:18:49 by snicolet          #+#    #+#             */
-/*   Updated: 2017/05/24 00:08:05 by snicolet         ###   ########.fr       */
+/*   Updated: 2017/05/24 13:52:01 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,8 +76,6 @@ t_m4				get_projection(GLFWwindow *window, double fov, double far,
 	width = height * ratio;
 	proj = geo_mk4_projection(
 		(t_proj){-width, width, -height, height, near, far});
-//	geo_putm4(proj, 6);
-//	write(1, "\n", 1);
 	return (proj);
 }
 
@@ -87,14 +85,22 @@ static void			send_uniforms(GLFWwindow *window, t_vertex_pack *pack)
 	t_m4f			proj;
 
 	u = &pack->uniforms;
+	pack->light = (t_light){
+		.position = (t_v3f){0.0f, 0.0f, -5.0f},
+		.color = (t_v4f){1.0f, 1.0f, 1.0f, 1.0f}
+	};
 	proj = geo_mk4_tof(get_projection(window, DISPLAY_FOV, 1.0, 100.0));
 	u->proj = glGetUniformLocation(pack->program, "projection");
 	u->model_view = glGetUniformLocation(pack->program, "model");
+	u->light_pos = glGetUniformLocation(pack->program, "light.position");
+	u->light_color = glGetUniformLocation(pack->program, "light.color");
 	u->texture_switch = glGetUniformLocation(pack->program, "tex_switch");
 	u->texture_switch_val = 0.0f;
 	u->texture_switch_mode = FLAG_SW_NONE;
 	glUniformMatrix4fv(u->proj, 1, GL_FALSE, (const GLfloat *)&proj);
 	glUniform1f(u->texture_switch, u->texture_switch_val);
+	glUniform3fv(u->light_pos, 1, (const GLfloat *)&pack->light.position);
+	glUniform4fv(u->light_color, 1, (const GLfloat *)&pack->light.color);
 }
 
 /*

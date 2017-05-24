@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/24 07:24:26 by snicolet          #+#    #+#             */
-/*   Updated: 2017/05/23 16:04:19 by snicolet         ###   ########.fr       */
+/*   Updated: 2017/05/24 13:44:01 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,15 @@ typedef struct			s_uniforms
 	GLint				texture_switch;
 	GLint				texture_switch_mode;
 	float				texture_switch_val;
+	GLint				light_pos;
+	GLint				light_color;
 }						t_uniforms;
+
+typedef struct			s_light
+{
+	t_v3f				position;
+	t_v4f				color;
+}						t_light;
 
 typedef struct			s_vertex_pack
 {
@@ -82,6 +90,7 @@ typedef struct			s_vertex_pack
 	GLint				texture_id;
 	t_uniforms			uniforms;
 	const char			*texture_path;
+	t_light				light;
 }						t_vertex_pack;
 
 void					fixcenter(t_vertex_pack *pack);
