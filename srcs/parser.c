@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/16 15:47:56 by snicolet          #+#    #+#             */
-/*   Updated: 2017/05/23 18:51:09 by snicolet         ###   ########.fr       */
+/*   Updated: 2017/05/24 00:57:24 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@
 
 static void				color_load(t_v4f *target, const unsigned int color)
 {
-	ft_printf("loading color: %u\n", color);
 	*target = (t_v4f){
 		.x = (float)((color & 0xff000000) >> 24) / (float)0xff,
 		.y = (float)((color & 0x00ff0000) >> 16) / (float)0xff,
@@ -29,12 +28,12 @@ static void				color_load(t_v4f *target, const unsigned int color)
 static void				parse_vertex(t_vertex_pack *tp, const int ret,
 	unsigned int color)
 {
-	tp->vertex++;
 	if (ret == 4)
 		color_load(&tp->vertex_items->color, color);
 	else
 		tp->vertex_items->color = (t_v4f){0.2f, 0.2f, 0.2f, 1.0f};
 	tp->vertex_items++;
+	tp->vertex++;
 }
 
 static int				parse_real(const char *filepath, t_vertex_pack *pack)
@@ -44,7 +43,9 @@ static int				parse_real(const char *filepath, t_vertex_pack *pack)
 	unsigned int	color;
 	t_vertex_pack	tp;
 	int				ret;
+	t_vertex_item	*x;
 
+	x = pack->vertex_items;
 	ft_memcpy(&tp, pack, sizeof(t_vertex_pack));
 	if ((fd = open(filepath, O_RDONLY)) <= 0)
 		return (-1);
@@ -57,9 +58,9 @@ static int				parse_real(const char *filepath, t_vertex_pack *pack)
 			;
 		else if (ft_sscanf(line, "vt \\S%f \\S%f", &tp.uv->x, &tp.uv->y) == 2)
 			tp.uv++;
-//		else if (ft_sscanf(line, "vn \\S%f \\S%f \\S%f", &tp.normals->x,
-//					&tp.normals->y, &tp.normals->z) == 3)
-//			tp.normals++;
+		else if (ft_sscanf(line, "vn \\S%f \\S%f \\S%f", &x->normal.x,
+				&x->normal.y, &x->normal.z) == 3)
+			x++;
 		free(line);
 	}
 	free(line);

@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/07 12:35:02 by snicolet          #+#    #+#             */
-/*   Updated: 2017/05/23 19:17:32 by snicolet         ###   ########.fr       */
+/*   Updated: 2017/05/24 00:54:13 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,6 @@ int					make_vertex_items(t_vertex_pack *pack)
 	{
 		item = &pack->vertex_items[p];
 		item->position = pack->vertex[p];
-		item->normal = (t_v3f){0.0f, 1.0f, 0.0f};
 		item->uv = pack->uv[p];
 		p++;
 	}

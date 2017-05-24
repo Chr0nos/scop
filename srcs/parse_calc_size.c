@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/02 19:13:38 by snicolet          #+#    #+#             */
-/*   Updated: 2017/05/23 18:31:33 by snicolet         ###   ########.fr       */
+/*   Updated: 2017/05/24 00:23:51 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,12 +26,13 @@ size_t			parse_calc_size(const t_obj_stats *stats)
 	size_t		size;
 
 	size = sizeof(t_vertex_pack) +
+		(sizeof(t_vertex_item) * stats->vertex) +
 		(sizeof(t_v3f) * stats->vertex) +
 		(sizeof(t_v2f) * stats->uv) +
 		(sizeof(unsigned char) * stats->faces) +
 		(sizeof(t_v3i) * stats->faces * 2) +
-		(sizeof(t_v3f) * stats->normal) +
-		(sizeof(t_vertex_item) * stats->vertex);
-	size += 8;
+		(sizeof(t_v3f) * stats->normal);
+	//size += 8;
+	size += sizeof(t_v3f) * stats->vertex;
 	return (size);
 }

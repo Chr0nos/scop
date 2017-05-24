@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/22 13:18:49 by snicolet          #+#    #+#             */
-/*   Updated: 2017/05/23 19:14:22 by snicolet         ###   ########.fr       */
+/*   Updated: 2017/05/24 00:08:05 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,13 +95,6 @@ static void			send_uniforms(GLFWwindow *window, t_vertex_pack *pack)
 	u->texture_switch_mode = FLAG_SW_NONE;
 	glUniformMatrix4fv(u->proj, 1, GL_FALSE, (const GLfloat *)&proj);
 	glUniform1f(u->texture_switch, u->texture_switch_val);
-
-	size_t	p;
-
-	p = pack->stats.vertex;
-	while (p--)
-		ft_printf("[%lu] %f %f\n", p, (double)pack->vertex_items[p].uv.x,
-				(double)pack->vertex_items[p].uv.y);
 }
 
 /*
