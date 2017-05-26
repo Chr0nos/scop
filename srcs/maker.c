@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/07 12:35:02 by snicolet          #+#    #+#             */
-/*   Updated: 2017/05/26 14:33:32 by snicolet         ###   ########.fr       */
+/*   Updated: 2017/05/26 16:47:06 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static void			make_vertex_items_uv(t_vertex_pack *pack, const size_t p)
 	const int			max_vertex = (int)pack->stats.vertex;
 	const int			max_faces = (int)pack->stats.faces;
 
-	if (p > pack->stats.faces)
+	if ((p > pack->stats.faces) || (p >= pack->stats.uv))
 		return ;
 	if ((pack->faces[p].x >= max_faces) || (pack->fuv[p].x >= max_vertex) ||
 		(pack->faces[p].y >= max_faces) || (pack->fuv[p].y >= max_vertex) ||
@@ -42,7 +42,8 @@ int					make_vertex_items(t_vertex_pack *pack)
 	while (p < pack->stats.vertex)
 	{
 		item = &pack->items[p];
-		item->uv = pack->uv[p];
+		if (p < pack->stats.uv)
+			item->uv = pack->uv[p];
 		p++;
 	}
 	p = pack->stats.faces;

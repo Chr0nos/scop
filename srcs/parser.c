@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/16 15:47:56 by snicolet          #+#    #+#             */
-/*   Updated: 2017/05/26 16:33:26 by snicolet         ###   ########.fr       */
+/*   Updated: 2017/05/26 16:43:47 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ static void				parse_fixnegi(int *data, unsigned int size, int max)
 			data[size] = max;
 }
 
-static t_vertex_pack	*parse_post_process(t_vertex_pack *pack)
+static int				parse_post_process(t_vertex_pack *pack)
 {
 	const int			mv = (int)pack->stats.vertex - 1;
 	size_t				p;
@@ -100,12 +100,19 @@ static t_vertex_pack	*parse_post_process(t_vertex_pack *pack)
 	while (p--)
 	{
 		pack->faces[p] = geo_subv3i(pack->faces[p], (t_v3i){1, 1, 1});
+		if ((pack->faces[p].x > mv) || (pack->faces[p].y > mv) ||
+				(pack->faces[p].z > mv))
+		{
+			ft_dprintf(2, "error: invalid face in obj file !\n");
+			return (1);
+		}
 		pack->fuv[p] = geo_subv3i(pack->fuv[p], (t_v3i){1, 1, 1});
 		parse_fixnegi((int*)&pack->faces[p], 3, mv);
 		parse_fixnegi((int*)&pack->fuv[p], 3, (int)(pack->stats.vertex - 1));
 	}
+	fixcenter(pack);
 	ft_putendl("fix done");
-	return (pack);
+	return (0);
 }
 
 static t_vertex_pack	*parse_setptrs(t_vertex_pack *pack, t_obj_stats *stats)
@@ -143,7 +150,5 @@ int			parse_obj(t_vertex_pack *pack, const char *filepath)
 	if ((parse_real(filepath, pack) < 0) && (ft_mfree(1, pack->items)))
 		return (1);
 	*pack = origin;
-	fixcenter(pack);
-	parse_post_process(pack);
-	return (0);
+	return (parse_post_process(pack));
 }
