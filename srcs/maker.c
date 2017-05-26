@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/07 12:35:02 by snicolet          #+#    #+#             */
-/*   Updated: 2017/05/26 23:06:21 by snicolet         ###   ########.fr       */
+/*   Updated: 2017/05/26 23:10:07 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ static GLint		make_texture(t_vertex_pack *pack, const char *name,
 	glActiveTexture(texture_id);
 	glBindTexture(GL_TEXTURE_2D, img);
 	id = glGetUniformLocation(pack->program, name);
-	ft_printf("\ttexture id: %d\n", id);
+	ft_printf("\ttexture id: %d\n\timage id: %d\n", id, img);
 	glEnableVertexAttribArray((GLuint)img);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
