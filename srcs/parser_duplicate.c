@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/26 17:39:06 by snicolet          #+#    #+#             */
-/*   Updated: 2017/05/26 20:03:59 by snicolet         ###   ########.fr       */
+/*   Updated: 2017/05/26 20:38:32 by qloubier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,12 +22,13 @@
 static void				load_params(t_vertex_pack *pack, t_vertex_item *item,
 		const size_t p, size_t offset)
 {
+	const int		index_face = ((int*)&(pack->faces[p]))[offset];
 	const int		index_uv = ((int*)&(pack->fuv[p]))[offset];
 	const int		index_nm = ((int*)&(pack->fnormals[p]))[offset];
 
 	(void)offset;
-	item->position = pack->items[p].position;
-	item->color = pack->items[p].color;
+	item->position = pack->items[index_face].position;
+	item->color = pack->items[index_face].color;
 	item->uv = pack->uv[index_uv];
 	item->normal = pack->normals[index_nm];
 }
@@ -61,7 +62,7 @@ int						parse_duplicate(t_vertex_pack *pack)
 		i->uv = pack->uv[pack->fuv[p].y];
 		i->normal = pack->normals[pack->fnormals[p].y];
 		i++;
-		
+
  		*i = pack->items[pack->faces[p].z];
 		i->uv = pack->uv[pack->fuv[p].z];
 		i->normal = pack->normals[pack->fnormals[p].z];
