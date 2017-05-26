@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/24 07:24:26 by snicolet          #+#    #+#             */
-/*   Updated: 2017/05/26 17:29:59 by snicolet         ###   ########.fr       */
+/*   Updated: 2017/05/26 18:43:57 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,8 @@ typedef struct			s_vertex_pack
 	unsigned char		*flags;
 	t_v3i				*faces;
 	t_v3i				*fuv;
+	t_v3f				*normals;
+	t_v3i				*fnormals;
 	t_v2f				*uv;
 	t_v3f				*vertex;
 	t_obj_stats			stats;
@@ -94,7 +96,7 @@ typedef struct			s_vertex_pack
 typedef struct			s_vertex_ptrs
 {
 	t_v2f				*uv;
-	t_vertex_item		*normal;
+	t_v3f				*normal;
 	t_vertex_item		*vertex;
 }						t_vertex_ptrs;
 

@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/16 15:47:56 by snicolet          #+#    #+#             */
-/*   Updated: 2017/05/26 18:12:42 by snicolet         ###   ########.fr       */
+/*   Updated: 2017/05/26 18:45:02 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ static int				parse_real(const char *filepath, t_vertex_pack *pack)
 	int				ret;
 	t_vertex_ptrs	ptrs;
 
-	ptrs = (t_vertex_ptrs){pack->uv, pack->items, pack->items};
+	ptrs = (t_vertex_ptrs){pack->uv, pack->normals, pack->items};
 	if ((fd = open(filepath, O_RDONLY)) <= 0)
 		return (-1);
 	while (ft_get_next_line(fd, &line) > 0)
@@ -71,11 +71,11 @@ static int				parse_real(const char *filepath, t_vertex_pack *pack)
 		else if (ft_sscanf(line, "vt \\S%f \\S%f", &ptrs.uv->x,
 					&ptrs.uv->y) == 2)
 			ptrs.uv++;
-	//	else if (ft_sscanf(line, "vn \\S%f \\S%f \\S%f",
-	//			&ptrs.normal->normal.x,
-	//			&ptrs.normal->normal.y,
-	//			&ptrs.normal->normal.z) == 3)
-	//		ptrs.normal++;
+		else if (ft_sscanf(line, "vn \\S%f \\S%f \\S%f",
+				&ptrs.normal->x,
+				&ptrs.normal->y,
+				&ptrs.normal->z) == 3)
+			ptrs.normal++;
 		free(line);
 	}
 	free(line);
@@ -123,10 +123,14 @@ static t_vertex_pack	*parse_setptrs(t_vertex_pack *pack, t_obj_stats *stats)
 	pack->fuv = ft_memalloc(sizeof(t_v3i) * stats->faces);
 	pack->flags = ft_memalloc(sizeof(char) * stats->faces);
 	pack->uv = ft_memalloc(sizeof(t_v2f) * stats->uv);
+	pack->fnormals = ft_memalloc(sizeof(t_v3i) * stats->faces);
+	pack->normals = ft_memalloc(sizeof(t_v3f) * stats->normal);
 	if ((!pack->items) || (!pack->faces) || (!pack->fuv) ||
-			(!pack->flags) || (!pack->uv))
+			(!pack->flags) || (!pack->uv) || (!pack->fnormals) ||
+			(!pack->normals))
 	{
-		ft_mfree(5, pack->items, pack->faces, pack->fuv, pack->flags, pack->uv);
+		ft_mfree(7, pack->items, pack->faces, pack->fuv, pack->flags, pack->uv,
+				pack->normal, pack->fnormals);
 		ft_dprintf(2, "error: failed to malloc !\n");
 		return (NULL);
 	}

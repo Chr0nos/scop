@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/26 17:39:06 by snicolet          #+#    #+#             */
-/*   Updated: 2017/05/26 18:07:48 by qloubier         ###   ########.fr       */
+/*   Updated: 2017/05/26 18:45:55 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,8 @@ int						parse_duplicate(t_vertex_pack *pack)
 		p++;
 	}
 	pack->stats.vertex = pack->stats.faces * 3;
-	free(pack->items);
+	ft_mfree(5, pack->items, pack->uv, pack->fuv, pack->normals,
+		pack->fnormals);
 	pack->items = items;
 	return (0);
 }
