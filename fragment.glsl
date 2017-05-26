@@ -1,5 +1,6 @@
 #version 400 core
 uniform sampler2D	texture_sampler;
+uniform sampler2D	normal_map;
 uniform float		tex_switch;
 uniform int			tex_mode;
 uniform struct		s_light {
