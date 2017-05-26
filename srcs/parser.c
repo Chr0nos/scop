@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/16 15:47:56 by snicolet          #+#    #+#             */
-/*   Updated: 2017/05/26 18:45:02 by snicolet         ###   ########.fr       */
+/*   Updated: 2017/05/26 18:55:16 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static void				color_load(t_v4f *target, const unsigned int color)
 	};
 }
 
-static void				parse_vertex(t_vertex_ptrs *ptrs, const int ret,
+static void				parse_vertex(t_vertex_pack *pack, const int ret,
 	unsigned int color)
 {
 	static int				color_index = 0;
@@ -38,14 +38,14 @@ static void				parse_vertex(t_vertex_ptrs *ptrs, const int ret,
 		0x000000ff
 	};
 	if (ret == 4)
-		color_load(&ptrs->vertex->color, color);
+		color_load(&pack->items->color, color);
 	else
 	{
-		color_load(&ptrs->vertex->color, colors[color_index++]);
+		color_load(&pack->items->color, colors[color_index++]);
 		if (color_index > 5)
 			color_index = 0;
 	}
-	ptrs->vertex++;
+	pack->items++;
 }
 
 static int				parse_real(const char *filepath, t_vertex_pack *pack)
@@ -54,28 +54,24 @@ static int				parse_real(const char *filepath, t_vertex_pack *pack)
 	char			*line;
 	unsigned int	color;
 	int				ret;
-	t_vertex_ptrs	ptrs;
 
-	ptrs = (t_vertex_ptrs){pack->uv, pack->normals, pack->items};
 	if ((fd = open(filepath, O_RDONLY)) <= 0)
 		return (-1);
 	while (ft_get_next_line(fd, &line) > 0)
 	{
 		if ((ret = ft_sscanf(line, "v \\S%f \\S%f \\S%f \\S%x",
-				&ptrs.vertex->position.x,
-				&ptrs.vertex->position.y,
-				&ptrs.vertex->position.z, &color)) >= 3)
-			parse_vertex(&ptrs, ret, color);
+				&pack->items->position.x,
+				&pack->items->position.y,
+				&pack->items->position.z, &color)) >= 3)
+			parse_vertex(pack, ret, color);
 		else if ((!ft_strncmp(line, "f ", 2)) && (parse_face(&line[2], pack)))
 			;
-		else if (ft_sscanf(line, "vt \\S%f \\S%f", &ptrs.uv->x,
-					&ptrs.uv->y) == 2)
-			ptrs.uv++;
-		else if (ft_sscanf(line, "vn \\S%f \\S%f \\S%f",
-				&ptrs.normal->x,
-				&ptrs.normal->y,
-				&ptrs.normal->z) == 3)
-			ptrs.normal++;
+		else if (ft_sscanf(line, "vt \\S%f \\S%f", &pack->uv->x,
+					&pack->uv->y) == 2)
+			pack->uv++;
+		else if (ft_sscanf(line, "vn \\S%f \\S%f \\S%f", &pack->normals->x,
+				&pack->normals->y, &pack->normals->z) == 3)
+			pack->normals++;
 		free(line);
 	}
 	free(line);

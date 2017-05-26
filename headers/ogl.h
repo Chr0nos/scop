@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/24 07:24:26 by snicolet          #+#    #+#             */
-/*   Updated: 2017/05/26 18:43:57 by snicolet         ###   ########.fr       */
+/*   Updated: 2017/05/26 18:55:35 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,13 +92,6 @@ typedef struct			s_vertex_pack
 	const char			*texture_path;
 	t_light				light;
 }						t_vertex_pack;
-
-typedef struct			s_vertex_ptrs
-{
-	t_v2f				*uv;
-	t_v3f				*normal;
-	t_vertex_item		*vertex;
-}						t_vertex_ptrs;
 
 void					fixcenter(t_vertex_pack *pack);
 int						parse_obj(t_vertex_pack *pack, const char *filepath);
