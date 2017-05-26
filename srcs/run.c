@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/07 12:33:10 by snicolet          #+#    #+#             */
-/*   Updated: 2017/05/26 18:21:34 by snicolet         ###   ########.fr       */
+/*   Updated: 2017/05/26 21:12:21 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,8 @@ static int			run_window(t_vertex_pack *pack)
 	return (ret);
 }
 
-int					run_parse(const char *filepath, const char *texture)
+int					run_parse(const char *filepath, const char *texture,
+		const char *normal_map)
 {
 	int				ret;
 	t_vertex_pack	pack;
@@ -96,6 +97,7 @@ int					run_parse(const char *filepath, const char *texture)
 	if (pack.items)
 	{
 		pack.texture_path = (texture) ? texture : "textures/default.jpg";
+		pack.normal_map_path = normal_map;
 		ret = run_window(&pack);
 		ft_putendl("cleaning main structure pack");
 		ft_mfree(3, pack.items, pack.faces, pack.flags);

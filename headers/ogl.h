@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/24 07:24:26 by snicolet          #+#    #+#             */
-/*   Updated: 2017/05/26 18:55:35 by snicolet         ###   ########.fr       */
+/*   Updated: 2017/05/26 21:18:05 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,13 +83,16 @@ typedef struct			s_vertex_pack
 	GLuint				vbo;
 	GLuint				vao;
 	GLuint				texture;
+	GLuint				normal_map;
 	GLuint				indices;
 	GLuint				normal;
 	GLuint				index_uv;
 	t_vertex_attribs	attribs;
 	GLint				texture_id;
+	GLint				normal_map_id;
 	t_uniforms			uniforms;
 	const char			*texture_path;
+	const char			*normal_map_path;
 	t_light				light;
 }						t_vertex_pack;
 
@@ -108,7 +111,8 @@ t_m4					get_projection(GLFWwindow *window, double fov,
 t_m4					make_matrix(GLFWwindow *window);
 size_t					parse_calc_size(const t_obj_stats *stats);
 int						display_loop(GLFWwindow *window, t_vertex_pack *pack);
-int						run_parse(const char *filepath, const char *texture);
+int						run_parse(const char *filepath, const char *texture,
+	const char *normal_map);
 int						parse_face(const char *line, t_vertex_pack *pack);
 int						make_program(t_vertex_pack *pack);
 int						make_vertex_items(t_vertex_pack *pack);
