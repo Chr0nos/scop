@@ -6,7 +6,7 @@
 #    By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/07/24 07:18:03 by snicolet          #+#    #+#              #
-#*   Updated: 2017/05/26 14:27:07 by snicolet         ###   ########.fr       *#
+#*   Updated: 2017/05/26 17:39:46 by snicolet         ###   ########.fr       *#
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,8 +29,8 @@ else
 	LINKER+=-L./SOIL2-clone -lGL -ldl -lpthread -lSOIL2 -L$(LIBFT) -lft -lX11 -lGLEW -lXrandr -lXinerama -lXcursor
 endif
 NAME=scop
-SRC=main.c events.c display.c parser.c fixcenter.c parser_count.c \
-	run.c maker.c parse_face.c attributes.c
+SRC=main.c events.c display.c parser.c parser_duplicate.c fixcenter.c \
+	parser_count.c run.c maker.c parse_face.c attributes.c
 SRC_DIR=srcs
 OBJ=$(SRC:%.c=$(BUILDDIR)/%.o)
 BUILDDIR=build

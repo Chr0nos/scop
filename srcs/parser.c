@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/16 15:47:56 by snicolet          #+#    #+#             */
-/*   Updated: 2017/05/26 16:43:47 by snicolet         ###   ########.fr       */
+/*   Updated: 2017/05/26 17:38:58 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,11 +71,11 @@ static int				parse_real(const char *filepath, t_vertex_pack *pack)
 		else if (ft_sscanf(line, "vt \\S%f \\S%f", &ptrs.uv->x,
 					&ptrs.uv->y) == 2)
 			ptrs.uv++;
-		else if (ft_sscanf(line, "vn \\S%f \\S%f \\S%f",
-				&ptrs.normal->normal.x,
-				&ptrs.normal->normal.y,
-				&ptrs.normal->normal.z) == 3)
-			ptrs.normal++;
+	//	else if (ft_sscanf(line, "vn \\S%f \\S%f \\S%f",
+	//			&ptrs.normal->normal.x,
+	//			&ptrs.normal->normal.y,
+	//			&ptrs.normal->normal.z) == 3)
+	//		ptrs.normal++;
 		free(line);
 	}
 	free(line);
@@ -111,6 +111,7 @@ static int				parse_post_process(t_vertex_pack *pack)
 		parse_fixnegi((int*)&pack->fuv[p], 3, (int)(pack->stats.vertex - 1));
 	}
 	fixcenter(pack);
+	parse_duplicate(pack);
 	ft_putendl("fix done");
 	return (0);
 }
