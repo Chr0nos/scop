@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/22 13:18:49 by snicolet          #+#    #+#             */
-/*   Updated: 2017/05/24 13:52:01 by snicolet         ###   ########.fr       */
+/*   Updated: 2017/05/26 18:07:11 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,10 +51,6 @@ t_m4				make_matrix(GLFWwindow *window)
 
 	matrix_keyboard(window, &q, &camera,
 		glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS ? 0.5 : 0.1);
-	if (glfwGetKey(window, GLFW_KEY_O) == GLFW_PRESS)
-		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-	else if (glfwGetKey(window, GLFW_KEY_P) == GLFW_PRESS)
-		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 	m = geo_quat_tomatrix(q);
 	m.w = camera;
 	return (m);

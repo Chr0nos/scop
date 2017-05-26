@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/22 13:16:55 by snicolet          #+#    #+#             */
-/*   Updated: 2017/05/23 16:33:47 by snicolet         ###   ########.fr       */
+/*   Updated: 2017/05/26 18:07:02 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,12 @@ static void		key_press(GLFWwindow *window, t_vertex_pack *pack, int key)
 		else
 			u->texture_switch_mode = FLAG_SW_IN;
 	}
+	else if (key == GLFW_KEY_I)
+		glPolygonMode(GL_FRONT_AND_BACK, GL_POINT);
+	else if (key == GLFW_KEY_O)
+		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+	else if (key == GLFW_KEY_P)
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 }
 
 void			key_callback(GLFWwindow *window, int key, int scancode,
