@@ -6,56 +6,15 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/07 12:35:02 by snicolet          #+#    #+#             */
-/*   Updated: 2017/05/26 16:47:06 by snicolet         ###   ########.fr       */
+/*   Updated: 2017/05/26 18:13:32 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ogl.h"
 #include "opengl.h"
 
-static void			make_vertex_items_uv(t_vertex_pack *pack, const size_t p)
-{
-	t_vertex_item		*item;
-	const int			max_vertex = (int)pack->stats.vertex;
-	const int			max_faces = (int)pack->stats.faces;
-
-	if ((p > pack->stats.faces) || (p >= pack->stats.uv))
-		return ;
-	if ((pack->faces[p].x >= max_faces) || (pack->fuv[p].x >= max_vertex) ||
-		(pack->faces[p].y >= max_faces) || (pack->fuv[p].y >= max_vertex) ||
-		(pack->faces[p].z >= max_faces) || (pack->fuv[p].z >= max_vertex))
-		return ;
-	item = &pack->items[pack->faces[p].x];
-	item->uv = pack->uv[pack->fuv[p].x];
-	item = &pack->items[pack->faces[p].y];
-	item->uv = pack->uv[pack->fuv[p].y];
-	item = &pack->items[pack->faces[p].z];
-	item->uv = pack->uv[pack->fuv[p].z];
-}
-
-int					make_vertex_items(t_vertex_pack *pack)
-{
-	t_vertex_item		*item;
-	size_t				p;
-
-	p = 0;
-	while (p < pack->stats.vertex)
-	{
-		item = &pack->items[p];
-		if (p < pack->stats.uv)
-			item->uv = pack->uv[p];
-		p++;
-	}
-	p = pack->stats.faces;
-	ft_printf("patching %lu faces\n", p);
-	while (p--)
-		make_vertex_items_uv(pack, p);
-	return (0);
-}
-
 static int			make_vao(t_vertex_pack *pack)
 {
-	make_vertex_items(pack);
 	ft_putendl("making vbo");
 	pack->vbo = 0;
 	glGenBuffers(1, &pack->vbo);
