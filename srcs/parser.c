@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/16 15:47:56 by snicolet          #+#    #+#             */
-/*   Updated: 2017/05/24 00:57:24 by snicolet         ###   ########.fr       */
+/*   Updated: 2017/05/26 14:31:40 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,15 +25,14 @@ static void				color_load(t_v4f *target, const unsigned int color)
 	};
 }
 
-static void				parse_vertex(t_vertex_pack *tp, const int ret,
+static void				parse_vertex(t_vertex_ptrs *ptrs, const int ret,
 	unsigned int color)
 {
 	if (ret == 4)
-		color_load(&tp->vertex_items->color, color);
+		color_load(&ptrs->vertex->color, color);
 	else
-		tp->vertex_items->color = (t_v4f){0.2f, 0.2f, 0.2f, 1.0f};
-	tp->vertex_items++;
-	tp->vertex++;
+		ptrs->vertex->color = (t_v4f){0.2f, 0.2f, 0.2f, 1.0f};
+	ptrs->vertex++;
 }
 
 static int				parse_real(const char *filepath, t_vertex_pack *pack)
@@ -41,26 +40,29 @@ static int				parse_real(const char *filepath, t_vertex_pack *pack)
 	int				fd;
 	char			*line;
 	unsigned int	color;
-	t_vertex_pack	tp;
 	int				ret;
-	t_vertex_item	*x;
+	t_vertex_ptrs	ptrs;
 
-	x = pack->vertex_items;
-	ft_memcpy(&tp, pack, sizeof(t_vertex_pack));
+	ptrs = (t_vertex_ptrs){pack->uv, pack->items, pack->items};
 	if ((fd = open(filepath, O_RDONLY)) <= 0)
 		return (-1);
 	while (ft_get_next_line(fd, &line) > 0)
 	{
-		if ((ret = ft_sscanf(line, "v \\S%f \\S%f \\S%f \\S%x", &tp.vertex->x,
-				&tp.vertex->y, &tp.vertex->z, &color)) >= 3)
-			parse_vertex(&tp, ret, color);
-		else if ((!ft_strncmp(line, "f ", 2)) && (parse_face(&line[2], &tp)))
+		if ((ret = ft_sscanf(line, "v \\S%f \\S%f \\S%f \\S%x",
+				&ptrs.vertex->position.x,
+				&ptrs.vertex->position.y,
+				&ptrs.vertex->position.z, &color)) >= 3)
+			parse_vertex(&ptrs, ret, color);
+		else if ((!ft_strncmp(line, "f ", 2)) && (parse_face(&line[2], pack)))
 			;
-		else if (ft_sscanf(line, "vt \\S%f \\S%f", &tp.uv->x, &tp.uv->y) == 2)
-			tp.uv++;
-		else if (ft_sscanf(line, "vn \\S%f \\S%f \\S%f", &x->normal.x,
-				&x->normal.y, &x->normal.z) == 3)
-			x++;
+		else if (ft_sscanf(line, "vt \\S%f \\S%f", &ptrs.uv->x,
+					&ptrs.uv->y) == 2)
+			ptrs.uv++;
+		else if (ft_sscanf(line, "vn \\S%f \\S%f \\S%f",
+				&ptrs.normal->normal.x,
+				&ptrs.normal->normal.y,
+				&ptrs.normal->normal.z) == 3)
+			ptrs.normal++;
 		free(line);
 	}
 	free(line);
@@ -95,43 +97,42 @@ static t_vertex_pack	*parse_post_process(t_vertex_pack *pack)
 
 static t_vertex_pack	*parse_setptrs(t_vertex_pack *pack, t_obj_stats *stats)
 {
-	if (!pack)
+	pack->items = ft_memalloc(sizeof(t_vertex_item) * stats->vertex);
+	pack->faces = ft_memalloc(sizeof(t_v3i) * stats->faces);
+	pack->fuv = ft_memalloc(sizeof(t_v3i) * stats->faces);
+	pack->flags = ft_memalloc(sizeof(char) * stats->faces);
+	pack->uv = ft_memalloc(sizeof(t_v2f) * stats->uv);
+	if ((!pack->items) || (!pack->faces) || (!pack->fuv) ||
+			(!pack->flags) || (!pack->uv))
 	{
-		ft_putstr_fd("error: failed to alllocate memory ! we are doomed!\n", 2);
+		ft_mfree(5, pack->items, pack->faces, pack->fuv, pack->flags, pack->uv);
+		ft_dprintf(2, "error: failed to malloc !\n");
 		return (NULL);
 	}
-	pack->vertex_items = (t_vertex_item*)((size_t)pack + sizeof(t_vertex_pack));
-	pack->vertex = (t_v3f*)((size_t)pack->vertex_items +
-		(sizeof(t_vertex_item) * stats->vertex));
-	pack->uv = (t_v2f*)((size_t)pack->vertex + (sizeof(t_v3f) * stats->vertex));
-	pack->flags = (unsigned char *)((size_t)pack->uv +
-		(sizeof(t_v2f) * stats->uv));
-	pack->faces = (t_v3i*)((size_t)pack->flags + (sizeof(char) * stats->faces));
-	pack->fuv = (t_v3i*)((size_t)pack->faces + (sizeof(t_v3i) * stats->faces));
-	pack->normals = (t_v3f*)((size_t)pack->fuv + (sizeof(t_v3i) * stats->uv));
 	return (pack);
 }
 
-t_vertex_pack			*parse_obj(const char *filepath)
+int			parse_obj(t_vertex_pack *pack, const char *filepath)
 {
 	t_obj_stats			stats;
-	t_vertex_pack		*pack;
+	t_vertex_pack		origin;
 
 	stats = parser_count(filepath);
 	if (stats.vertex + stats.faces == 0)
 	{
 		ft_dprintf(2, "error: no faces or vertex to display\n");
-		return (NULL);
+		return (1);
 	}
-	stats.fullsize = parse_calc_size(&stats);
-	ft_printf("trying to alllocate: %lu bytes\n", stats.fullsize);
-	if (!(pack = parse_setptrs(malloc(stats.fullsize), &stats)))
-		return (NULL);
+	if (!(parse_setptrs(pack, &stats)))
+		return (1);
 	pack->stats = stats;
-	ft_bzero(pack->flags, stats.faces);
-	if ((parse_real(filepath, pack) < 0) && (ft_mfree(1, pack)))
-		return (NULL);
-	pack->center = geo_center_v3(pack->vertex, stats.vertex);
+	origin = *pack;
+	if ((parse_real(filepath, pack) < 0) && (ft_mfree(1, pack->items)))
+		return (1);
+	*pack = origin;
+	pack->center = (t_v3f){0.0f, 0.0f, 0.0f};
+	//pack->center = geo_center_v3(pack->vertex, stats.vertex);
 	fixcenter(pack);
-	return (parse_post_process(pack));
+	parse_post_process(pack);
+	return (0);
 }

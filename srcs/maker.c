@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/07 12:35:02 by snicolet          #+#    #+#             */
-/*   Updated: 2017/05/24 00:54:13 by snicolet         ###   ########.fr       */
+/*   Updated: 2017/05/26 14:33:32 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,11 +25,11 @@ static void			make_vertex_items_uv(t_vertex_pack *pack, const size_t p)
 		(pack->faces[p].y >= max_faces) || (pack->fuv[p].y >= max_vertex) ||
 		(pack->faces[p].z >= max_faces) || (pack->fuv[p].z >= max_vertex))
 		return ;
-	item = &pack->vertex_items[pack->faces[p].x];
+	item = &pack->items[pack->faces[p].x];
 	item->uv = pack->uv[pack->fuv[p].x];
-	item = &pack->vertex_items[pack->faces[p].y];
+	item = &pack->items[pack->faces[p].y];
 	item->uv = pack->uv[pack->fuv[p].y];
-	item = &pack->vertex_items[pack->faces[p].z];
+	item = &pack->items[pack->faces[p].z];
 	item->uv = pack->uv[pack->fuv[p].z];
 }
 
@@ -41,8 +41,7 @@ int					make_vertex_items(t_vertex_pack *pack)
 	p = 0;
 	while (p < pack->stats.vertex)
 	{
-		item = &pack->vertex_items[p];
-		item->position = pack->vertex[p];
+		item = &pack->items[p];
 		item->uv = pack->uv[p];
 		p++;
 	}
@@ -62,7 +61,7 @@ static int			make_vao(t_vertex_pack *pack)
 	glBindBuffer(GL_ARRAY_BUFFER, pack->vbo);
 	glBufferData(GL_ARRAY_BUFFER,
 		(GLsizeiptr)(sizeof(t_vertex_item) * pack->stats.vertex),
-		(float*)pack->vertex_items,
+		(float*)pack->items,
 		GL_STATIC_DRAW);
 	ft_putendl("making faces indices");
 	ft_opengl_buffer_load(&pack->indices, GL_ELEMENT_ARRAY_BUFFER,

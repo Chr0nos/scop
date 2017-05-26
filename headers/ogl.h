@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/24 07:24:26 by snicolet          #+#    #+#             */
-/*   Updated: 2017/05/24 13:44:01 by snicolet         ###   ########.fr       */
+/*   Updated: 2017/05/26 14:27:32 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@
 
 typedef struct			s_obj_stats
 {
-	size_t				fullsize;
 	size_t				vertex;
 	size_t				uv;
 	size_t				faces;
@@ -68,13 +67,12 @@ typedef struct			s_light
 
 typedef struct			s_vertex_pack
 {
-	t_vertex_item		*vertex_items;
-	t_v3f				*vertex;
-	t_v2f				*uv;
+	t_vertex_item		*items;
 	unsigned char		*flags;
 	t_v3i				*faces;
 	t_v3i				*fuv;
-	t_v3f				*normals;
+	t_v2f				*uv;
+	t_v3f				*vertex;
 	t_obj_stats			stats;
 	t_v3f				center;
 	GLuint				fs;
@@ -93,8 +91,15 @@ typedef struct			s_vertex_pack
 	t_light				light;
 }						t_vertex_pack;
 
+typedef struct			s_vertex_ptrs
+{
+	t_v2f				*uv;
+	t_vertex_item		*normal;
+	t_vertex_item		*vertex;
+}						t_vertex_ptrs;
+
 void					fixcenter(t_vertex_pack *pack);
-t_vertex_pack			*parse_obj(const char *filepath);
+int						parse_obj(t_vertex_pack *pack, const char *filepath);
 t_obj_stats				parser_count(const char *filepath);
 int						keyboard(GLFWwindow *window);
 void					framebuffer_size_callback(GLFWwindow *window,
