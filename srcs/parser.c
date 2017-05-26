@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/16 15:47:56 by snicolet          #+#    #+#             */
-/*   Updated: 2017/05/26 18:55:16 by snicolet         ###   ########.fr       */
+/*   Updated: 2017/05/26 19:01:09 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,8 +60,7 @@ static int				parse_real(const char *filepath, t_vertex_pack *pack)
 	while (ft_get_next_line(fd, &line) > 0)
 	{
 		if ((ret = ft_sscanf(line, "v \\S%f \\S%f \\S%f \\S%x",
-				&pack->items->position.x,
-				&pack->items->position.y,
+				&pack->items->position.x, &pack->items->position.y,
 				&pack->items->position.z, &color)) >= 3)
 			parse_vertex(pack, ret, color);
 		else if ((!ft_strncmp(line, "f ", 2)) && (parse_face(&line[2], pack)))
@@ -112,8 +111,10 @@ static int				parse_post_process(t_vertex_pack *pack)
 	return (0);
 }
 
-static t_vertex_pack	*parse_setptrs(t_vertex_pack *pack, t_obj_stats *stats)
+static t_vertex_pack	*parse_setptrs(t_vertex_pack *pack)
 {
+	const t_obj_stats	*stats = &pack->stats;
+
 	pack->items = ft_memalloc(sizeof(t_vertex_item) * stats->vertex);
 	pack->faces = ft_memalloc(sizeof(t_v3i) * stats->faces);
 	pack->fuv = ft_memalloc(sizeof(t_v3i) * stats->faces);
@@ -122,8 +123,7 @@ static t_vertex_pack	*parse_setptrs(t_vertex_pack *pack, t_obj_stats *stats)
 	pack->fnormals = ft_memalloc(sizeof(t_v3i) * stats->faces);
 	pack->normals = ft_memalloc(sizeof(t_v3f) * stats->normal);
 	if ((!pack->items) || (!pack->faces) || (!pack->fuv) ||
-			(!pack->flags) || (!pack->uv) || (!pack->fnormals) ||
-			(!pack->normals))
+		(!pack->flags) || (!pack->uv) || (!pack->fnormals) || (!pack->normals))
 	{
 		ft_mfree(7, pack->items, pack->faces, pack->fuv, pack->flags, pack->uv,
 				pack->normal, pack->fnormals);
@@ -135,18 +135,16 @@ static t_vertex_pack	*parse_setptrs(t_vertex_pack *pack, t_obj_stats *stats)
 
 int			parse_obj(t_vertex_pack *pack, const char *filepath)
 {
-	t_obj_stats			stats;
 	t_vertex_pack		origin;
 
-	stats = parser_count(filepath);
-	if (stats.vertex + stats.faces == 0)
+	pack->stats = parser_count(filepath);
+	if (pack->stats.vertex + pack->stats.faces == 0)
 	{
 		ft_dprintf(2, "error: no faces or vertex to display\n");
 		return (1);
 	}
-	if (!(parse_setptrs(pack, &stats)))
+	if (!(parse_setptrs(pack)))
 		return (1);
-	pack->stats = stats;
 	origin = *pack;
 	if ((parse_real(filepath, pack) < 0) && (ft_mfree(1, pack->items)))
 		return (1);
