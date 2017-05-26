@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_duplicate.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: snicolet <marvin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/26 17:39:06 by snicolet          #+#    #+#             */
-/*   Updated: 2017/05/26 17:39:55 by snicolet         ###   ########.fr       */
+/*   Updated: 2017/05/26 17:50:00 by qloubier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,12 @@ int						parse_duplicate(t_vertex_pack *pack)
 	while (p < pack->stats.faces)
 	{
 		idx = &pack->faces[p];
-		*(i++) = pack->items[idx->x];
-		*(i++) = pack->items[idx->y];
-		*(i++) = pack->items[idx->z];
+		*(i) = pack->items[idx->x];
+		(i++)->uv = pack->items[pack->fuv[p].x].uv;
+		*(i) = pack->items[idx->y];
+		(i++)->uv = pack->items[pack->fuv[p].y].uv;
+		*(i) = pack->items[idx->z];
+		(i++)->uv = pack->items[pack->fuv[p].z].uv;
 		*idx = (t_v3i){vidx, vidx + 1, vidx + 2};
 		vidx += 3;
 		p++;
@@ -41,5 +44,3 @@ int						parse_duplicate(t_vertex_pack *pack)
 	pack->items = items;
 	return (0);
 }
-
-
