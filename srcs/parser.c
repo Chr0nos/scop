@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/16 15:47:56 by snicolet          #+#    #+#             */
-/*   Updated: 2017/05/26 14:50:07 by snicolet         ###   ########.fr       */
+/*   Updated: 2017/05/26 16:33:26 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,10 +28,23 @@ static void				color_load(t_v4f *target, const unsigned int color)
 static void				parse_vertex(t_vertex_ptrs *ptrs, const int ret,
 	unsigned int color)
 {
+	static int				color_index = 0;
+	const unsigned int		colors[6] = {
+		0xff0000ff,
+		0xffff00ff,
+		0x0000ffff,
+		0xff00ffff,
+		0xb0b0b0ff,
+		0x000000ff
+	};
 	if (ret == 4)
 		color_load(&ptrs->vertex->color, color);
 	else
-		ptrs->vertex->color = (t_v4f){0.2f, 0.2f, 0.2f, 1.0f};
+	{
+		color_load(&ptrs->vertex->color, colors[color_index++]);
+		if (color_index > 5)
+			color_index = 0;
+	}
 	ptrs->vertex++;
 }
 
