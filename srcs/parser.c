@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/16 15:47:56 by snicolet          #+#    #+#             */
-/*   Updated: 2017/05/26 14:31:40 by snicolet         ###   ########.fr       */
+/*   Updated: 2017/05/26 14:50:07 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,8 +130,6 @@ int			parse_obj(t_vertex_pack *pack, const char *filepath)
 	if ((parse_real(filepath, pack) < 0) && (ft_mfree(1, pack->items)))
 		return (1);
 	*pack = origin;
-	pack->center = (t_v3f){0.0f, 0.0f, 0.0f};
-	//pack->center = geo_center_v3(pack->vertex, stats.vertex);
 	fixcenter(pack);
 	parse_post_process(pack);
 	return (0);
