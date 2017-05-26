@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/07 12:35:02 by snicolet          #+#    #+#             */
-/*   Updated: 2017/05/26 23:10:07 by snicolet         ###   ########.fr       */
+/*   Updated: 2017/05/26 23:18:28 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,9 +42,14 @@ static GLint		make_texture(t_vertex_pack *pack, const char *name,
 	GLint		id;
 	GLuint		img;
 
-	ft_printf("loading texture\n\tname: %s\n\tfrom %s\n", name, filepath);
+	ft_printf("loading texture\n\tname: %s\n\tfrom: %s\n", name, filepath);
 	img = SOIL_load_OGL_texture(filepath, SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID,
 			SOIL_FLAG_MIPMAPS | SOIL_FLAG_INVERT_Y);
+	if (!img)
+	{
+		ft_putstr("\twarning: failed to load\n");
+		return (-1);
+	}
 	glActiveTexture(texture_id);
 	glBindTexture(GL_TEXTURE_2D, img);
 	id = glGetUniformLocation(pack->program, name);
@@ -78,7 +83,6 @@ int					make_program(t_vertex_pack *pack)
 	make_texture(pack, "texture_sampler", pack->texture_path, GL_TEXTURE0);
 	if (pack->normal_map_path)
 		make_texture(pack, "normal_map", pack->normal_map_path, GL_TEXTURE1);
-
 	make_vao(pack);
 	ft_putendl("program done");
 	return (0);
