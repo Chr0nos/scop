@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/07 12:35:02 by snicolet          #+#    #+#             */
-/*   Updated: 2017/05/27 18:26:04 by snicolet         ###   ########.fr       */
+/*   Updated: 2017/05/28 00:39:38 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ static GLint		make_texture(GLuint *image_id, const char *name,
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	glUniform1i(id, texture_id);
+	glUniform1i(id, (GLint)texture_id);
 	glGenerateMipmap(GL_TEXTURE_2D);
 	return (id);
 }

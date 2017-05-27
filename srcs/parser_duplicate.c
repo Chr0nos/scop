@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/26 17:39:06 by snicolet          #+#    #+#             */
-/*   Updated: 2017/05/26 21:05:17 by snicolet         ###   ########.fr       */
+/*   Updated: 2017/05/28 00:55:48 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,14 @@ static void				load_params(t_vertex_pack *pack, t_vertex_item *item,
 	const int		index_face = ((int*)&(pack->faces[p]))[offset];
 	const int		index_uv = ((int*)&(pack->fuv[p]))[offset];
 	const int		index_nm = ((int*)&(pack->fnormals[p]))[offset];
+	static int		c = 0;
 
 	item->position = pack->items[index_face].position;
-	item->color = pack->items[index_face].color;
+	//item->color = pack->items[index_face].color;
+	if (c > 2)
+		c = 0;
+	color_load(&item->color,
+			(unsigned int[3]){0xffff, 0xffffffff, 0xff0000ff}[c++]);
 	item->uv = pack->uv[index_uv];
 	item->normal = pack->normals[index_nm];
 }

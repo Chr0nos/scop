@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/16 15:47:56 by snicolet          #+#    #+#             */
-/*   Updated: 2017/05/27 19:27:50 by snicolet         ###   ########.fr       */
+/*   Updated: 2017/05/28 00:51:21 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 #include <fcntl.h>
 #include <unistd.h>
 
-static void				color_load(t_v4f *target, const unsigned int color)
+void					color_load(t_v4f *target, const unsigned int color)
 {
 	*target = (t_v4f){
 		.x = (float)((color & 0xff000000) >> 24) / (float)0xff,
