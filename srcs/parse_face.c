@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/08 13:34:37 by snicolet          #+#    #+#             */
-/*   Updated: 2017/05/27 16:21:53 by snicolet         ###   ########.fr       */
+/*   Updated: 2017/05/27 16:50:33 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,15 +91,31 @@ int						parse_face(const char *line, t_vertex_pack *pack)
 ** returns: the amount of faces created (0, 1 or 2)
 */
 
+static int			parse_face_ng_extra(const char *line, t_vertex_pack *pack,
+	const t_v3i *history)
+{
+	int		ret;
+	t_v3i	idx;
+
+	ret = ft_sscanf(line, "\\S%d/%d/%d", &idx.x, &idx.y, &idx.z);
+	if (ret <= 0)
+		return (1);
+	*(pack->faces++) = (t_v3i){history[0].x, history[2].x, idx.x};
+	*(pack->fuv++) = (t_v3i){history[0].y, history[2].y, idx.y};
+	*(pack->fnormals++) = (t_v3i){history[0].z, history[2].y, idx.z};
+	return (2);
+}
+
 int					parse_face_ng(const char *line, t_vertex_pack *pack)
 {
 	size_t		p;
 	int			ret;
 	t_v3i		idx;
+	t_v3i		history[3];
 
 	p = 0;
 	idx = (t_v3i){0, 0, 0};
-	while ((p < 2) && (line) && (*line))
+	while ((p < 3) && (line) && (*line))
 	{
 		ret = ft_sscanf(line, "\\S%d%N/%d%N/%d%N",
 				&idx.x, &line, &idx.y, &line, &idx.z, &line);
@@ -108,10 +124,12 @@ int					parse_face_ng(const char *line, t_vertex_pack *pack)
 		((int*)pack->faces)[p] = idx.x;
 		((int*)pack->fuv)[p] = idx.y;
 		((int*)pack->fnormals)[p] = idx.z;
-		p++;
+		history[p++] = idx;
 	}
 	pack->faces++;
 	pack->fuv++;
 	pack->fnormals++;
+	if ((p == 3) && (*line))
+		return (parse_face_ng_extra(line, pack, history));
 	return (1);
 }
