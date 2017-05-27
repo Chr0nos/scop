@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/07 12:33:10 by snicolet          #+#    #+#             */
-/*   Updated: 2017/05/27 00:01:30 by snicolet         ###   ########.fr       */
+/*   Updated: 2017/05/27 17:55:55 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,7 @@ int					run_parse(const char *filepath, const char *texture,
 		pack.normal_map_path = normal_map;
 		ret = run_window(&pack);
 		ft_putendl("cleaning main structure pack");
-		ft_mfree(3, pack.items, pack.faces, pack.flags);
+		ft_mfree(2, pack.items, pack.faces);
 	}
 	ft_putendl("cleaning glfw");
 	glfwTerminate();

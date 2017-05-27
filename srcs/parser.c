@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/16 15:47:56 by snicolet          #+#    #+#             */
-/*   Updated: 2017/05/27 17:45:47 by snicolet         ###   ########.fr       */
+/*   Updated: 2017/05/27 17:57:02 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,8 +63,7 @@ static int				parse_real(const char *filepath, t_vertex_pack *pack)
 				&pack->items->position.x, &pack->items->position.y,
 				&pack->items->position.z, &color)) >= 3)
 			parse_vertex(pack, ret, color);
-		//else if ((!ft_strncmp(line, "f ", 2)) && (parse_face(&line[2], pack)))
-		else if ((!ft_strncmp(line, "f ", 2)) && (parse_face_ng(&line[2], pack)))
+		else if ((!ft_strncmp(line, "f ", 2)) && (parse_face(&line[2], pack)))
 			;
 		else if (ft_sscanf(line, "vt \\S%f \\S%f", &pack->uv->x,
 					&pack->uv->y) == 2)
@@ -120,14 +119,13 @@ static t_vertex_pack	*parse_setptrs(t_vertex_pack *pack)
 	pack->items = ft_memalloc(sizeof(t_vertex_item) * stats->vertex);
 	pack->faces = ft_memalloc(sizeof(t_v3i) * stats->faces);
 	pack->fuv = ft_memalloc(sizeof(t_v3i) * stats->faces);
-	pack->flags = ft_memalloc(sizeof(char) * stats->faces);
 	pack->uv = ft_memalloc(sizeof(t_v2f) * stats->uv);
 	pack->fnormals = ft_memalloc(sizeof(t_v3i) * stats->faces);
 	pack->normals = ft_memalloc(sizeof(t_v3f) * stats->normal);
 	if ((!pack->items) || (!pack->faces) || (!pack->fuv) ||
-		(!pack->flags) || (!pack->uv) || (!pack->fnormals) || (!pack->normals))
+		(!pack->uv) || (!pack->fnormals) || (!pack->normals))
 	{
-		ft_mfree(7, pack->items, pack->faces, pack->fuv, pack->flags, pack->uv,
+		ft_mfree(6, pack->items, pack->faces, pack->fuv, pack->uv,
 				pack->normal, pack->fnormals);
 		ft_dprintf(2, "error: failed to malloc !\n");
 		return (NULL);
