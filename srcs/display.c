@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/22 13:18:49 by snicolet          #+#    #+#             */
-/*   Updated: 2017/05/26 23:54:51 by snicolet         ###   ########.fr       */
+/*   Updated: 2017/05/27 02:21:08 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,6 +139,10 @@ int					display_loop(GLFWwindow *window, t_vertex_pack *pack)
 	send_uniforms(window, pack);
 	while ((!glfwWindowShouldClose(window)) && (!keyboard(window)))
 	{
+		glActiveTexture(GL_TEXTURE0);
+		glBindTexture(GL_TEXTURE_2D, pack->texture);
+		glActiveTexture(GL_TEXTURE1);
+		glBindTexture(GL_TEXTURE_2D, pack->normal_map);
 		event_texture_mode(window, &pack->uniforms);
 		modelview = geo_mk4_tof(make_matrix(window));
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
