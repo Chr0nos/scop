@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/22 13:18:49 by snicolet          #+#    #+#             */
-/*   Updated: 2017/05/27 02:21:08 by snicolet         ###   ########.fr       */
+/*   Updated: 2017/05/27 03:49:11 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,13 @@ t_m4				get_projection(GLFWwindow *window, double fov, double far,
 	return (proj);
 }
 
+static void			send_uniforms_tex(GLuint id, GLint value)
+{
+	glActiveTexture(GL_TEXTURE0 + id);
+	glBindTexture(GL_TEXTURE_2D, id);
+	glUniform1i(id, value);
+}
+
 static void			send_uniforms(GLFWwindow *window, t_vertex_pack *pack)
 {
 	t_uniforms		*u;
@@ -97,6 +104,9 @@ static void			send_uniforms(GLFWwindow *window, t_vertex_pack *pack)
 	glUniform1f(u->texture_switch, u->texture_switch_val);
 	glUniform3fv(u->light_pos, 1, (const GLfloat *)&pack->light.position);
 	glUniform4fv(u->light_color, 1, (const GLfloat *)&pack->light.color);
+	send_uniforms_tex(pack->texture, 0);
+	if (pack->normal_map)
+		send_uniforms_tex(pack->normal_map, 1);
 }
 
 /*
@@ -139,10 +149,6 @@ int					display_loop(GLFWwindow *window, t_vertex_pack *pack)
 	send_uniforms(window, pack);
 	while ((!glfwWindowShouldClose(window)) && (!keyboard(window)))
 	{
-		glActiveTexture(GL_TEXTURE0);
-		glBindTexture(GL_TEXTURE_2D, pack->texture);
-		glActiveTexture(GL_TEXTURE1);
-		glBindTexture(GL_TEXTURE_2D, pack->normal_map);
 		event_texture_mode(window, &pack->uniforms);
 		modelview = geo_mk4_tof(make_matrix(window));
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);

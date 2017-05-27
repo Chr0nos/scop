@@ -30,5 +30,6 @@ void main() {
 	color *= light.color;
 	//color *= brightness;
 	color = mix(color, texture(normal_map, uv), 0.5);
+//	color = texture(texture_sampler, uv);
 	frag_color = color;
 }
