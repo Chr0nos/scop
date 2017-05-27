@@ -20,7 +20,7 @@ void main() {
 	vec4 color = texture(texture_sampler, uv);
 	mat3 normal_matrix = transpose(inverse(mat3(model)));
 	vec3 normal = normalize(normal_matrix * fnormal);
-	//vec3 normal = normalize(normal_matrix * texture(normal_map, uv).xyz);
+//	vec3 normal = normalize(normal_matrix * texture(normal_map, uv).xyz);
 	vec3 fpos = vec3(model * vec4(fvertex.xyz, 1));
 	//a vector pointing to the light
 	vec3 stl = light.position - fpos;

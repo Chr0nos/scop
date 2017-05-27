@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/16 15:47:56 by snicolet          #+#    #+#             */
-/*   Updated: 2017/05/27 17:57:02 by snicolet         ###   ########.fr       */
+/*   Updated: 2017/05/27 19:27:50 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,6 +102,7 @@ static int				parse_post_process(t_vertex_pack *pack)
 			return (1);
 		}
 		pack->fuv[p] = geo_subv3i(pack->fuv[p], (t_v3i){1, 1, 1});
+		pack->fnormals[p] = geo_subv3i(pack->fnormals[p], (t_v3i){1, 1, 1});
 		parse_fixnegi((int*)&pack->faces[p], 3, mv);
 		parse_fixnegi((int*)&pack->fuv[p], 3, mv);
 		parse_fixnegi((int*)&pack->fnormals[p], 3, mv);
