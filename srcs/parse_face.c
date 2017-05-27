@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/08 13:34:37 by snicolet          #+#    #+#             */
-/*   Updated: 2017/05/27 16:11:50 by snicolet         ###   ########.fr       */
+/*   Updated: 2017/05/27 16:21:53 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,16 +98,20 @@ int					parse_face_ng(const char *line, t_vertex_pack *pack)
 	t_v3i		idx;
 
 	p = 0;
-	ret = 1;
 	idx = (t_v3i){0, 0, 0};
-	while ((p < 2) && (ret > 0) && (line) && (*line))
+	while ((p < 2) && (line) && (*line))
 	{
 		ret = ft_sscanf(line, "\\S%d%N/%d%N/%d%N",
 				&idx.x, &line, &idx.y, &line, &idx.z, &line);
-		((int*)pack->faces++)[p] = idx.x;
-		((int*)pack->fuv++)[p] = idx.y;
-		((int*)pack->fnormals++)[p] = idx.z;
+		if (ret < 0)
+			return (0);
+		((int*)pack->faces)[p] = idx.x;
+		((int*)pack->fuv)[p] = idx.y;
+		((int*)pack->fnormals)[p] = idx.z;
 		p++;
 	}
-	return ((ret < 1) ? 0 : 1);
+	pack->faces++;
+	pack->fuv++;
+	pack->fnormals++;
+	return (1);
 }
