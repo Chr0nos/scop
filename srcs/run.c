@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/07 12:33:10 by snicolet          #+#    #+#             */
-/*   Updated: 2017/05/27 17:55:55 by snicolet         ###   ########.fr       */
+/*   Updated: 2017/05/28 01:10:12 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ static void			configure_opengl(void)
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 1);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GLFW_TRUE);
+	glfwWindowHint(GLFW_SAMPLES, 16);
 }
 
 static void			delete_textures(t_vertex_pack *pack)
