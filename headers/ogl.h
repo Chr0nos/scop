@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/24 07:24:26 by snicolet          #+#    #+#             */
-/*   Updated: 2017/05/26 21:18:05 by snicolet         ###   ########.fr       */
+/*   Updated: 2017/05/27 15:55:18 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,6 +114,7 @@ int						display_loop(GLFWwindow *window, t_vertex_pack *pack);
 int						run_parse(const char *filepath, const char *texture,
 	const char *normal_map);
 int						parse_face(const char *line, t_vertex_pack *pack);
+int						parse_face_ng(const char *line, t_vertex_pack *pack);
 int						make_program(t_vertex_pack *pack);
 int						make_vertex_items(t_vertex_pack *pack);
 void					send_attributes(t_vertex_pack *pack);

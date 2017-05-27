@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/22 13:18:49 by snicolet          #+#    #+#             */
-/*   Updated: 2017/05/27 03:49:11 by snicolet         ###   ########.fr       */
+/*   Updated: 2017/05/27 04:04:14 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,11 +75,12 @@ t_m4				get_projection(GLFWwindow *window, double fov, double far,
 	return (proj);
 }
 
-static void			send_uniforms_tex(GLuint id, GLint value)
+static void			send_uniforms_tex(GLint uniform, GLuint id, GLint value)
 {
+	ft_printf("-> %d %u %d\n", uniform, id, value);
 	glActiveTexture(GL_TEXTURE0 + id);
 	glBindTexture(GL_TEXTURE_2D, id);
-	glUniform1i(id, value);
+	glUniform1i(uniform, value);
 }
 
 static void			send_uniforms(GLFWwindow *window, t_vertex_pack *pack)
@@ -104,9 +105,9 @@ static void			send_uniforms(GLFWwindow *window, t_vertex_pack *pack)
 	glUniform1f(u->texture_switch, u->texture_switch_val);
 	glUniform3fv(u->light_pos, 1, (const GLfloat *)&pack->light.position);
 	glUniform4fv(u->light_color, 1, (const GLfloat *)&pack->light.color);
-	send_uniforms_tex(pack->texture, 0);
+	send_uniforms_tex(pack->texture_id, pack->texture, 0);
 	if (pack->normal_map)
-		send_uniforms_tex(pack->normal_map, 1);
+		send_uniforms_tex(pack->normal_map_id, pack->normal_map, 1);
 }
 
 /*
