@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/22 13:16:55 by snicolet          #+#    #+#             */
-/*   Updated: 2017/05/27 18:35:36 by snicolet         ###   ########.fr       */
+/*   Updated: 2017/05/27 19:02:10 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,8 +74,8 @@ static void		light_move(int key, t_vertex_pack *pack, const float speed)
 		pos->z += speed;
 	else
 		return ;
-	ft_printf("new light position: %f %f %f\n", (double)pos->x, (double)pos->y,
-		(double)pos->z);
+	ft_printf("new light position: %.1f %.1f %.1f\n",
+			(double)pos->x, (double)pos->y, (double)pos->z);
 	glUniform3fv(pack->uniforms.light_pos, 1,
 		(const GLfloat*)&pack->light.position);
 }
