@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/07 12:35:02 by snicolet          #+#    #+#             */
-/*   Updated: 2017/05/26 23:18:28 by snicolet         ###   ########.fr       */
+/*   Updated: 2017/05/27 00:01:49 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,30 +36,31 @@ static int			make_vao(t_vertex_pack *pack)
 	return (0);
 }
 
-static GLint		make_texture(t_vertex_pack *pack, const char *name,
+static GLint		make_texture(GLuint *image_id, const char *name,
 		const char *filepath, const GLuint texture_id)
 {
-	GLint		id;
-	GLuint		img;
+	t_vertex_pack		*pack;
+	GLint				id;
 
+	pack = get_pack(NULL);
 	ft_printf("loading texture\n\tname: %s\n\tfrom: %s\n", name, filepath);
-	img = SOIL_load_OGL_texture(filepath, SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID,
-			SOIL_FLAG_MIPMAPS | SOIL_FLAG_INVERT_Y);
-	if (!img)
+	*image_id = SOIL_load_OGL_texture(filepath, SOIL_LOAD_AUTO,
+			SOIL_CREATE_NEW_ID, SOIL_FLAG_MIPMAPS | SOIL_FLAG_INVERT_Y);
+	if (!*image_id)
 	{
 		ft_putstr("\twarning: failed to load\n");
 		return (-1);
 	}
 	glActiveTexture(texture_id);
-	glBindTexture(GL_TEXTURE_2D, img);
+	glBindTexture(GL_TEXTURE_2D, *image_id);
 	id = glGetUniformLocation(pack->program, name);
-	ft_printf("\ttexture id: %d\n\timage id: %d\n", id, img);
-	glEnableVertexAttribArray((GLuint)img);
+	ft_printf("\ttexture id: %d\n\timage id: %d\n", id, *image_id);
+	glEnableVertexAttribArray((GLuint)*image_id);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	glUniform1i(id, (GLint)img);
+	glUniform1i(id, (GLint)*image_id);
 	glGenerateMipmap(GL_TEXTURE_2D);
 	return (id);
 }
@@ -80,9 +81,11 @@ int					make_program(t_vertex_pack *pack)
 	glAttachShader(pack->program, pack->fs);
 	glAttachShader(pack->program, pack->vs);
 	glLinkProgram(pack->program);
-	make_texture(pack, "texture_sampler", pack->texture_path, GL_TEXTURE0);
+	pack->texture_id = make_texture(&pack->texture, "texture_sampler",
+			pack->texture_path, GL_TEXTURE0);
 	if (pack->normal_map_path)
-		make_texture(pack, "normal_map", pack->normal_map_path, GL_TEXTURE1);
+		pack->normal_map_id = make_texture(&pack->normal_map, "normal_map",
+				pack->normal_map_path, GL_TEXTURE1);
 	make_vao(pack);
 	ft_putendl("program done");
 	return (0);

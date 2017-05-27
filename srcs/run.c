@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/07 12:33:10 by snicolet          #+#    #+#             */
-/*   Updated: 2017/05/26 21:12:21 by snicolet         ###   ########.fr       */
+/*   Updated: 2017/05/27 00:01:30 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,17 @@ static void			configure_opengl(void)
 	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GLFW_TRUE);
 }
 
+static void			delete_textures(t_vertex_pack *pack)
+{
+	const GLuint	ids[2] = {
+		pack->texture,
+		pack->normal_map
+	};
+
+	ft_putstr("deleting textures\n");
+	glDeleteTextures(2, ids);
+}
+
 static int			run_program(t_vertex_pack *pack, GLFWwindow *window)
 {
 	int		ret;
@@ -32,6 +43,7 @@ static int			run_program(t_vertex_pack *pack, GLFWwindow *window)
 		return (41);
 	}
 	ret = display_loop(window, pack);
+	delete_textures(pack);
 	ft_putendl("cleaning shaders");
 	glDeleteShader(pack->fs);
 	glDeleteShader(pack->vs);
