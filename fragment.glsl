@@ -16,8 +16,8 @@ in vec4				fvertex;
 
 out vec4			frag_color;
 
-void main() {
-	vec4 color = texture(texture_sampler, uv);
+float	make_brightness(void)
+{
 	mat3 normal_matrix = transpose(inverse(mat3(model)));
 	vec3 normal = normalize(normal_matrix * fnormal);
 //	vec3 normal = normalize(normal_matrix * texture(normal_map, uv).xyz);
@@ -25,11 +25,15 @@ void main() {
 	//a vector pointing to the light
 	vec3 stl = light.position - fpos;
 	float brightness = dot(normal, stl) / (length(stl) * length(normal));
-
 	brightness = clamp(brightness, 0.2, 1.0);
-	color *= light.color;
-	color *= brightness;
-//	color = mix(color, texture(normal_map, uv), 0.5);
+//	return (1);
+	return (brightness);
+}
+
+void main() {
+	vec4 color = texture(texture_sampler, uv);
+	float brightness = make_brightness();
+	color *= light.color * brightness;
 	color = mix(color, fcolor, clamp(tex_switch, 0, 1));
 	frag_color = color;
 }
