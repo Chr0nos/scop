@@ -28,8 +28,8 @@ void main() {
 	brightness = clamp(brightness, 0.2, 1.0);
 	color = mix(color, fcolor, clamp(tex_switch, 0, 1));
 	color *= light.color;
-//	color *= brightness;
-//	color = mix(color, texture(normal_map, uv), 0.8);
-	color = texture(texture_sampler, uv);
+	color *= brightness;
+//	color = mix(color, texture(normal_map, uv), 0.5);
+//	color = texture(texture_sampler, uv);
 	frag_color = color;
 }

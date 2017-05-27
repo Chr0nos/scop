@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/22 13:18:49 by snicolet          #+#    #+#             */
-/*   Updated: 2017/05/27 04:04:14 by snicolet         ###   ########.fr       */
+/*   Updated: 2017/05/27 18:33:23 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ static void			send_uniforms(GLFWwindow *window, t_vertex_pack *pack)
 
 	u = &pack->uniforms;
 	pack->light = (t_light){
-		.position = (t_v3f){0.0f, 0.0f, -5.0f},
+		.position = (t_v3f){0.0f, 0.0f, 25.0f},
 		.color = (t_v4f){1.0f, 1.0f, 1.0f, 1.0f}
 	};
 	proj = geo_mk4_tof(get_projection(window, DISPLAY_FOV, 1.0, 100.0));
@@ -105,9 +105,9 @@ static void			send_uniforms(GLFWwindow *window, t_vertex_pack *pack)
 	glUniform1f(u->texture_switch, u->texture_switch_val);
 	glUniform3fv(u->light_pos, 1, (const GLfloat *)&pack->light.position);
 	glUniform4fv(u->light_color, 1, (const GLfloat *)&pack->light.color);
-	send_uniforms_tex(pack->texture_id, pack->texture, 0);
+	send_uniforms_tex(pack->texture_id, pack->texture, 1);
 	if (pack->normal_map)
-		send_uniforms_tex(pack->normal_map_id, pack->normal_map, 1);
+		send_uniforms_tex(pack->normal_map_id, pack->normal_map, 2);
 }
 
 /*

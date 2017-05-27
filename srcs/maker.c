@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/07 12:35:02 by snicolet          #+#    #+#             */
-/*   Updated: 2017/05/27 03:04:32 by snicolet         ###   ########.fr       */
+/*   Updated: 2017/05/27 18:26:04 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ static GLint		make_texture(GLuint *image_id, const char *name,
 
 	pack = get_pack(NULL);
 	ft_printf("loading texture\n\tname: %s\n\tfrom: %s\n", name, filepath);
+	glActiveTexture(GL_TEXTURE0 + texture_id);
 	*image_id = SOIL_load_OGL_texture(filepath, SOIL_LOAD_AUTO,
 			SOIL_CREATE_NEW_ID, SOIL_FLAG_MIPMAPS | SOIL_FLAG_INVERT_Y);
 	if (!*image_id)
@@ -51,7 +52,6 @@ static GLint		make_texture(GLuint *image_id, const char *name,
 		ft_putstr("\twarning: failed to load\n");
 		return (-1);
 	}
-	glActiveTexture(GL_TEXTURE0 + texture_id);
 	glBindTexture(GL_TEXTURE_2D, *image_id);
 	id = glGetUniformLocation(pack->program, name);
 	ft_printf("\ttexture id: %d\n\timage id: %d\n\topengl id: %d\n", id,
@@ -81,11 +81,12 @@ int					make_program(t_vertex_pack *pack)
 	glAttachShader(pack->program, pack->fs);
 	glAttachShader(pack->program, pack->vs);
 	glLinkProgram(pack->program);
+	glUseProgram(pack->program);
 	pack->texture_id = make_texture(&pack->texture, "texture_sampler",
-			pack->texture_path, 0);
+			pack->texture_path, 1);
 	if (pack->normal_map_path)
 		pack->normal_map_id = make_texture(&pack->normal_map, "normal_map",
-				pack->normal_map_path, 1);
+				pack->normal_map_path, 2);
 	make_vao(pack);
 	ft_putendl("program done");
 	return (0);

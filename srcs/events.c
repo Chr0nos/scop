@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/22 13:16:55 by snicolet          #+#    #+#             */
-/*   Updated: 2017/05/26 18:07:02 by snicolet         ###   ########.fr       */
+/*   Updated: 2017/05/27 18:35:36 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,11 +55,36 @@ static void		key_press(GLFWwindow *window, t_vertex_pack *pack, int key)
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 }
 
+static void		light_move(int key, t_vertex_pack *pack, const float speed)
+{
+	t_v3f	*pos;
+
+	pos = &pack->light.position;
+	if (key == GLFW_KEY_KP_8)
+		pos->y += speed;
+	else if (key == GLFW_KEY_KP_5)
+		pos->y += -speed;
+	else if (key == GLFW_KEY_KP_4)
+		pos->x += -speed;
+	else if (key == GLFW_KEY_KP_6)
+		pos->x += speed;
+	else if (key == GLFW_KEY_KP_7)
+		pos->z += -speed;
+	else if (key == GLFW_KEY_KP_9)
+		pos->z += speed;
+	else
+		return ;
+	ft_printf("new light position: %f %f %f\n", (double)pos->x, (double)pos->y,
+		(double)pos->z);
+	glUniform3fv(pack->uniforms.light_pos, 1,
+		(const GLfloat*)&pack->light.position);
+}
+
 void			key_callback(GLFWwindow *window, int key, int scancode,
 		int action)
 {
 	(void)scancode;
 	if (action == 1)
 		key_press(window, get_pack(NULL), key);
-	//ft_printf("key pressed: %d - %d -- %d\n", key, scancode, action);
+	light_move(key, get_pack(NULL), 0.5f);
 }
