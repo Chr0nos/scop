@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/08 13:34:37 by snicolet          #+#    #+#             */
-/*   Updated: 2017/05/27 17:57:16 by snicolet         ###   ########.fr       */
+/*   Updated: 2017/05/27 18:54:39 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ static int			parse_face_extra(const char *line, t_vertex_pack *pack,
 		return (1);
 	*(pack->faces++) = (t_v3i){history[0].x, history[2].x, idx.x};
 	*(pack->fuv++) = (t_v3i){history[0].y, history[2].y, idx.y};
-	*(pack->fnormals++) = (t_v3i){history[0].z, history[2].y, idx.z};
+	*(pack->fnormals++) = (t_v3i){history[0].z, history[2].z, idx.z};
 	return (2);
 }
 
