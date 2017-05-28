@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/24 07:24:26 by snicolet          #+#    #+#             */
-/*   Updated: 2017/05/28 00:51:36 by snicolet         ###   ########.fr       */
+/*   Updated: 2017/05/28 11:25:33 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ typedef struct			s_uniforms
 	float				texture_switch_val;
 	GLint				light_pos;
 	GLint				light_color;
+	GLint				camera;
 }						t_uniforms;
 
 typedef struct			s_light
@@ -76,6 +77,7 @@ typedef struct			s_vertex_pack
 	t_v3f				*vertex;
 	t_obj_stats			stats;
 	t_v3f				center;
+	t_m4				camera;
 	GLuint				fs;
 	GLuint				vs;
 	GLuint				program;
@@ -121,5 +123,6 @@ void					key_callback(GLFWwindow *window, int key, int scancode,
 		int action);
 int						parse_duplicate(t_vertex_pack *pack);
 void					color_load(t_v4f *target, const unsigned int color);
+void					send_uniforms(GLFWwindow *window, t_vertex_pack *pack);
 
 #endif
