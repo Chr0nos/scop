@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/26 17:39:06 by snicolet          #+#    #+#             */
-/*   Updated: 2017/05/28 00:55:48 by snicolet         ###   ########.fr       */
+/*   Updated: 2017/05/28 12:24:38 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,10 @@ static void				load_params(t_vertex_pack *pack, t_vertex_item *item,
 		c = 0;
 	color_load(&item->color,
 			(unsigned int[3]){0xffff, 0xffffffff, 0xff0000ff}[c++]);
-	item->uv = pack->uv[index_uv];
-	item->normal = pack->normals[index_nm];
+	if ((index_uv >= 0) && (index_uv < (int)pack->stats.uv))
+		item->uv = pack->uv[index_uv];
+	if ((index_nm >= 0) && (index_nm < (int)pack->stats.normal))
+		item->normal = pack->normals[index_nm];
 }
 
 int						parse_duplicate(t_vertex_pack *pack)
@@ -37,7 +39,7 @@ int						parse_duplicate(t_vertex_pack *pack)
 	int				vidx;
 	size_t			p;
 
-	items = malloc(sizeof(t_vertex_item) * (pack->stats.faces * 3));
+	items = ft_memalloc(sizeof(t_vertex_item) * (pack->stats.faces * 3));
 	if (!(items))
 		return (1);
 	i = items;
