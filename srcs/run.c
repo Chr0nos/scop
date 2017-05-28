@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/07 12:33:10 by snicolet          #+#    #+#             */
-/*   Updated: 2017/05/28 01:10:12 by snicolet         ###   ########.fr       */
+/*   Updated: 2017/05/28 20:56:47 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,12 +100,15 @@ int					run_parse(const char *filepath, const char *texture,
 {
 	int				ret;
 	t_vertex_pack	pack;
+	double			parsing_started;
 
 	ft_putendl("run parse");
 	ft_bzero(&pack, sizeof(t_vertex_pack));
 	get_pack(&pack);
+	parsing_started = glfwGetTime();
 	if (parse_obj(&pack, filepath) != 0)
 		return (21);
+	ft_printf("parsing total time: %f secs\n", glfwGetTime() - parsing_started);
 	ret = 2;
 	if (pack.items)
 	{
