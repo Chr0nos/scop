@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/16 15:47:56 by snicolet          #+#    #+#             */
-/*   Updated: 2017/05/28 00:51:21 by snicolet         ###   ########.fr       */
+/*   Updated: 2017/05/29 00:49:28 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ static int				parse_real(const char *filepath, t_vertex_pack *pack)
 
 	if ((fd = open(filepath, O_RDONLY)) <= 0)
 		return (-1);
-	while (ft_get_next_line(fd, &line) > 0)
+	while (GNL_CURRENT(fd, &line) > 0)
 	{
 		if ((ret = ft_sscanf(line, "v \\S%f \\S%f \\S%f \\S%x",
 				&pack->items->position.x, &pack->items->position.y,
@@ -73,7 +73,6 @@ static int				parse_real(const char *filepath, t_vertex_pack *pack)
 			pack->normals++;
 		free(line);
 	}
-	free(line);
 	close(fd);
 	return (0);
 }

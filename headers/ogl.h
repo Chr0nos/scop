@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/24 07:24:26 by snicolet          #+#    #+#             */
-/*   Updated: 2017/05/28 11:25:33 by snicolet         ###   ########.fr       */
+/*   Updated: 2017/05/29 01:04:10 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 # define FLAG_SW_IN		1
 # define FLAG_SW_OUT	2
 # define DISPLAY_FOV	45
+# define GNL_CURRENT	ft_get_line
 
 typedef struct			s_obj_stats
 {
