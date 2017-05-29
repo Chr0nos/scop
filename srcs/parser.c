@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/16 15:47:56 by snicolet          #+#    #+#             */
-/*   Updated: 2017/05/29 01:58:16 by snicolet         ###   ########.fr       */
+/*   Updated: 2017/05/29 14:09:38 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,37 +14,23 @@
 #include "libft.h"
 #include <fcntl.h>
 #include <unistd.h>
+#define CHARTOF (1.0f / (float)0xff)
 
 void					color_load(t_v4f *target, const unsigned int color)
 {
 	*target = (t_v4f){
-		.x = (float)((color & 0xff000000) >> 24) / (float)0xff,
-		.y = (float)((color & 0x00ff0000) >> 16) / (float)0xff,
-		.z = (float)((color & 0x0000ff00) >> 8) / (float)0xff,
-		.w = (float)((color & 0x000000ff)) / (float)0xff
+		.x = (float)((color & 0xff000000) >> 24) * CHARTOF,
+		.y = (float)((color & 0x00ff0000) >> 16) * CHARTOF,
+		.z = (float)((color & 0x0000ff00) >> 8) * CHARTOF,
+		.w = (float)((color & 0x000000ff)) * CHARTOF
 	};
 }
 
 static void				parse_vertex(t_vertex_pack *pack, const int ret,
 	unsigned int color)
 {
-	static int				color_index = 0;
-	const unsigned int		colors[6] = {
-		0xff0000ff,
-		0xffff00ff,
-		0x0000ffff,
-		0xff00ffff,
-		0xb0b0b0ff,
-		0x000000ff
-	};
 	if (ret == 4)
 		color_load(&pack->items->color, color);
-	else
-	{
-		color_load(&pack->items->color, colors[color_index++]);
-		if (color_index > 5)
-			color_index = 0;
-	}
 	pack->items++;
 }
 
@@ -59,7 +45,7 @@ static int				parse_real(const char *filepath, t_vertex_pack *pack)
 		return (-1);
 	while (GNL_CURRENT(fd, &line) > 0)
 	{
-		if ((ret = ft_sscanfq(line, "v \\S%f \\S%f \\S%f \\S%x",
+		if ((ret = ft_sscanfq(line, "v \\S%f \\S%f \\S%f \\S#%x",
 				&pack->items->position.x, &pack->items->position.y,
 				&pack->items->position.z, &color)) >= 3)
 			parse_vertex(pack, ret, color);
@@ -97,6 +83,9 @@ static int				parse_post_process(t_vertex_pack *pack)
 		if ((pack->faces[p].x > mv) || (pack->faces[p].y > mv) ||
 				(pack->faces[p].z > mv))
 		{
+			t_v3i	*d;
+			d = &pack->faces[p];
+			ft_printf("%lu %d %d %d -> %d\n", p, d->x, d->y, d->z, mv);
 			ft_dprintf(2, "error: invalid face in obj file !\n");
 			return (1);
 		}

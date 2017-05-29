@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/20 02:09:01 by snicolet          #+#    #+#             */
-/*   Updated: 2017/05/29 02:07:59 by snicolet         ###   ########.fr       */
+/*   Updated: 2017/05/29 13:58:43 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,6 @@ t_obj_stats		parser_count(const char *filepath)
 {
 	t_obj_stats			stats;
 	int					fd;
-	int					ret;
 	char				*line;
 
 	ft_bzero(&stats, sizeof(t_obj_stats));
@@ -68,13 +67,13 @@ t_obj_stats		parser_count(const char *filepath)
 		return (stats);
 	while ((GNL_CURRENT(fd, &line) > 0) && (!parse_line_error(line)))
 	{
-		if ((ret = ft_sscanfqf(line, "v \\S%f \\S%f \\S%f")) == 3)
+		if (ft_sscanfqf(line, "v \\S%f \\S%f \\S%f") == 3)
 			stats.vertex++;
 		else if (parser_count_faces(line, &stats))
 			;
-		else if ((ret = ft_sscanfqf(line, "vt \\S%f \\S%f")) == 2)
+		else if (ft_sscanfqf(line, "vt \\S%f \\S%f") == 2)
 			stats.uv++;
-		else if ((ret = ft_sscanfqf(line, "vn \\S%f \\S%f \\S%f")) == 3)
+		else if (ft_sscanfqf(line, "vn \\S%f \\S%f \\S%f") == 3)
 			stats.normal++;
 		free(line);
 	}
