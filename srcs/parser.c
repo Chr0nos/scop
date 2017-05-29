@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/16 15:47:56 by snicolet          #+#    #+#             */
-/*   Updated: 2017/05/29 01:58:16 by snicolet         ###   ########.fr       */
+/*   Updated: 2017/05/29 19:33:43 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,36 +28,21 @@ void					color_load(t_v4f *target, const unsigned int color)
 static void				parse_vertex(t_vertex_pack *pack, const int ret,
 	unsigned int color)
 {
-	static int				color_index = 0;
-	const unsigned int		colors[6] = {
-		0xff0000ff,
-		0xffff00ff,
-		0x0000ffff,
-		0xff00ffff,
-		0xb0b0b0ff,
-		0x000000ff
-	};
 	if (ret == 4)
 		color_load(&pack->items->color, color);
-	else
-	{
-		color_load(&pack->items->color, colors[color_index++]);
-		if (color_index > 5)
-			color_index = 0;
-	}
 	pack->items++;
 }
 
 static int				parse_real(const char *filepath, t_vertex_pack *pack)
 {
 	int				fd;
-	char			*line;
+	char			line[256];
 	unsigned int	color;
 	int				ret;
 
 	if ((fd = open(filepath, O_RDONLY)) <= 0)
 		return (-1);
-	while (GNL_CURRENT(fd, &line) > 0)
+	while (ft_gl(line, fd, sizeof(line)) > 0)
 	{
 		if ((ret = ft_sscanfq(line, "v \\S%f \\S%f \\S%f \\S%x",
 				&pack->items->position.x, &pack->items->position.y,
@@ -71,7 +56,6 @@ static int				parse_real(const char *filepath, t_vertex_pack *pack)
 		else if (ft_sscanfq(line, "vn \\S%f \\S%f \\S%f", &pack->normals->x,
 				&pack->normals->y, &pack->normals->z) == 3)
 			pack->normals++;
-		free(line);
 	}
 	close(fd);
 	return (0);
