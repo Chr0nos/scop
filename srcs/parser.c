@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/16 15:47:56 by snicolet          #+#    #+#             */
-/*   Updated: 2017/05/29 00:49:28 by snicolet         ###   ########.fr       */
+/*   Updated: 2017/05/29 01:58:16 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,16 +59,16 @@ static int				parse_real(const char *filepath, t_vertex_pack *pack)
 		return (-1);
 	while (GNL_CURRENT(fd, &line) > 0)
 	{
-		if ((ret = ft_sscanf(line, "v \\S%f \\S%f \\S%f \\S%x",
+		if ((ret = ft_sscanfq(line, "v \\S%f \\S%f \\S%f \\S%x",
 				&pack->items->position.x, &pack->items->position.y,
 				&pack->items->position.z, &color)) >= 3)
 			parse_vertex(pack, ret, color);
 		else if ((!ft_strncmp(line, "f ", 2)) && (parse_face(&line[2], pack)))
 			;
-		else if (ft_sscanf(line, "vt \\S%f \\S%f", &pack->uv->x,
+		else if (ft_sscanfq(line, "vt \\S%f \\S%f", &pack->uv->x,
 					&pack->uv->y) == 2)
 			pack->uv++;
-		else if (ft_sscanf(line, "vn \\S%f \\S%f \\S%f", &pack->normals->x,
+		else if (ft_sscanfq(line, "vn \\S%f \\S%f \\S%f", &pack->normals->x,
 				&pack->normals->y, &pack->normals->z) == 3)
 			pack->normals++;
 		free(line);

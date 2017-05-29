@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/08 13:34:37 by snicolet          #+#    #+#             */
-/*   Updated: 2017/05/27 18:54:39 by snicolet         ###   ########.fr       */
+/*   Updated: 2017/05/29 02:12:37 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ static int			parse_face_extra(const char *line, t_vertex_pack *pack,
 	int		ret;
 	t_v3i	idx;
 
-	ret = ft_sscanf(line, "\\S%d/%d/%d", &idx.x, &idx.y, &idx.z);
+	ret = ft_sscanfq(line, "\\S%d/%d/%d", &idx.x, &idx.y, &idx.z);
 	if (ret <= 0)
 		return (1);
 	*(pack->faces++) = (t_v3i){history[0].x, history[2].x, idx.x};
@@ -56,7 +56,7 @@ int					parse_face(const char *line, t_vertex_pack *pack)
 	idx = (t_v3i){0, 0, 0};
 	while ((p < 3) && (line) && (*line))
 	{
-		ret = ft_sscanf(line, "\\S%d%N/%d%N/%d%N",
+		ret = ft_sscanfq(line, "\\S%d%N/%d%N/%d%N",
 				&idx.x, &line, &idx.y, &line, &idx.z, &line);
 		if (ret < 0)
 			return (0);
