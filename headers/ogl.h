@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/24 07:24:26 by snicolet          #+#    #+#             */
-/*   Updated: 2017/05/29 16:20:57 by snicolet         ###   ########.fr       */
+/*   Updated: 2017/05/30 18:41:51 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ typedef struct			s_obj_stats
 	size_t				faces;
 	size_t				points;
 	size_t				normal;
+	size_t				current_vertex;
 }						t_obj_stats;
 
 typedef struct			s_vertex_item

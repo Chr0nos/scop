@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/16 15:47:56 by snicolet          #+#    #+#             */
-/*   Updated: 2017/05/29 19:33:43 by snicolet         ###   ########.fr       */
+/*   Updated: 2017/05/30 19:02:32 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ static void				parse_vertex(t_vertex_pack *pack, const int ret,
 	if (ret == 4)
 		color_load(&pack->items->color, color);
 	pack->items++;
+	pack->stats.current_vertex++;
 }
 
 static int				parse_real(const char *filepath, t_vertex_pack *pack)
@@ -77,16 +78,14 @@ static int				parse_post_process(t_vertex_pack *pack)
 	p = pack->stats.faces;
 	while (p--)
 	{
-		pack->faces[p] = geo_subv3i(pack->faces[p], (t_v3i){1, 1, 1});
 		if ((pack->faces[p].x > mv) || (pack->faces[p].y > mv) ||
 				(pack->faces[p].z > mv))
 		{
+			ft_printf("%lu -> %d %d %d\n", p, pack->faces[p].x, pack->faces[p].y,
+				pack->faces[p].z);
 			ft_dprintf(2, "error: invalid face in obj file !\n");
 			return (1);
 		}
-		pack->fuv[p] = geo_subv3i(pack->fuv[p], (t_v3i){1, 1, 1});
-		pack->fnormals[p] = geo_subv3i(pack->fnormals[p], (t_v3i){1, 1, 1});
-		parse_fixnegi((int*)&pack->faces[p], 3, mv);
 		parse_fixnegi((int*)&pack->fuv[p], 3, mv);
 		parse_fixnegi((int*)&pack->fnormals[p], 3, mv);
 	}

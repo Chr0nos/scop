@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/08 13:34:37 by snicolet          #+#    #+#             */
-/*   Updated: 2017/05/29 02:12:37 by snicolet         ###   ########.fr       */
+/*   Updated: 2017/05/30 18:56:16 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,13 @@ static int			parse_face_extra(const char *line, t_vertex_pack *pack,
 	ret = ft_sscanfq(line, "\\S%d/%d/%d", &idx.x, &idx.y, &idx.z);
 	if (ret <= 0)
 		return (1);
-	*(pack->faces++) = (t_v3i){history[0].x, history[2].x, idx.x};
+	if (idx.x < 0)
+	{
+		idx.x = (int)pack->stats.current_vertex - idx.x;
+		if (idx.x < 0)
+			return (1);
+	}
+	*(pack->faces++) = (t_v3i){history[0].x, history[2].x, idx.x - 1};
 	*(pack->fuv++) = (t_v3i){history[0].y, history[2].y, idx.y};
 	*(pack->fnormals++) = (t_v3i){history[0].z, history[2].z, idx.z};
 	return (2);
@@ -58,11 +64,14 @@ int					parse_face(const char *line, t_vertex_pack *pack)
 	{
 		ret = ft_sscanfq(line, "\\S%d%N/%d%N/%d%N",
 				&idx.x, &line, &idx.y, &line, &idx.z, &line);
-		if (ret < 0)
+		if (idx.x < 0)
+			idx.x = (int)pack->stats.current_vertex - idx.x;
+		if ((ret < 0) || (idx.x < 0))
 			return (0);
+		idx.x--;
 		((int*)pack->faces)[p] = idx.x;
-		((int*)pack->fuv)[p] = idx.y;
-		((int*)pack->fnormals)[p] = idx.z;
+		((int*)pack->fuv)[p] = idx.y - 1;
+		((int*)pack->fnormals)[p] = idx.z - 1;
 		history[p++] = idx;
 	}
 	pack->faces++;
