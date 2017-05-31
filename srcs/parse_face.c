@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/08 13:34:37 by snicolet          #+#    #+#             */
-/*   Updated: 2017/05/31 16:02:31 by snicolet         ###   ########.fr       */
+/*   Updated: 2017/05/31 16:08:46 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,8 +60,12 @@ static void			fix_idx(t_v3i *idx, int max)
 	if (idx->z < 0)
 		idx->z = max - idx->z;
 	*idx = (t_v3i){idx->x - 1, idx->y - 1, idx->z - 1};
-	if ((idx->x < 0) || (idx->y < 0) || (idx->z < 0))
-		*idx = (t_v3i){0, 0, 0};
+	if (idx->x < 0)
+		idx->x = 0;
+	if (idx->y < 0)
+		idx->y = 0;
+	if (idx->z < 0)
+		idx->z = 0;
 }
 
 int					parse_face(const char *line, t_vertex_pack *pack)
@@ -77,7 +81,7 @@ int					parse_face(const char *line, t_vertex_pack *pack)
 	{
 		ret = ft_sscanfq(line, "\\S%d%N/%d%N/%d%N",
 				&idx.x, &line, &idx.y, &line, &idx.z, &line);
-		if ((ret < 0) || (idx.x < 0))
+		if (ret < 0)
 			return (0);
 		fix_idx(&idx, (int)pack->stats.current_vertex);	
 		((int*)pack->faces)[p] = idx.x;
