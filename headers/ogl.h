@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/24 07:24:26 by snicolet          #+#    #+#             */
-/*   Updated: 2017/05/31 14:51:23 by snicolet         ###   ########.fr       */
+/*   Updated: 2017/05/31 23:07:38 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@
 # define INPUT_LCLICK	(1u << 0)
 # define INPUT_RCLICK	(1u << 1)
 # define INPUT_MCLICK	(1u << 2)
+# define INPUT_RLAST	(1u << 3)
 # define GNL_CURRENT	ft_get_next_line
 
 typedef struct			s_obj_stats
@@ -87,6 +88,7 @@ typedef struct			s_vertex_pack
 	t_quaternion		camera_quat;
 	t_m4				model;
 	t_quaternion		model_quat;
+	t_v2i				mouse_last;
 	size_t				input;
 	GLuint				fs;
 	GLuint				vs;

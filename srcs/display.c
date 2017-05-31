@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/22 13:18:49 by snicolet          #+#    #+#             */
-/*   Updated: 2017/05/31 15:51:30 by snicolet         ###   ########.fr       */
+/*   Updated: 2017/05/31 23:13:11 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,11 +101,12 @@ static void			event_texture_mode(GLFWwindow *window, t_uniforms *u)
 
 static void			matrix_init(t_vertex_pack *pack)
 {
-	pack->camera = geo_mk4_identity();
-	pack->camera.w = (t_v4d){0.0, 0.0, -5.0, 1.0};
-	geo_putm4(pack->camera, 6);
 	pack->camera_quat = geo_quat_identity();
 	pack->model_quat = geo_quat_identity();
+	pack->camera = geo_quat_tomatrix(pack->camera_quat);
+	pack->camera.w = (t_v4d){0.0, 0.0, -8.0, 1.0};
+	pack->input |= INPUT_RLAST;
+	geo_putm4(pack->camera, 6);
 }
 
 /*
