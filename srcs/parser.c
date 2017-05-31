@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/16 15:47:56 by snicolet          #+#    #+#             */
-/*   Updated: 2017/05/29 14:09:38 by snicolet         ###   ########.fr       */
+/*   Updated: 2017/05/31 12:36:41 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,18 +32,19 @@ static void				parse_vertex(t_vertex_pack *pack, const int ret,
 	if (ret == 4)
 		color_load(&pack->items->color, color);
 	pack->items++;
+	pack->stats.current_vertex++;
 }
 
 static int				parse_real(const char *filepath, t_vertex_pack *pack)
 {
 	int				fd;
-	char			*line;
+	char			line[256];
 	unsigned int	color;
 	int				ret;
 
 	if ((fd = open(filepath, O_RDONLY)) <= 0)
 		return (-1);
-	while (GNL_CURRENT(fd, &line) > 0)
+	while (ft_gl(line, fd, sizeof(line)) > 0)
 	{
 		if ((ret = ft_sscanfq(line, "v \\S%f \\S%f \\S%f \\S#%x",
 				&pack->items->position.x, &pack->items->position.y,
@@ -57,7 +58,6 @@ static int				parse_real(const char *filepath, t_vertex_pack *pack)
 		else if (ft_sscanfq(line, "vn \\S%f \\S%f \\S%f", &pack->normals->x,
 				&pack->normals->y, &pack->normals->z) == 3)
 			pack->normals++;
-		free(line);
 	}
 	close(fd);
 	return (0);
@@ -79,19 +79,14 @@ static int				parse_post_process(t_vertex_pack *pack)
 	p = pack->stats.faces;
 	while (p--)
 	{
-		pack->faces[p] = geo_subv3i(pack->faces[p], (t_v3i){1, 1, 1});
 		if ((pack->faces[p].x > mv) || (pack->faces[p].y > mv) ||
 				(pack->faces[p].z > mv))
 		{
-			t_v3i	*d;
-			d = &pack->faces[p];
-			ft_printf("%lu %d %d %d -> %d\n", p, d->x, d->y, d->z, mv);
+			ft_printf("%lu -> %d %d %d\n", p, pack->faces[p].x, pack->faces[p].y,
+				pack->faces[p].z);
 			ft_dprintf(2, "error: invalid face in obj file !\n");
 			return (1);
 		}
-		pack->fuv[p] = geo_subv3i(pack->fuv[p], (t_v3i){1, 1, 1});
-		pack->fnormals[p] = geo_subv3i(pack->fnormals[p], (t_v3i){1, 1, 1});
-		parse_fixnegi((int*)&pack->faces[p], 3, mv);
 		parse_fixnegi((int*)&pack->fuv[p], 3, mv);
 		parse_fixnegi((int*)&pack->fnormals[p], 3, mv);
 	}

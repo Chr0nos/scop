@@ -1,6 +1,7 @@
 #version 400 core
 uniform mat4	model;
 uniform mat4	projection;
+uniform mat4	view;
 
 in vec3			my_position;
 in vec4			my_color;
@@ -13,7 +14,9 @@ out vec4		fcolor;
 out vec4		fvertex;
 
 void main() {
-	fvertex = projection * model * vec4(my_position, 1.0);
+	//fvertex = projection * model * vec4(my_position, 1.0)
+	fvertex = projection * inverse(view) * model * vec4(my_position, 1.0);
+	//fvertex = projection * model * view * vec4(my_position, 1.0);
 	gl_Position = fvertex;
 	fcolor = my_color;
 	uv = my_uv;

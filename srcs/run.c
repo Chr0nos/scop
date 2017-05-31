@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/07 12:33:10 by snicolet          #+#    #+#             */
-/*   Updated: 2017/05/28 20:56:47 by snicolet         ###   ########.fr       */
+/*   Updated: 2017/05/31 13:32:48 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,8 @@ static int			run_window_real(t_vertex_pack *pack, GLFWwindow *window)
 {
 	glfwSetKeyCallback(window,
 			(void(*)(GLFWwindow *, int, int, int, int))(size_t)&key_callback);
+	glfwSetMouseButtonCallback(window, &mouse_button_callback);
+	glfwSetCursorPosCallback(window, &mouse_pos_callback);
 	glClearDepth((double)(INFINITY));
 	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 	glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);

@@ -6,7 +6,7 @@
 #    By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/07/24 07:18:03 by snicolet          #+#    #+#              #
-#*   Updated: 2017/05/28 11:25:48 by snicolet         ###   ########.fr       *#
+#*   Updated: 2017/05/31 12:53:41 by snicolet         ###   ########.fr       *#
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,13 +24,14 @@ INC=-I$(DRAW)/headers -I $(LIBFT)/ -I./SOIL2-clone/incs -Iheaders -Iglew/include
 SOIL=./SOIL2-clone/libSOIL2.a
 ifeq ($(OS),Darwin)
 	INC+=-I ~/.brew/include -I/usr/local/include
-	LINKER+=-framework OpenGL -L./SOIL2-clone/ -lSOIL2 -framework CoreFoundation -framework Cocoa -framework IOKit -framework CoreVideo -L/usr/local/lib -L$(LIBFT) -lft -lGLEW
+	LINKER+=-framework OpenGL -L./SOIL2-clone/ -lSOIL2 -framework CoreFoundation -framework Cocoa -framework IOKit -framework CoreVideo -L/usr/local/lib -L$(LIBFT) -lft -L ~/.brew/lib/ -lGLEW
 else
 	LINKER+=-L./SOIL2-clone -lGL -ldl -lpthread -lSOIL2 -L$(LIBFT) -lft -lX11 -lGLEW -lXrandr -lXinerama -lXcursor
 endif
 NAME=scop
 SRC=main.c events.c display.c parser.c parser_duplicate.c fixcenter.c \
-	parser_count.c run.c maker.c parse_face.c attributes.c uniforms.c
+	parser_count.c run.c maker.c parse_face.c attributes.c uniforms.c \
+	mouse.c
 SRC_DIR=srcs
 OBJ=$(SRC:%.c=$(BUILDDIR)/%.o)
 BUILDDIR=build

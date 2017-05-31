@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/20 02:09:01 by snicolet          #+#    #+#             */
-/*   Updated: 2017/05/29 13:58:43 by snicolet         ###   ########.fr       */
+/*   Updated: 2017/05/31 12:37:42 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,12 +60,12 @@ t_obj_stats		parser_count(const char *filepath)
 {
 	t_obj_stats			stats;
 	int					fd;
-	char				*line;
+	char				line[256];
 
 	ft_bzero(&stats, sizeof(t_obj_stats));
 	if ((fd = open(filepath, O_RDONLY)) <= 0)
 		return (stats);
-	while ((GNL_CURRENT(fd, &line) > 0) && (!parse_line_error(line)))
+	while ((ft_gl(line, fd, sizeof(line)) > 0) && (!parse_line_error(line)))
 	{
 		if (ft_sscanfqf(line, "v \\S%f \\S%f \\S%f") == 3)
 			stats.vertex++;
@@ -75,7 +75,6 @@ t_obj_stats		parser_count(const char *filepath)
 			stats.uv++;
 		else if (ft_sscanfqf(line, "vn \\S%f \\S%f \\S%f") == 3)
 			stats.normal++;
-		free(line);
 	}
 	close(fd);
 	ft_printf("stats: vertex: %lu / faces: %lu / uv: %lu / normal: %lu\n",

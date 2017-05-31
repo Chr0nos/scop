@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/24 07:24:26 by snicolet          #+#    #+#             */
-/*   Updated: 2017/05/29 14:09:15 by snicolet         ###   ########.fr       */
+/*   Updated: 2017/05/31 14:51:23 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define OGL_H
 # include "draw.h"
 # include "libft.h"
+# include "quaternion.h"
 # include <SOIL2.h>
 # include <GL/glew.h>
 # include <GLFW/glfw3.h>
@@ -22,6 +23,9 @@
 # define FLAG_SW_IN		1
 # define FLAG_SW_OUT	2
 # define DISPLAY_FOV	45
+# define INPUT_LCLICK	(1u << 0)
+# define INPUT_RCLICK	(1u << 1)
+# define INPUT_MCLICK	(1u << 2)
 # define GNL_CURRENT	ft_get_next_line
 
 typedef struct			s_obj_stats
@@ -31,6 +35,7 @@ typedef struct			s_obj_stats
 	size_t				faces;
 	size_t				points;
 	size_t				normal;
+	size_t				current_vertex;
 }						t_obj_stats;
 
 typedef struct			s_vertex_item
@@ -79,6 +84,10 @@ typedef struct			s_vertex_pack
 	t_obj_stats			stats;
 	t_v3f				center;
 	t_m4				camera;
+	t_quaternion		camera_quat;
+	t_m4				model;
+	t_quaternion		model_quat;
+	size_t				input;
 	GLuint				fs;
 	GLuint				vs;
 	GLuint				program;
@@ -110,7 +119,7 @@ t_v3i					*load_faces(t_list *faces, const int max,
 void					clean_pack(t_vertex_pack *pack);
 t_m4					get_projection(GLFWwindow *window, double fov,
 	double far, double near);
-t_m4					make_matrix(GLFWwindow *window);
+t_m4					make_matrix(GLFWwindow *window, t_vertex_pack *pack);
 size_t					parse_calc_size(const t_obj_stats *stats);
 int						display_loop(GLFWwindow *window, t_vertex_pack *pack);
 int						run_parse(const char *filepath, const char *texture,
@@ -125,5 +134,9 @@ void					key_callback(GLFWwindow *window, int key, int scancode,
 int						parse_duplicate(t_vertex_pack *pack);
 void					color_load(t_v4f *target, const unsigned int color);
 void					send_uniforms(GLFWwindow *window, t_vertex_pack *pack);
+void					mouse_button_callback(GLFWwindow *window, int button,
+		int action, int mods);
+void					mouse_pos_callback(GLFWwindow* window, double xpos,
+		double ypos);
 
 #endif

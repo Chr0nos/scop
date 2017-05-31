@@ -6,7 +6,7 @@
 /*   By: snicolet <marvin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/28 11:24:17 by snicolet          #+#    #+#             */
-/*   Updated: 2017/05/28 11:25:07 by snicolet         ###   ########.fr       */
+/*   Updated: 2017/05/31 14:14:57 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void				send_uniforms(GLFWwindow *window, t_vertex_pack *pack)
 	proj = geo_mk4_tof(get_projection(window, DISPLAY_FOV, 1.0, 100.0));
 	u->proj = glGetUniformLocation(pack->program, "projection");
 	u->model_view = glGetUniformLocation(pack->program, "model");
-	u->camera = glGetUniformLocation(pack->program, "camera");
+	u->camera = glGetUniformLocation(pack->program, "view");
 	u->light_pos = glGetUniformLocation(pack->program, "light.position");
 	u->light_color = glGetUniformLocation(pack->program, "light.color");
 	u->texture_switch = glGetUniformLocation(pack->program, "tex_switch");

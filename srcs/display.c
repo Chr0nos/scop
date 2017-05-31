@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/22 13:18:49 by snicolet          #+#    #+#             */
-/*   Updated: 2017/05/28 11:24:46 by snicolet         ###   ########.fr       */
+/*   Updated: 2017/05/31 15:03:37 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,16 +43,13 @@ static void			matrix_keyboard(GLFWwindow *window, t_quaternion *q,
 		*q = geo_quat_mult(*q, geo_quat_rot((t_v3d){0.0, 0.0, 1.0}, 0.02));
 }
 
-t_m4				make_matrix(GLFWwindow *window)
+t_m4				make_matrix(GLFWwindow *window, t_vertex_pack *pack)
 {
-	static t_v4d			camera = (t_v4d){0.0, 0.0, 5.0, 1.0};
 	t_m4					m;
-	static t_quaternion		q = (t_quaternion){1.0, 0.0, 0.0, 0.0};
 
-	matrix_keyboard(window, &q, &camera,
+	matrix_keyboard(window, &pack->model_quat, &pack->camera.w,
 		glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS ? 0.5 : 0.1);
-	m = geo_quat_tomatrix(q);
-	m.w = camera;
+	m = geo_quat_tomatrix(pack->model_quat);
 	return (m);
 }
 
@@ -109,17 +106,25 @@ static void			event_texture_mode(GLFWwindow *window, t_uniforms *u)
 int					display_loop(GLFWwindow *window, t_vertex_pack *pack)
 {
 	const int		faces_total = (int)(pack->stats.faces * 3);
-	t_m4f			modelview;
+	t_m4f			model;
 
+	pack->camera = geo_mk4_identity();
+	pack->camera.w = (t_v4d){0.0, 0.0, -5.0, 1.0};
+	geo_putm4(pack->camera, 6);
+	pack->camera_quat = geo_quat_identity();
+	pack->model_quat = geo_quat_identity();
 	glUseProgram(pack->program);
 	send_uniforms(window, pack);
 	while ((!glfwWindowShouldClose(window)) && (!keyboard(window)))
 	{
 		event_texture_mode(window, &pack->uniforms);
-		modelview = geo_mk4_tof(make_matrix(window));
+		pack->model = make_matrix(window, pack);
+		//pack->model.w = pack->camera.w;
+		model = geo_mk4_tof(pack->model);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		glUniformMatrix4fv(pack->uniforms.model_view, 1, GL_FALSE,
-			(const GLfloat *)&modelview);
+			(const GLfloat *)&model);
+		glUniformMatrix4fv(pack->uniforms.camera, 1, GL_FALSE, (const GLfloat *)&pack->camera);
 		glBindVertexArray(pack->vao);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, pack->indices);
 		glDrawElements(GL_TRIANGLES, faces_total, GL_UNSIGNED_INT, NULL);

@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/22 13:16:55 by snicolet          #+#    #+#             */
-/*   Updated: 2017/05/27 19:02:10 by snicolet         ###   ########.fr       */
+/*   Updated: 2017/05/29 18:48:01 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,9 +65,9 @@ static void		light_move(int key, t_vertex_pack *pack, const float speed)
 	else if (key == GLFW_KEY_KP_5)
 		pos->y += -speed;
 	else if (key == GLFW_KEY_KP_4)
-		pos->x += -speed;
-	else if (key == GLFW_KEY_KP_6)
 		pos->x += speed;
+	else if (key == GLFW_KEY_KP_6)
+		pos->x += -speed;
 	else if (key == GLFW_KEY_KP_7)
 		pos->z += -speed;
 	else if (key == GLFW_KEY_KP_9)
