@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/08 13:34:37 by snicolet          #+#    #+#             */
-/*   Updated: 2017/05/30 18:56:16 by snicolet         ###   ########.fr       */
+/*   Updated: 2017/05/31 16:02:31 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,9 +46,22 @@ static int			parse_face_extra(const char *line, t_vertex_pack *pack,
 			return (1);
 	}
 	*(pack->faces++) = (t_v3i){history[0].x, history[2].x, idx.x - 1};
-	*(pack->fuv++) = (t_v3i){history[0].y, history[2].y, idx.y};
-	*(pack->fnormals++) = (t_v3i){history[0].z, history[2].z, idx.z};
+	*(pack->fuv++) = (t_v3i){history[0].y, history[2].y, idx.y - 1};
+	*(pack->fnormals++) = (t_v3i){history[0].z, history[2].z, idx.z - 1};
 	return (2);
+}
+
+static void			fix_idx(t_v3i *idx, int max)
+{
+	if (idx->x < 0)
+		idx->x = max - idx->x;
+	if (idx->y < 0)
+		idx->y = max - idx->y;
+	if (idx->z < 0)
+		idx->z = max - idx->z;
+	*idx = (t_v3i){idx->x - 1, idx->y - 1, idx->z - 1};
+	if ((idx->x < 0) || (idx->y < 0) || (idx->z < 0))
+		*idx = (t_v3i){0, 0, 0};
 }
 
 int					parse_face(const char *line, t_vertex_pack *pack)
@@ -64,14 +77,12 @@ int					parse_face(const char *line, t_vertex_pack *pack)
 	{
 		ret = ft_sscanfq(line, "\\S%d%N/%d%N/%d%N",
 				&idx.x, &line, &idx.y, &line, &idx.z, &line);
-		if (idx.x < 0)
-			idx.x = (int)pack->stats.current_vertex - idx.x;
 		if ((ret < 0) || (idx.x < 0))
 			return (0);
-		idx.x--;
+		fix_idx(&idx, (int)pack->stats.current_vertex);	
 		((int*)pack->faces)[p] = idx.x;
-		((int*)pack->fuv)[p] = idx.y - 1;
-		((int*)pack->fnormals)[p] = idx.z - 1;
+		((int*)pack->fuv)[p] = idx.y;
+		((int*)pack->fnormals)[p] = idx.z;
 		history[p++] = idx;
 	}
 	pack->faces++;
