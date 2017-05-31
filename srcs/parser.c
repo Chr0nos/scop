@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/16 15:47:56 by snicolet          #+#    #+#             */
-/*   Updated: 2017/05/31 12:36:41 by snicolet         ###   ########.fr       */
+/*   Updated: 2017/05/31 15:32:24 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,13 +38,15 @@ static void				parse_vertex(t_vertex_pack *pack, const int ret,
 static int				parse_real(const char *filepath, t_vertex_pack *pack)
 {
 	int				fd;
-	char			line[256];
+//	char			line[256];
+	char			*line;
 	unsigned int	color;
 	int				ret;
 
 	if ((fd = open(filepath, O_RDONLY)) <= 0)
 		return (-1);
-	while (ft_gl(line, fd, sizeof(line)) > 0)
+//	while (ft_gl(line, fd, sizeof(line)) > 0)
+	while (ft_get_next_line(fd, &line) > 0)
 	{
 		if ((ret = ft_sscanfq(line, "v \\S%f \\S%f \\S%f \\S#%x",
 				&pack->items->position.x, &pack->items->position.y,
@@ -58,6 +60,7 @@ static int				parse_real(const char *filepath, t_vertex_pack *pack)
 		else if (ft_sscanfq(line, "vn \\S%f \\S%f \\S%f", &pack->normals->x,
 				&pack->normals->y, &pack->normals->z) == 3)
 			pack->normals++;
+		free(line);
 	}
 	close(fd);
 	return (0);
