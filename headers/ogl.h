@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/24 07:24:26 by snicolet          #+#    #+#             */
-/*   Updated: 2017/05/31 23:07:38 by snicolet         ###   ########.fr       */
+/*   Updated: 2017/06/01 01:25:47 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@
 # define INPUT_RCLICK	(1u << 1)
 # define INPUT_MCLICK	(1u << 2)
 # define INPUT_RLAST	(1u << 3)
+# define INPUT_CLICK	(INPUT_LCLICK | INPUT_RCLICK)
 # define GNL_CURRENT	ft_get_next_line
 
 typedef struct			s_obj_stats
