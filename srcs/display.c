@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/22 13:18:49 by snicolet          #+#    #+#             */
-/*   Updated: 2017/05/31 15:03:37 by snicolet         ###   ########.fr       */
+/*   Updated: 2017/05/31 15:21:10 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,7 @@ int					display_loop(GLFWwindow *window, t_vertex_pack *pack)
 	t_m4f			model;
 
 	pack->camera = geo_mk4_identity();
-	pack->camera.w = (t_v4d){0.0, 0.0, -5.0, 1.0};
+	pack->camera.w = (t_v4d){0.0, 0.0, 5.0, 1.0};
 	geo_putm4(pack->camera, 6);
 	pack->camera_quat = geo_quat_identity();
 	pack->model_quat = geo_quat_identity();
@@ -119,7 +119,7 @@ int					display_loop(GLFWwindow *window, t_vertex_pack *pack)
 	{
 		event_texture_mode(window, &pack->uniforms);
 		pack->model = make_matrix(window, pack);
-		//pack->model.w = pack->camera.w;
+		pack->model.w = pack->camera.w;
 		model = geo_mk4_tof(pack->model);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		glUniformMatrix4fv(pack->uniforms.model_view, 1, GL_FALSE,
