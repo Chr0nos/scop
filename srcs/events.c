@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/22 13:16:55 by snicolet          #+#    #+#             */
-/*   Updated: 2017/05/29 18:48:01 by snicolet         ###   ########.fr       */
+/*   Updated: 2017/06/01 14:00:30 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,10 @@ static void		key_press(GLFWwindow *window, t_vertex_pack *pack, int key)
 		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 	else if (key == GLFW_KEY_P)
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+	else if (key == GLFW_KEY_R)
+		reset_camera(pack);
+	else if (key == GLFW_KEY_T)
+		reset_model(pack);
 }
 
 static void		light_move(int key, t_vertex_pack *pack, const float speed)

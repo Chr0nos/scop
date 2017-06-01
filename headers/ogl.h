@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/24 07:24:26 by snicolet          #+#    #+#             */
-/*   Updated: 2017/06/01 01:25:47 by snicolet         ###   ########.fr       */
+/*   Updated: 2017/06/01 13:59:15 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,5 +141,7 @@ void					mouse_button_callback(GLFWwindow *window, int button,
 		int action, int mods);
 void					mouse_pos_callback(GLFWwindow* window, double xpos,
 		double ypos);
+void					reset_camera(t_vertex_pack *pack);
+void					reset_model(t_vertex_pack *pack);
 
 #endif
