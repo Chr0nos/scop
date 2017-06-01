@@ -6,7 +6,7 @@
 /*   By: snicolet <marvin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/31 12:52:00 by snicolet          #+#    #+#             */
-/*   Updated: 2017/06/01 12:41:29 by snicolet         ###   ########.fr       */
+/*   Updated: 2017/06/01 14:36:54 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,18 +56,18 @@ void			mouse_pos_callback(GLFWwindow* window, double xpos, double ypos)
 	(void)window;
 	pack = get_pack(NULL);
 	last = &pack->mouse_last;
-	if ((pack->input & INPUT_RLAST) && (pack->input & INPUT_CLICK))
+	if (pack->input & INPUT_CLICK)
 	{
-		*last = pos;
+		if (pack->input & INPUT_RLAST)
+			*last = pos;
 		pack->input &= ~INPUT_RLAST;
 	}
 	if (pack->input & INPUT_LCLICK)
-	{
 		mouse_look(pack, (t_v2i){pos.x - last->x, pos.y - last->y});
-		*last = pos;
-	}
 	else if (pack->input & INPUT_RCLICK)
-		mouse_move(pack, (t_v2i){pos.x - last->x, pos.y - last->y}, 0.001);
+		mouse_move(pack, (t_v2i){pos.x - last->x, pos.y - last->y}, 0.01);
+	if (pack->input & INPUT_CLICK)
+		*last = pos;
 }
 
 void			mouse_button_callback(GLFWwindow *window, int button,
