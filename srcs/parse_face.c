@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/08 13:34:37 by snicolet          #+#    #+#             */
-/*   Updated: 2017/05/31 16:08:46 by snicolet         ###   ########.fr       */
+/*   Updated: 2017/06/01 17:04:26 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,19 @@
 ** returns: the amount of faces created (0, 1 or 2)
 */
 
+static int			fix_item(int *x, const int max)
+{
+	if (*x < 0)
+		*x = max + *x;
+	else
+	{
+		(*x)--;
+		if (*x < 0)
+			*x = 0;
+	}
+	return (*x);
+}
+
 static int			parse_face_extra(const char *line, t_vertex_pack *pack,
 	const t_v3i *history)
 {
@@ -39,29 +52,19 @@ static int			parse_face_extra(const char *line, t_vertex_pack *pack,
 	ret = ft_sscanfq(line, "\\S%d/%d/%d", &idx.x, &idx.y, &idx.z);
 	if (ret <= 0)
 		return (1);
-	if (idx.x < 0)
-	{
-		idx.x = (int)pack->stats.current_vertex - idx.x;
-		if (idx.x < 0)
-			return (1);
-	}
-	*(pack->faces++) = (t_v3i){history[0].x, history[2].x, idx.x - 1};
+	if (fix_item(&idx.x, (int)pack->stats.current_vertex) < 0)
+		return (1);
+	*(pack->faces++) = (t_v3i){history[0].x, history[2].x, idx.x};
 	*(pack->fuv++) = (t_v3i){history[0].y, history[2].y, idx.y - 1};
 	*(pack->fnormals++) = (t_v3i){history[0].z, history[2].z, idx.z - 1};
 	return (2);
 }
 
-static void			fix_idx(t_v3i *idx, int max)
+static void			fix_idx(t_v3i *idx, const int max)
 {
-	if (idx->x < 0)
-		idx->x = max - idx->x;
-	if (idx->y < 0)
-		idx->y = max - idx->y;
-	if (idx->z < 0)
-		idx->z = max - idx->z;
-	*idx = (t_v3i){idx->x - 1, idx->y - 1, idx->z - 1};
-	if (idx->x < 0)
-		idx->x = 0;
+	fix_item(&idx->x, max);
+	idx->y--;
+	idx->z--;
 	if (idx->y < 0)
 		idx->y = 0;
 	if (idx->z < 0)
@@ -70,10 +73,10 @@ static void			fix_idx(t_v3i *idx, int max)
 
 int					parse_face(const char *line, t_vertex_pack *pack)
 {
-	size_t		p;
-	int			ret;
-	t_v3i		idx;
-	t_v3i		history[3];
+	size_t			p;
+	int				ret;
+	t_v3i			idx;
+	t_v3i			history[3];
 
 	p = 0;
 	idx = (t_v3i){0, 0, 0};
