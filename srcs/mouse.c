@@ -6,7 +6,7 @@
 /*   By: snicolet <marvin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/31 12:52:00 by snicolet          #+#    #+#             */
-/*   Updated: 2017/06/01 01:47:13 by snicolet         ###   ########.fr       */
+/*   Updated: 2017/06/01 12:41:29 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,8 @@ static void		mouse_move(t_vertex_pack *pack, const t_v2i vec,
 	t_v4d		move;
 
 	move = (t_v4d){
-		.x = clamp((double)-vec.x * speed, -4.0, 4.0),
-		.y = clamp((double)vec.y * speed, -4.0, 4.0),
+		.x = clamp((double)-vec.x * speed, -1.0, 1.0),
+		.y = clamp((double)vec.y * speed, -1.0, 1.0),
 		.z = 0.0,
 		.w = 0.0
 	};
@@ -67,7 +67,7 @@ void			mouse_pos_callback(GLFWwindow* window, double xpos, double ypos)
 		*last = pos;
 	}
 	else if (pack->input & INPUT_RCLICK)
-		mouse_move(pack, (t_v2i){pos.x - last->x, pos.y - last->y}, 0.0005);
+		mouse_move(pack, (t_v2i){pos.x - last->x, pos.y - last->y}, 0.001);
 }
 
 void			mouse_button_callback(GLFWwindow *window, int button,
