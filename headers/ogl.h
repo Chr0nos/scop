@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/24 07:24:26 by snicolet          #+#    #+#             */
-/*   Updated: 2017/06/01 14:57:05 by snicolet         ###   ########.fr       */
+/*   Updated: 2017/06/02 17:49:14 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,7 @@ typedef struct			s_vertex_pack
 	t_quaternion		model_quat;
 	t_v2i				mouse_last;
 	size_t				input;
+	double				fov;
 	GLuint				fs;
 	GLuint				vs;
 	GLuint				program;
@@ -113,7 +114,6 @@ typedef struct			s_vertex_pack
 void					fixcenter(t_vertex_pack *pack);
 int						parse_obj(t_vertex_pack *pack, const char *filepath);
 t_obj_stats				parser_count(const char *filepath);
-int						keyboard(GLFWwindow *window);
 void					framebuffer_size_callback(GLFWwindow *window,
 	int width, int height);
 void					error_handler(int id, const char *str);

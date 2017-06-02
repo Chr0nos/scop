@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/22 13:18:49 by snicolet          #+#    #+#             */
-/*   Updated: 2017/05/31 23:13:11 by snicolet         ###   ########.fr       */
+/*   Updated: 2017/06/02 17:55:49 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,6 @@ t_m4				get_projection(GLFWwindow *window, double fov, double far,
 	t_v2i			geo;
 
 	glfwGetWindowSize(window, &geo.x, &geo.y);
-	ft_printf("window resolution: %dx%d\n", geo.x, geo.y);
 	ratio = (double)geo.x / (double)geo.y;
 	height = near * (tan(fov * 0.5 * (M_PI / 180)));
 	width = height * ratio;
@@ -101,6 +100,7 @@ static void			event_texture_mode(GLFWwindow *window, t_uniforms *u)
 
 static void			matrix_init(t_vertex_pack *pack)
 {
+	pack->fov = (double)DISPLAY_FOV;
 	pack->camera_quat = geo_quat_identity();
 	pack->model_quat = geo_quat_identity();
 	pack->camera = geo_quat_tomatrix(pack->camera_quat);
@@ -122,7 +122,8 @@ int					display_loop(GLFWwindow *window, t_vertex_pack *pack)
 	matrix_init(pack);
 	glUseProgram(pack->program);
 	send_uniforms(window, pack);
-	while ((!glfwWindowShouldClose(window)) && (!keyboard(window)))
+	//while ((!glfwWindowShouldClose(window)) && (!keyboard(window)))
+	while (!glfwWindowShouldClose(window))
 	{
 		event_texture_mode(window, &pack->uniforms);
 		pack->model = make_matrix(window, pack);
