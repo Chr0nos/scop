@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/24 07:24:26 by snicolet          #+#    #+#             */
-/*   Updated: 2017/06/03 13:56:24 by snicolet         ###   ########.fr       */
+/*   Updated: 2017/06/03 22:24:16 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,5 +150,7 @@ void					reset_model(t_vertex_pack *pack);
 void					scroll_callback(GLFWwindow *window, double xoffset,
 		double yoffset);
 void					light_toggle(t_vertex_pack *pack);
+void					flag_toggle(t_vertex_pack *pack,
+		const unsigned int flag);
 
 #endif

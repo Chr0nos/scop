@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/22 13:16:55 by snicolet          #+#    #+#             */
-/*   Updated: 2017/06/03 13:57:53 by snicolet         ###   ########.fr       */
+/*   Updated: 2017/06/03 22:37:23 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,11 +54,9 @@ static int		change_polygon_mode(const int key)
 	return (1);
 }
 
-static void		key_press(GLFWwindow *window, t_vertex_pack *pack, int key)
+static void		key_press(GLFWwindow *window, t_vertex_pack *pack, int key,
+	t_uniforms *u)
 {
-	t_uniforms		*u;
-
-	u = &pack->uniforms;
 	if (key == GLFW_KEY_ESCAPE)
 		glfwSetWindowShouldClose(window, GLFW_TRUE);
 	else if (key == GLFW_KEY_C)
@@ -80,7 +78,9 @@ static void		key_press(GLFWwindow *window, t_vertex_pack *pack, int key)
 	else if (key == GLFW_KEY_N)
 		update_fov(window, pack, -5.0);
 	else if (key == GLFW_KEY_L)
-		light_toggle(pack);
+		flag_toggle(pack, FLAG_SH_NLIGHT);
+	else if (key == GLFW_KEY_K)
+		flag_toggle(pack, FLAG_SH_NMAP);
 }
 
 static void		light_move(int key, t_vertex_pack *pack, const float speed)
@@ -111,8 +111,11 @@ static void		light_move(int key, t_vertex_pack *pack, const float speed)
 void			key_callback(GLFWwindow *window, int key, int scancode,
 		int action)
 {
+	t_vertex_pack		*pack;
+
 	(void)scancode;
+	pack = get_pack(NULL);
 	if (action == 1)
-		key_press(window, get_pack(NULL), key);
-	light_move(key, get_pack(NULL), 0.5f);
+		key_press(window, pack, key, &pack->uniforms);
+	light_move(key, pack, 0.5f);
 }

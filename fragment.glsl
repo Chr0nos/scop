@@ -22,11 +22,13 @@ out vec4			frag_color;
 float	make_brightness(void)
 {
 	mat3 normal_matrix = transpose(inverse(mat3(model)));
-	vec3 normal = normalize(normal_matrix * fnormal);
+	vec3 normal;
 
 	//vec3 normal = normalize(fnormal);
 	if ((flags & FLAG_NMAP) != 0)
-		normal = normalize(texture(normal_map, uv).xyz);
+		normal = texture(normal_map, uv).rgb * 2.0 - 1.0;
+	else
+		normal = normalize(normal_matrix * fnormal);
 	vec3 fpos = vec3(model * vec4(fvertex.xyz, 1));
 	//a vector pointing to the light
 	vec3 stl = light.position * mat3(model) - fpos;
