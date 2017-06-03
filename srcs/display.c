@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/22 13:18:49 by snicolet          #+#    #+#             */
-/*   Updated: 2017/06/03 13:53:35 by snicolet         ###   ########.fr       */
+/*   Updated: 2017/06/03 14:13:01 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,9 +38,9 @@ static void			matrix_keyboard(GLFWwindow *window, t_quaternion *q,
 	else if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
 		*q = geo_quat_mult(*q, geo_quat_rot((t_v3d){1.0, 0.0, 0.0}, 0.02));
 	if (glfwGetKey(window, GLFW_KEY_E) == GLFW_PRESS)
-		*q = geo_quat_mult(*q, geo_quat_rot((t_v3d){0.0, 0.0, 1.0}, -0.02));
-	else if (glfwGetKey(window, GLFW_KEY_Q) == GLFW_PRESS)
 		*q = geo_quat_mult(*q, geo_quat_rot((t_v3d){0.0, 0.0, 1.0}, 0.02));
+	else if (glfwGetKey(window, GLFW_KEY_Q) == GLFW_PRESS)
+		*q = geo_quat_mult(*q, geo_quat_rot((t_v3d){0.0, 0.0, 1.0}, -0.02));
 }
 
 t_m4				make_matrix(GLFWwindow *window, t_vertex_pack *pack)
