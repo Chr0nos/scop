@@ -1,6 +1,6 @@
 #version 400 core
-#define FLAG_NMAP		1
-#define FLAG_NOLIGHT	2
+#define FLAG_NMAP		1u
+#define FLAG_NOLIGHT	2u
 uniform sampler2D	texture_sampler;
 uniform sampler2D	normal_map;
 uniform float		tex_switch;
