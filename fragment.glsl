@@ -23,6 +23,7 @@ float	make_brightness(void)
 {
 	mat3 normal_matrix = transpose(inverse(mat3(model)));
 	vec3 normal = normalize(normal_matrix * fnormal);
+
 	//vec3 normal = normalize(fnormal);
 	if ((flags & FLAG_NMAP) != 0)
 		normal = normalize(texture(normal_map, uv).xyz);
@@ -31,13 +32,13 @@ float	make_brightness(void)
 	vec3 stl = light.position * mat3(model) - fpos;
 	float brightness = dot(normal, stl) / (length(stl) * length(normal));
 	brightness = clamp(brightness, 0.2, 1.0);
-//	return (1);
 	return (brightness);
 }
 
 void main() {
 	vec4 color = texture(texture_sampler, uv);
 	float brightness;
+
 	if ((flags & FLAG_NOLIGHT) == 0)
 		brightness = make_brightness();
 	else
