@@ -6,7 +6,7 @@
 /*   By: snicolet <marvin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/28 11:24:17 by snicolet          #+#    #+#             */
-/*   Updated: 2017/06/02 17:39:43 by snicolet         ###   ########.fr       */
+/*   Updated: 2017/06/03 13:41:12 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,17 @@ static void			send_uniforms_tex(GLint uniform, GLuint id, GLint value)
 }
 
 
+static void			set_uniforms_ids(t_vertex_pack *pack, t_uniforms *u)
+{
+	u->proj = glGetUniformLocation(pack->program, "projection");
+	u->model_view = glGetUniformLocation(pack->program, "model");
+	u->camera = glGetUniformLocation(pack->program, "view");
+	u->light_pos = glGetUniformLocation(pack->program, "light.position");
+	u->light_color = glGetUniformLocation(pack->program, "light.color");
+	u->texture_switch = glGetUniformLocation(pack->program, "tex_switch");
+	u->flags = glGetUniformLocation(pack->program, "flags");
+}
+
 void				send_uniforms(GLFWwindow *window, t_vertex_pack *pack)
 {
 	t_uniforms		*u;
@@ -32,12 +43,7 @@ void				send_uniforms(GLFWwindow *window, t_vertex_pack *pack)
 		.color = (t_v4f){1.0f, 1.0f, 1.0f, 1.0f}
 	};
 	proj = geo_mk4_tof(get_projection(window, pack->fov, 1.0, 100.0));
-	u->proj = glGetUniformLocation(pack->program, "projection");
-	u->model_view = glGetUniformLocation(pack->program, "model");
-	u->camera = glGetUniformLocation(pack->program, "view");
-	u->light_pos = glGetUniformLocation(pack->program, "light.position");
-	u->light_color = glGetUniformLocation(pack->program, "light.color");
-	u->texture_switch = glGetUniformLocation(pack->program, "tex_switch");
+	set_uniforms_ids(pack, u);
 	u->texture_switch_val = 0.0f;
 	u->texture_switch_mode = FLAG_SW_NONE;
 	glUniformMatrix4fv(u->proj, 1, GL_FALSE, (const GLfloat *)&proj);
@@ -48,4 +54,6 @@ void				send_uniforms(GLFWwindow *window, t_vertex_pack *pack)
 	if (pack->normal_map)
 		send_uniforms_tex(pack->normal_map_id, pack->normal_map, 2);
 	glUniformMatrix4fv(u->camera, 1, GL_FALSE, (const GLfloat *)&pack->camera);
+	glUniform1ui(u->flags, pack->flags_shader);
+	ft_printf("shader flags: %b\n", pack->flags_shader);
 }

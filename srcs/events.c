@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/22 13:16:55 by snicolet          #+#    #+#             */
-/*   Updated: 2017/06/02 17:57:08 by snicolet         ###   ########.fr       */
+/*   Updated: 2017/06/03 13:57:53 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,8 @@ static void		key_press(GLFWwindow *window, t_vertex_pack *pack, int key)
 		update_fov(window, pack, 5.0);
 	else if (key == GLFW_KEY_N)
 		update_fov(window, pack, -5.0);
+	else if (key == GLFW_KEY_L)
+		light_toggle(pack);
 }
 
 static void		light_move(int key, t_vertex_pack *pack, const float speed)

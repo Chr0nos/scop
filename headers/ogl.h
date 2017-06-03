@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/24 07:24:26 by snicolet          #+#    #+#             */
-/*   Updated: 2017/06/02 17:49:14 by snicolet         ###   ########.fr       */
+/*   Updated: 2017/06/03 13:56:24 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@
 # define FLAG_SW_IN		1
 # define FLAG_SW_OUT	2
 # define DISPLAY_FOV	45
+# define FLAG_SH_NMAP	(1u << 0)
+# define FLAG_SH_NLIGHT	(1u << 1)
 # define INPUT_LCLICK	(1u << 0)
 # define INPUT_RCLICK	(1u << 1)
 # define INPUT_MCLICK	(1u << 2)
@@ -66,6 +68,7 @@ typedef struct			s_uniforms
 	GLint				light_pos;
 	GLint				light_color;
 	GLint				camera;
+	GLint				flags;
 }						t_uniforms;
 
 typedef struct			s_light
@@ -92,6 +95,7 @@ typedef struct			s_vertex_pack
 	t_v2i				mouse_last;
 	size_t				input;
 	double				fov;
+	unsigned int		flags_shader;
 	GLuint				fs;
 	GLuint				vs;
 	GLuint				program;
@@ -145,5 +149,6 @@ void					reset_camera(t_vertex_pack *pack);
 void					reset_model(t_vertex_pack *pack);
 void					scroll_callback(GLFWwindow *window, double xoffset,
 		double yoffset);
+void					light_toggle(t_vertex_pack *pack);
 
 #endif

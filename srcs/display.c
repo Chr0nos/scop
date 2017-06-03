@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/22 13:18:49 by snicolet          #+#    #+#             */
-/*   Updated: 2017/06/02 17:55:49 by snicolet         ###   ########.fr       */
+/*   Updated: 2017/06/03 13:53:35 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,8 @@ static void			event_texture_mode(GLFWwindow *window, t_uniforms *u)
 
 static void			matrix_init(t_vertex_pack *pack)
 {
+	if (pack->normal_map_path)
+		pack->flags_shader |= FLAG_SH_NMAP;
 	pack->fov = (double)DISPLAY_FOV;
 	pack->camera_quat = geo_quat_identity();
 	pack->model_quat = geo_quat_identity();
@@ -122,7 +124,6 @@ int					display_loop(GLFWwindow *window, t_vertex_pack *pack)
 	matrix_init(pack);
 	glUseProgram(pack->program);
 	send_uniforms(window, pack);
-	//while ((!glfwWindowShouldClose(window)) && (!keyboard(window)))
 	while (!glfwWindowShouldClose(window))
 	{
 		event_texture_mode(window, &pack->uniforms);

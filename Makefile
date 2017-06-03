@@ -6,7 +6,7 @@
 #    By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/07/24 07:18:03 by snicolet          #+#    #+#              #
-#*   Updated: 2017/06/01 14:56:06 by snicolet         ###   ########.fr       *#
+#*   Updated: 2017/06/03 13:56:37 by snicolet         ###   ########.fr       *#
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,7 +31,7 @@ endif
 NAME=scop
 SRC=main.c events.c display.c parser.c parser_duplicate.c fixcenter.c \
 	parser_count.c run.c maker.c parse_face.c attributes.c uniforms.c \
-	mouse.c reset.c scroll.c
+	mouse.c reset.c scroll.c light.c
 SRC_DIR=srcs
 OBJ=$(SRC:%.c=$(BUILDDIR)/%.o)
 BUILDDIR=build

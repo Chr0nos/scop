@@ -1,4 +1,6 @@
 #version 400 core
+#define FLAG_NMAP		1
+#define FLAG_NOLIGHT	2
 uniform sampler2D	texture_sampler;
 uniform sampler2D	normal_map;
 uniform float		tex_switch;
@@ -8,6 +10,7 @@ uniform struct		s_light {
 	vec4			color;
 }					light;
 uniform mat4		model;
+uniform uint		flags;
 
 in vec2				uv;
 in vec4				fcolor;
@@ -20,9 +23,9 @@ float	make_brightness(void)
 {
 	mat3 normal_matrix = transpose(inverse(mat3(model)));
 	vec3 normal = normalize(normal_matrix * fnormal);
-//	vec3 normal = normalize(fnormal);
-//	vec3 normal = normalize(texture(normal_map, uv).xyz);
-//	vec3 normal = normalize(normal_matrix * texture(normal_map, uv).xyz);
+	//vec3 normal = normalize(fnormal);
+	if ((flags & FLAG_NMAP) != 0)
+		normal = normalize(texture(normal_map, uv).xyz);
 	vec3 fpos = vec3(model * vec4(fvertex.xyz, 1));
 	//a vector pointing to the light
 	vec3 stl = light.position * mat3(model) - fpos;
@@ -34,7 +37,11 @@ float	make_brightness(void)
 
 void main() {
 	vec4 color = texture(texture_sampler, uv);
-	float brightness = make_brightness();
+	float brightness;
+	if ((flags & FLAG_NOLIGHT) == 0)
+		brightness = make_brightness();
+	else
+		brightness = 1.0;
 	color *= light.color * brightness;
 	color = mix(color, fcolor, clamp(tex_switch, 0, 1));
 	frag_color = color;
