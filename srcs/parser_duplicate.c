@@ -6,11 +6,19 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/26 17:39:06 by snicolet          #+#    #+#             */
-/*   Updated: 2017/05/28 12:24:38 by snicolet         ###   ########.fr       */
+/*   Updated: 2017/06/04 14:43:41 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ogl.h"
+
+/*
+** load all sub data into the t_vertex_item structure for the current item
+** current item is determined by "p", offset is used to know wich composant we
+** are setting (x, y or z) into faces, uv, and normals
+** the function also take care about vertex painting: it's create the colors
+** for the faces detection (key C)
+*/
 
 static void				load_params(t_vertex_pack *pack, t_vertex_item *item,
 		const size_t p, size_t offset)
@@ -32,6 +40,30 @@ static void				load_params(t_vertex_pack *pack, t_vertex_item *item,
 		item->normal = pack->normals[index_nm];
 }
 
+/*
+** allocate the good size of memory based on the number of faces
+** in case of error the functionr display an error message on stderr then
+** return NULL
+*/
+
+static t_vertex_item	*parse_duplicate_alloc(size_t faces)
+{
+	const size_t		size = sizeof(t_vertex_item) * (faces * 3);
+	t_vertex_item		*items;
+
+	ft_printf("allocating %lu bytes of memory for faces\n", size);
+	items = ft_memalloc(size);
+	if (!items)
+		ft_dprintf(2, "error: failed to malloc ! we are doomed !\n");
+	return (items);
+}
+
+/*
+** duplicate all vertex for each faces, it's prevents bugs with uv mapping
+** because two faces can share the sames vertexes, in this case the vertex must
+** be duplicated, take more memory but less cpu
+*/
+
 int						parse_duplicate(t_vertex_pack *pack)
 {
 	t_vertex_item	*items;
@@ -39,7 +71,7 @@ int						parse_duplicate(t_vertex_pack *pack)
 	int				vidx;
 	size_t			p;
 
-	items = ft_memalloc(sizeof(t_vertex_item) * (pack->stats.faces * 3));
+	items = parse_duplicate_alloc(pack->stats.faces);
 	if (!(items))
 		return (1);
 	i = items;
