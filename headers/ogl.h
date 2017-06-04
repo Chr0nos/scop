@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/24 07:24:26 by snicolet          #+#    #+#             */
-/*   Updated: 2017/06/04 14:29:19 by snicolet         ###   ########.fr       */
+/*   Updated: 2017/06/04 14:49:16 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -156,5 +156,8 @@ void					flag_toggle(t_vertex_pack *pack,
 		const unsigned int flag);
 void					matrix_init(t_vertex_pack *pack);
 t_m4					make_matrix(GLFWwindow *window, t_vertex_pack *pack);
+void					light_move(int key, t_vertex_pack *pack,
+		const float speed);
+
 
 #endif

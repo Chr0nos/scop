@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/22 13:16:55 by snicolet          #+#    #+#             */
-/*   Updated: 2017/06/03 22:37:23 by snicolet         ###   ########.fr       */
+/*   Updated: 2017/06/04 14:48:42 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,31 +81,6 @@ static void		key_press(GLFWwindow *window, t_vertex_pack *pack, int key,
 		flag_toggle(pack, FLAG_SH_NLIGHT);
 	else if (key == GLFW_KEY_K)
 		flag_toggle(pack, FLAG_SH_NMAP);
-}
-
-static void		light_move(int key, t_vertex_pack *pack, const float speed)
-{
-	t_v3f	*pos;
-
-	pos = &pack->light.position;
-	if (key == GLFW_KEY_KP_8)
-		pos->y += speed;
-	else if (key == GLFW_KEY_KP_5)
-		pos->y += -speed;
-	else if (key == GLFW_KEY_KP_4)
-		pos->x += speed;
-	else if (key == GLFW_KEY_KP_6)
-		pos->x += -speed;
-	else if (key == GLFW_KEY_KP_7)
-		pos->z += -speed;
-	else if (key == GLFW_KEY_KP_9)
-		pos->z += speed;
-	else
-		return ;
-	ft_printf("new light position: %.1f %.1f %.1f\n",
-			(double)pos->x, (double)pos->y, (double)pos->z);
-	glUniform3fv(pack->uniforms.light_pos, 1,
-		(const GLfloat*)&pack->light.position);
 }
 
 void			key_callback(GLFWwindow *window, int key, int scancode,
