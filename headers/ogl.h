@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/24 07:24:26 by snicolet          #+#    #+#             */
-/*   Updated: 2017/06/04 14:49:16 by snicolet         ###   ########.fr       */
+/*   Updated: 2017/06/04 15:29:30 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,40 +117,20 @@ typedef struct			s_vertex_pack
 	t_light				light;
 }						t_vertex_pack;
 
-void					fixcenter(t_vertex_pack *pack);
-int						parse_obj(t_vertex_pack *pack, const char *filepath);
-t_obj_stats				parser_count(const char *filepath);
-void					framebuffer_size_callback(GLFWwindow *window,
-	int width, int height);
 void					error_handler(int id, const char *str);
-t_v3i					*load_faces(t_list *faces, const int max,
-	size_t *faces_count);
 void					clean_pack(t_vertex_pack *pack);
 t_m4					get_projection(GLFWwindow *window, double fov,
 	double far, double near);
 t_m4					make_matrix(GLFWwindow *window, t_vertex_pack *pack);
-size_t					parse_calc_size(const t_obj_stats *stats);
 int						display_loop(GLFWwindow *window, t_vertex_pack *pack);
-int						run_parse(const char *filepath, const char *texture,
-	const char *normal_map);
-int						parse_face(const char *line, t_vertex_pack *pack);
 int						make_program(t_vertex_pack *pack);
 int						make_vertex_items(t_vertex_pack *pack);
 void					send_attributes(t_vertex_pack *pack);
 t_vertex_pack			*get_pack(t_vertex_pack *pack);
-void					key_callback(GLFWwindow *window, int key, int scancode,
-		int action);
-int						parse_duplicate(t_vertex_pack *pack);
-void					color_load(t_v4f *target, const unsigned int color);
 void					send_uniforms(GLFWwindow *window, t_vertex_pack *pack);
-void					mouse_button_callback(GLFWwindow *window, int button,
-		int action, int mods);
-void					mouse_pos_callback(GLFWwindow* window, double xpos,
-		double ypos);
+
 void					reset_camera(t_vertex_pack *pack);
 void					reset_model(t_vertex_pack *pack);
-void					scroll_callback(GLFWwindow *window, double xoffset,
-		double yoffset);
 void					light_toggle(t_vertex_pack *pack);
 void					flag_toggle(t_vertex_pack *pack,
 		const unsigned int flag);
@@ -159,5 +139,36 @@ t_m4					make_matrix(GLFWwindow *window, t_vertex_pack *pack);
 void					light_move(int key, t_vertex_pack *pack,
 		const float speed);
 
+/*
+** events
+*/
+
+void					mouse_button_callback(GLFWwindow *window, int button,
+		int action, int mods);
+void					mouse_pos_callback(GLFWwindow* window, double xpos,
+		double ypos);
+void					scroll_callback(GLFWwindow *window, double xoffset,
+		double yoffset);
+void					key_callback(GLFWwindow *window, int key, int scancode,
+		int action);
+void					framebuffer_size_callback(GLFWwindow *window,
+	int width, int height);
+
+/*
+** parser
+*/
+
+int						parse_face(const char *line, t_vertex_pack *pack);
+int						parse_duplicate(t_vertex_pack *pack);
+void					color_load(t_v4f *target, const unsigned int color);
+int						parse_post_process(t_vertex_pack *pack);
+int						parse_real(const char *filepath, t_vertex_pack *pack);
+int						run_parse(const char *filepath, const char *texture,
+	const char *normal_map);
+int						parse_obj(t_vertex_pack *pack, const char *filepath);
+t_obj_stats				parser_count(const char *filepath);
+t_v3i					*load_faces(t_list *faces, const int max,
+	size_t *faces_count);
+void					fixcenter(t_vertex_pack *pack);
 
 #endif
