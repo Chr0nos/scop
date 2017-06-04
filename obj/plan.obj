@@ -1,17 +1,21 @@
-# vertexes
-v -1 1 0	//en haut a gauche
-v -1 -1 0	//en bas a gauche
-v 1 1 0		//en haut a droite
-v 1 -1 0	//en bas a droite
+# vertexes							ID		NID
+v -1  1 0	//en haut a gauche		1		-4
+v -1 -1 0	//en bas a gauche		2		-3
+v  1  1 0	//en haut a droite		3		-2
+v  1 -1 0	//en bas a droite		4		-1
 
-# textures
-vt 1 0		//en haut a gauche
-vt 0 0		//en bas a gauche
-vt 1 1		//en haut a droite
-vt 0 1		//en bas a droite
+# textures							ID		NID
+vt 1 0		//en haut a gauche		1		-4
+vt 0 0		//en bas a gauche		2		-3
+vt 1 1		//en haut a droite		3		-2
+vt 0 1		//en bas a droite		4		-1
 
 vn 0 1 0	//normale perpendiculaire au plan sur y
 
 # faces
-f -1/1/1 -2/2/1 -4/4/1 -3/3/1	//faces avec tout le merdier
+# avec index positifs
+# f -1/1/1 -2/2/1 -4/4/1 -3/3/1	//faces avec tout le merdier
+
+# avec index negatifs
+f -1/-1/1 -2/-2/1 -4/-4/1 -3/-3/1
 

@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/08 13:34:37 by snicolet          #+#    #+#             */
-/*   Updated: 2017/06/01 17:04:26 by snicolet         ###   ########.fr       */
+/*   Updated: 2017/06/04 17:32:54 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,16 +60,32 @@ static int			parse_face_extra(const char *line, t_vertex_pack *pack,
 	return (2);
 }
 
-static void			fix_idx(t_v3i *idx, const int max)
+static void			fix_idx(t_v3i *idx, const t_v3i max)
 {
-	fix_item(&idx->x, max);
-	idx->y--;
-	idx->z--;
-	if (idx->y < 0)
-		idx->y = 0;
-	if (idx->z < 0)
-		idx->z = 0;
+	fix_item(&idx->x, max.x);
+	fix_item(&idx->y, max.y);
+	fix_item(&idx->z, max.z);
 }
+
+/*
+** maximals are used to be abble to parse negatives indexes
+** we need to know the current maximal value
+*/
+
+static t_v3i		get_maximals(const t_obj_stats *stats)
+{
+	return ((t_v3i){
+		.x = (int)stats->current_vertex,
+		.y = (int)stats->current_uv,
+		.z = (int)stats->current_normal
+	});
+}
+
+/*
+** called on each face encountred in the .obj file
+** the line must start with: "f "
+** return the amount of faces found on the line
+*/
 
 int					parse_face(const char *line, t_vertex_pack *pack)
 {
@@ -77,16 +93,16 @@ int					parse_face(const char *line, t_vertex_pack *pack)
 	int				ret;
 	t_v3i			idx;
 	t_v3i			history[3];
+	const t_v3i		max = get_maximals(&pack->stats);
 
 	p = 0;
 	idx = (t_v3i){0, 0, 0};
 	while ((p < 3) && (line) && (*line))
 	{
-		ret = ft_sscanfq(line, "\\S%d%N/%d%N/%d%N",
-				&idx.x, &line, &idx.y, &line, &idx.z, &line);
-		if (ret < 0)
+		if ((ret = ft_sscanfq(line, "\\S%d%N/%d%N/%d%N",
+				&idx.x, &line, &idx.y, &line, &idx.z, &line)) < 0)
 			return (0);
-		fix_idx(&idx, (int)pack->stats.current_vertex);	
+		fix_idx(&idx, max);
 		((int*)pack->faces)[p] = idx.x;
 		((int*)pack->fuv)[p] = idx.y;
 		((int*)pack->fnormals)[p] = idx.z;
