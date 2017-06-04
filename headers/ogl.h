@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/24 07:24:26 by snicolet          #+#    #+#             */
-/*   Updated: 2017/06/03 22:24:16 by snicolet         ###   ########.fr       */
+/*   Updated: 2017/06/04 14:29:19 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,9 @@
 # define INPUT_MCLICK	(1u << 2)
 # define INPUT_RLAST	(1u << 3)
 # define INPUT_CLICK	(INPUT_LCLICK | INPUT_RCLICK)
-# define GNL_CURRENT	ft_get_next_line
+# define AXIS_X			(t_v3d){1.0, 0.0, 0.0}
+# define AXIS_Y			(t_v3d){0.0, 1.0, 0.0}
+# define AXIS_Z			(t_v3d){0.0, 0.0, 1.0}
 
 typedef struct			s_obj_stats
 {
@@ -152,5 +154,7 @@ void					scroll_callback(GLFWwindow *window, double xoffset,
 void					light_toggle(t_vertex_pack *pack);
 void					flag_toggle(t_vertex_pack *pack,
 		const unsigned int flag);
+void					matrix_init(t_vertex_pack *pack);
+t_m4					make_matrix(GLFWwindow *window, t_vertex_pack *pack);
 
 #endif

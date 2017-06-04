@@ -6,13 +6,11 @@
 /*   By: snicolet <marvin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/31 12:52:00 by snicolet          #+#    #+#             */
-/*   Updated: 2017/06/01 14:36:54 by snicolet         ###   ########.fr       */
+/*   Updated: 2017/06/04 14:29:13 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ogl.h"
-#define AXIS_Y (t_v3d){0.0, 1.0, 0.0}
-#define AXIS_X (t_v3d){1.0, 0.0, 0.0}
 
 static void		mouse_look(t_vertex_pack *pack, const t_v2i vec)
 {
