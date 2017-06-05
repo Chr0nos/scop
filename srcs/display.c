@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/22 13:18:49 by snicolet          #+#    #+#             */
-/*   Updated: 2017/06/05 14:47:53 by snicolet         ###   ########.fr       */
+/*   Updated: 2017/06/05 18:53:33 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,13 @@ static void			event_texture_mode(GLFWwindow *window, t_uniforms *u)
 	glUniform1f(u->texture_switch, u->texture_switch_val);
 }
 
+static void			display_pre(GLFWwindow *window, t_vertex_pack *pack)
+{
+	event_texture_mode(window, &pack->uniforms);
+	auto_rotate(pack);
+	//debug_tbn(pack);
+}
+
 /*
 ** main display_loop
 */
@@ -73,7 +80,7 @@ int					display_loop(GLFWwindow *window, t_vertex_pack *pack)
 	send_uniforms(window, pack);
 	while (!glfwWindowShouldClose(window))
 	{
-		event_texture_mode(window, &pack->uniforms);
+		display_pre(window, pack);
 		pack->model = make_matrix(window, pack);
 		model = geo_mk4_tof(pack->model);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);

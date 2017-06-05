@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/24 07:24:26 by snicolet          #+#    #+#             */
-/*   Updated: 2017/06/05 15:27:19 by snicolet         ###   ########.fr       */
+/*   Updated: 2017/06/05 18:50:37 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@
 # define INPUT_MCLICK	(1u << 2)
 # define INPUT_RLAST	(1u << 3)
 # define INPUT_CLICK	(INPUT_LCLICK | INPUT_RCLICK)
+# define INPUT_AUTOROT	(1u << 4)
 # define AXIS_X			(t_v3d){1.0, 0.0, 0.0}
 # define AXIS_Y			(t_v3d){0.0, 1.0, 0.0}
 # define AXIS_Z			(t_v3d){0.0, 0.0, 1.0}
@@ -123,6 +124,7 @@ typedef struct			s_vertex_pack
 	t_light				light;
 }						t_vertex_pack;
 
+void					auto_rotate(t_vertex_pack *pack);
 void					configure_opengl(void);
 void					error_handler(int id, const char *str);
 void					clean_pack(t_vertex_pack *pack);
@@ -179,5 +181,7 @@ t_obj_stats				parser_count(const char *filepath);
 t_v3i					*load_faces(t_list *faces, const int max,
 	size_t *faces_count);
 void					fixcenter(t_vertex_pack *pack);
+
+void					debug_tbn(t_vertex_pack *pack);
 
 #endif

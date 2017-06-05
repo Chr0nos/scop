@@ -6,7 +6,7 @@
 /*   By: snicolet <marvin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/04 15:21:46 by snicolet          #+#    #+#             */
-/*   Updated: 2017/06/05 14:57:40 by snicolet         ###   ########.fr       */
+/*   Updated: 2017/06/05 19:16:09 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,8 @@ static void				parse_tbn(t_vertex_pack *pack)
 		delta_uv[0] = geo_subv2f(vertex[1]->uv, vertex[0]->uv);
 		delta_uv[1] = geo_subv2f(vertex[2]->uv, vertex[0]->uv);
 		parse_tbn_compute(vertex[0], delta_uv, edge);
-		parse_tbn_compute(vertex[1], delta_uv, edge);
-		parse_tbn_compute(vertex[2], delta_uv, edge);
+		vertex[1]->tangent = vertex[0]->tangent;
+		vertex[2]->tangent = vertex[0]->tangent;
 	}
 }
 

@@ -6,11 +6,20 @@
 /*   By: snicolet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/04 14:24:41 by snicolet          #+#    #+#             */
-/*   Updated: 2017/06/05 14:48:05 by snicolet         ###   ########.fr       */
+/*   Updated: 2017/06/05 19:13:07 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ogl.h"
+
+void				auto_rotate(t_vertex_pack *pack)
+{
+	const double			speed = 0.01;
+
+	if (pack->input & INPUT_AUTOROT) 
+		pack->model_quat = geo_quat_mult(pack->model_quat,
+			geo_quat_rot(AXIS_Y, speed));
+}
 
 static void			matrix_keyboard(GLFWwindow *window, t_quaternion *q,
 	t_v4d *cam, const double speed)
@@ -53,6 +62,7 @@ t_m4				make_matrix(GLFWwindow *window, t_vertex_pack *pack)
 
 void				matrix_init(t_vertex_pack *pack)
 {
+	pack->flags_shader |= FLAG_SH_NLIGHT;
 	if (pack->normal_map_path)
 		pack->flags_shader |= FLAG_SH_NMAP;
 	pack->fov = (double)DISPLAY_FOV;
@@ -60,6 +70,6 @@ void				matrix_init(t_vertex_pack *pack)
 	pack->model_quat = geo_quat_identity();
 	pack->camera = geo_quat_tomatrix(pack->camera_quat);
 	pack->camera.w = (t_v4d){0.0, 0.0, -8.0, 1.0};
-	pack->input |= INPUT_RLAST;
+	pack->input |= INPUT_RLAST | INPUT_AUTOROT;
 	geo_putm4(pack->camera, 6);
 }

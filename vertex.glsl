@@ -21,11 +21,11 @@ mat3	get_tbn(void)
 	vec3	t;
 	vec3	b;
 	vec3	n;
-	mat3	tbn;
 
-	n = normalize(my_normal);
-	tbn = mat3(t, b, n);
-	return (tbn);
+	t = normalize(vec3(model * vec4(my_t, 0.0)));
+	b = normalize(vec3(model * vec4(my_b, 0.0)));
+	n = normalize(vec3(model * vec4(my_normal, 0.0)));
+	return (mat3(t, b, n));
 }
 
 void main() {
@@ -34,5 +34,5 @@ void main() {
 	fcolor = my_color;
 	uv = my_uv;
 	fnormal = my_normal;
-	tbn = mat3(my_t, my_b, my_normal);
+	tbn = get_tbn();
 }

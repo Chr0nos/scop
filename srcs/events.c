@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/22 13:16:55 by snicolet          #+#    #+#             */
-/*   Updated: 2017/06/05 15:25:51 by snicolet         ###   ########.fr       */
+/*   Updated: 2017/06/05 19:11:55 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,10 @@ void			key_callback(GLFWwindow *window, int key, int scancode,
 	(void)scancode;
 	pack = get_pack(NULL);
 	if (action == 1)
+	{
 		key_press(window, pack, key, &pack->uniforms);
+		if (key == GLFW_KEY_SPACE)
+			pack->input ^= INPUT_AUTOROT;
+	}
 	light_move(key, pack, 0.5f);
 }

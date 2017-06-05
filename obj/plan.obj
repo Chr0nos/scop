@@ -10,7 +10,7 @@ vt 0 0		//en bas a gauche		2		-3
 vt 1 1		//en haut a droite		3		-2
 vt 0 1		//en bas a droite		4		-1
 
-vn 0 1 0	//normale perpendiculaire au plan sur y
+vn 0 0 -1	//normale perpendiculaire au plan sur y
 
 # faces
 # avec index positifs

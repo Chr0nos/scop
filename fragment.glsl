@@ -26,14 +26,15 @@ vec3	get_normal(void)
 {
 	vec3	normal;
 
-	if ((flags & FLAG_NMAP) != 0)
-		normal = texture(normal_map, uv).rgb * 2.0 - 1.0;
-	else
+	if ((flags & FLAG_NMAP) == 0)
 	{
 		mat3 normal_matrix = transpose(inverse(mat3(model)));
 		normal = normal_matrix * fnormal;
+		return (normal);
 	}
-//	normal = tbn * normal;
+	normal = texture(normal_map, uv).rgb * 2.0 - 1.0;
+	mat3 normal_matrix = transpose(inverse(mat3(model)));
+	normal *= tbn * (normal_matrix * fnormal);
 	return (normalize(normal));
 }
 
@@ -42,7 +43,8 @@ float	make_brightness(void)
 	vec3 normal = get_normal();
 	vec3 fpos = vec3(model * vec4(fvertex.xyz, 1));
 	//a vector pointing to the light
-	vec3 stl = light.position * mat3(model) - fpos;
+	//vec3 stl = light.position * mat3(model) - fpos;
+	vec3 stl = light.position - fpos;
 	float brightness = dot(normal, stl) / (length(stl) * length(normal));
 	brightness = clamp(brightness, 0.2, 1.0);
 	return (brightness);
