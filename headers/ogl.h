@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/24 07:24:26 by snicolet          #+#    #+#             */
-/*   Updated: 2017/06/04 17:18:36 by snicolet         ###   ########.fr       */
+/*   Updated: 2017/06/04 23:48:24 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,8 @@ typedef struct			s_vertex_item
 	t_v4f				color;
 	t_v2f				uv;
 	t_v3f				normal;
+	t_v3f				tangent;
+	t_v3f				bitangent;
 }						t_vertex_item;
 
 typedef struct			s_vertex_attribs

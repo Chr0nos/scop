@@ -13,6 +13,18 @@ out vec2		uv;
 out vec4		fcolor;
 out vec4		fvertex;
 
+mat3	get_tbn(void)
+{
+	vec3	t;
+	vec3	b;
+	vec3	n;
+	mat3	tbn;
+
+	n = normalize(my_normal);
+	tbn = mat3(t, b, n);
+	return (tbn);
+}
+
 void main() {
 	fvertex = projection * inverse(view) * model * vec4(my_position, 1.0);
 	gl_Position = fvertex;
