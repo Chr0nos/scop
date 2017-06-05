@@ -18,6 +18,7 @@ in vec2				uv;
 in vec4				fcolor;
 in vec3				fnormal;
 in vec4				fvertex;
+in mat3				tbn;
 
 out vec4			frag_color;
 

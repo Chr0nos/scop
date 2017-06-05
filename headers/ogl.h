@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/24 07:24:26 by snicolet          #+#    #+#             */
-/*   Updated: 2017/06/04 23:48:24 by snicolet         ###   ########.fr       */
+/*   Updated: 2017/06/05 12:49:51 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,8 @@ typedef struct			s_vertex_attribs
 	GLint				color;
 	GLint				uv;
 	GLint				normal;
+	GLint				tangent;
+	GLint				bitangent;
 }						t_vertex_attribs;
 
 typedef struct			s_uniforms

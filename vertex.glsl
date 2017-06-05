@@ -7,11 +7,14 @@ in vec3			my_position;
 in vec4			my_color;
 in vec2			my_uv;
 in vec3			my_normal;
+in vec3			my_t;
+in vec3			my_b;
 
 out vec3		fnormal;
 out vec2		uv;
 out vec4		fcolor;
 out vec4		fvertex;
+out mat3		tbn;
 
 mat3	get_tbn(void)
 {
@@ -31,4 +34,5 @@ void main() {
 	fcolor = my_color;
 	uv = my_uv;
 	fnormal = my_normal;
+	tbn = mat3(my_t, my_b, my_normal);
 }
