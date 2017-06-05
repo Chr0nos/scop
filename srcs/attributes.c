@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/11 18:43:49 by snicolet          #+#    #+#             */
-/*   Updated: 2017/06/05 13:04:32 by snicolet         ###   ########.fr       */
+/*   Updated: 2017/06/05 13:17:28 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,9 @@ void			send_attributes(t_vertex_pack *pack)
 	const size_t		offset_uv = (pack->stats.uv > 0) ? 7 : 0;
 
 	set_attributes(pack);
-	ft_printf("%d %d %d %d\n", pack->attribs.position, pack->attribs.color,
-		pack->attribs.uv, pack->attribs.normal);
+	ft_printf("%d %d %d %d %d %d\n", pack->attribs.position,
+		pack->attribs.color, pack->attribs.uv, pack->attribs.normal,
+		pack->attribs.tangent, pack->attribs.bitangent);
 	glEnableVertexAttribArray((GLuint)pack->attribs.position);
 	glEnableVertexAttribArray((GLuint)pack->attribs.color);
 	glEnableVertexAttribArray((GLuint)pack->attribs.uv);

@@ -24,10 +24,17 @@ out vec4			frag_color;
 
 vec3	get_normal(void)
 {
+	vec3	normal;
+
 	if ((flags & FLAG_NMAP) != 0)
-		return (texture(normal_map, uv).rgb * 2.0 - 1.0);
-	mat3 normal_matrix = transpose(inverse(mat3(model)));
-	return (normalize(normal_matrix * fnormal));
+		normal = texture(normal_map, uv).rgb * 2.0 - 1.0;
+	else
+	{
+		mat3 normal_matrix = transpose(inverse(mat3(model)));
+		normal = normal_matrix * fnormal;
+	}
+//	normal = tbn * normal;
+	return (normalize(normal));
 }
 
 float	make_brightness(void)
