@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/22 13:18:49 by snicolet          #+#    #+#             */
-/*   Updated: 2017/06/05 18:53:33 by snicolet         ###   ########.fr       */
+/*   Updated: 2017/06/05 19:31:15 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,6 @@ static void			display_pre(GLFWwindow *window, t_vertex_pack *pack)
 {
 	event_texture_mode(window, &pack->uniforms);
 	auto_rotate(pack);
-	//debug_tbn(pack);
 }
 
 /*

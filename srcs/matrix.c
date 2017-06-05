@@ -6,7 +6,7 @@
 /*   By: snicolet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/04 14:24:41 by snicolet          #+#    #+#             */
-/*   Updated: 2017/06/05 19:13:07 by snicolet         ###   ########.fr       */
+/*   Updated: 2017/06/05 19:31:37 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void				auto_rotate(t_vertex_pack *pack)
 {
 	const double			speed = 0.01;
 
-	if (pack->input & INPUT_AUTOROT) 
+	if (pack->input & INPUT_AUTOROT)
 		pack->model_quat = geo_quat_mult(pack->model_quat,
 			geo_quat_rot(AXIS_Y, speed));
 }
