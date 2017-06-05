@@ -25,15 +25,14 @@ out vec4			frag_color;
 vec3	get_normal(void)
 {
 	vec3	normal;
+	mat3 normal_matrix = transpose(inverse(mat3(model)));
 
 	if ((flags & FLAG_NMAP) == 0)
 	{
-		mat3 normal_matrix = transpose(inverse(mat3(model)));
 		normal = normal_matrix * fnormal;
 		return (normal);
 	}
 	normal = texture(normal_map, uv).rgb * 2.0 - 1.0;
-	mat3 normal_matrix = transpose(inverse(mat3(model)));
 	normal *= tbn * (normal_matrix * fnormal);
 	return (normalize(normal));
 }
