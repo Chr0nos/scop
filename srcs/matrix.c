@@ -6,7 +6,7 @@
 /*   By: snicolet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/04 14:24:41 by snicolet          #+#    #+#             */
-/*   Updated: 2017/06/04 14:30:24 by snicolet         ###   ########.fr       */
+/*   Updated: 2017/06/05 14:48:05 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,4 +63,3 @@ void				matrix_init(t_vertex_pack *pack)
 	pack->input |= INPUT_RLAST;
 	geo_putm4(pack->camera, 6);
 }
-

@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/26 17:39:06 by snicolet          #+#    #+#             */
-/*   Updated: 2017/06/04 23:50:40 by snicolet         ###   ########.fr       */
+/*   Updated: 2017/06/05 14:58:32 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@ static void				load_params(t_vertex_pack *pack, t_vertex_item *item,
 	static int		c = 0;
 
 	item->position = pack->items[index_face].position;
-	//item->color = pack->items[index_face].color;
 	if (c > 2)
 		c = 0;
 	color_load(&item->color,

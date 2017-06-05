@@ -6,13 +6,12 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/22 13:18:49 by snicolet          #+#    #+#             */
-/*   Updated: 2017/06/04 14:25:57 by snicolet         ###   ########.fr       */
+/*   Updated: 2017/06/05 14:47:53 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ogl.h"
 #include "geo.h"
-
 
 t_m4				get_projection(GLFWwindow *window, double fov, double far,
 	double near)

@@ -6,7 +6,7 @@
 /*   By: snicolet <marvin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/28 11:24:17 by snicolet          #+#    #+#             */
-/*   Updated: 2017/06/03 22:18:30 by snicolet         ###   ########.fr       */
+/*   Updated: 2017/06/05 15:25:01 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ static void			send_uniforms_tex(GLint uniform, GLuint id, GLint value)
 	glBindTexture(GL_TEXTURE_2D, id);
 	glUniform1i(uniform, value);
 }
-
 
 static void			set_uniforms_ids(t_vertex_pack *pack, t_uniforms *u)
 {
@@ -39,7 +38,6 @@ void				send_uniforms(GLFWwindow *window, t_vertex_pack *pack)
 
 	u = &pack->uniforms;
 	pack->light = (t_light){
-		//.position = (t_v3f){0.0f, 4.0f, -8.0f},
 		.position = (t_v3f){0.0f, 4.0f, 0.0f},
 		.color = (t_v4f){1.0f, 1.0f, 1.0f, 1.0f}
 	};

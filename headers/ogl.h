@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/24 07:24:26 by snicolet          #+#    #+#             */
-/*   Updated: 2017/06/05 12:49:51 by snicolet         ###   ########.fr       */
+/*   Updated: 2017/06/05 15:27:19 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,6 +123,7 @@ typedef struct			s_vertex_pack
 	t_light				light;
 }						t_vertex_pack;
 
+void					configure_opengl(void);
 void					error_handler(int id, const char *str);
 void					clean_pack(t_vertex_pack *pack);
 t_m4					get_projection(GLFWwindow *window, double fov,
@@ -149,9 +150,11 @@ void					light_move(int key, t_vertex_pack *pack,
 ** events
 */
 
+void					update_projection(GLFWwindow *window,
+		t_vertex_pack *pack);
 void					mouse_button_callback(GLFWwindow *window, int button,
 		int action, int mods);
-void					mouse_pos_callback(GLFWwindow* window, double xpos,
+void					mouse_pos_callback(GLFWwindow *window, double xpos,
 		double ypos);
 void					scroll_callback(GLFWwindow *window, double xoffset,
 		double yoffset);

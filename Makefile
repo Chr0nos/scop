@@ -31,7 +31,8 @@ endif
 NAME=scop
 SRC=main.c events.c display.c parser.c parser_duplicate.c fixcenter.c \
 	parser_count.c run.c maker.c parse_face.c attributes.c uniforms.c \
-	mouse.c reset.c scroll.c light.c matrix.c parse_postprocess.c parse_real.c
+	mouse.c reset.c scroll.c light.c matrix.c parse_postprocess.c parse_real.c \
+	configure.c resize.c
 SRC_DIR=srcs
 OBJ=$(SRC:%.c=$(BUILDDIR)/%.o)
 BUILDDIR=build

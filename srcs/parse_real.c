@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_real.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: snicolet <marvin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: snicolet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/06/04 15:25:01 by snicolet          #+#    #+#             */
-/*   Updated: 2017/06/04 17:21:13 by snicolet         ###   ########.fr       */
+/*   Created: 2017/06/05 14:57:27 by snicolet          #+#    #+#             */
+/*   Updated: 2017/06/05 14:57:29 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,13 @@ static inline void		parse_normal(t_vertex_pack *pack)
 	pack->stats.current_normal++;
 }
 
+static inline int		parse_real_clean(char *line, const int fd)
+{
+	free(line);
+	close(fd);
+	return (0);
+}
+
 int						parse_real(const char *filepath, t_vertex_pack *pack)
 {
 	int				fd;
@@ -60,8 +67,5 @@ int						parse_real(const char *filepath, t_vertex_pack *pack)
 			parse_normal(pack);
 		free(line);
 	}
-	free(line);
-	close(fd);
-	return (0);
+	return (parse_real_clean(line, fd));
 }
-

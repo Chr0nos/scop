@@ -6,13 +6,13 @@
 /*   By: snicolet <marvin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/03 13:54:08 by snicolet          #+#    #+#             */
-/*   Updated: 2017/06/04 14:48:35 by snicolet         ###   ########.fr       */
+/*   Updated: 2017/06/05 14:57:57 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ogl.h"
 
-void		flag_toggle(t_vertex_pack *pack, const unsigned int flag)
+void			flag_toggle(t_vertex_pack *pack, const unsigned int flag)
 {
 	if (pack->flags_shader & flag)
 		pack->flags_shader &= ~flag;
@@ -46,4 +46,3 @@ void			light_move(int key, t_vertex_pack *pack, const float speed)
 	glUniform3fv(pack->uniforms.light_pos, 1,
 		(const GLfloat*)&pack->light.position);
 }
-

@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/16 15:47:56 by snicolet          #+#    #+#             */
-/*   Updated: 2017/06/04 15:29:51 by snicolet         ###   ########.fr       */
+/*   Updated: 2017/06/05 14:58:12 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ static t_vertex_pack	*parse_setptrs(t_vertex_pack *pack)
 	return (pack);
 }
 
-int			parse_obj(t_vertex_pack *pack, const char *filepath)
+int						parse_obj(t_vertex_pack *pack, const char *filepath)
 {
 	t_vertex_pack		pack_copy;
 

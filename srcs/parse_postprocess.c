@@ -6,7 +6,7 @@
 /*   By: snicolet <marvin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/04 15:21:46 by snicolet          #+#    #+#             */
-/*   Updated: 2017/06/05 13:03:20 by snicolet         ###   ########.fr       */
+/*   Updated: 2017/06/05 14:57:40 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@ static inline void		parse_tbn_compute(t_vertex_item *vertex,
 	t.x = f * (delta_uv[1].y * edge[0].x - delta_uv[0].y * edge[1].x);
 	t.y = f * (delta_uv[1].y * edge[0].y - delta_uv[0].y * edge[1].y);
 	t.z = f * (delta_uv[1].y * edge[0].z - delta_uv[0].y * edge[1].z);
-
 	b.x = f * (-delta_uv[1].x * edge[0].x + delta_uv[0].x * edge[1].x);
 	b.y = f * (-delta_uv[1].x * edge[0].y + delta_uv[0].x * edge[1].y);
 	b.z = f * (-delta_uv[1].x * edge[0].z + delta_uv[0].x * edge[1].z);

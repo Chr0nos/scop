@@ -6,7 +6,7 @@
 /*   By: snicolet <marvin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/31 12:52:00 by snicolet          #+#    #+#             */
-/*   Updated: 2017/06/04 14:29:13 by snicolet         ###   ########.fr       */
+/*   Updated: 2017/06/05 14:56:13 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ static void		mouse_move(t_vertex_pack *pack, const t_v2i vec,
 	pack->camera.w = geo_addv4(move, pack->camera.w);
 }
 
-void			mouse_pos_callback(GLFWwindow* window, double xpos, double ypos)
+void			mouse_pos_callback(GLFWwindow *window, double xpos, double ypos)
 {
 	const t_v2i			pos = (t_v2i){(int)xpos, (int)ypos};
 	t_v2i				*last;
