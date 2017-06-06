@@ -14,7 +14,6 @@ out vec3		fnormal;
 out vec2		uv;
 out vec4		fcolor;
 out vec4		fvertex;
-out mat3		tbn;
 
 mat3	get_tbn(void)
 {
@@ -34,5 +33,4 @@ void main() {
 	fcolor = my_color;
 	uv = my_uv;
 	fnormal = my_normal;
-	tbn = get_tbn();
 }
