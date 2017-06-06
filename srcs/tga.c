@@ -6,7 +6,7 @@
 /*   By: snicolet <marvin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/05 21:41:43 by snicolet          #+#    #+#             */
-/*   Updated: 2017/06/06 19:22:20 by snicolet         ###   ########.fr       */
+/*   Updated: 2017/06/06 19:35:58 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,5 +76,6 @@ GLuint				load_OGL_tga(const char *filepath)
 	glBindTexture(GL_TEXTURE_2D, id);
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, header.width, header.height, 0,
 			GL_RGBA, GL_UNSIGNED_BYTE, pixels);
+	free(pixels);
 	return (id);
 }
