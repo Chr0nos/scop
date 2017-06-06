@@ -6,43 +6,16 @@
 /*   By: snicolet <marvin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/05 21:41:43 by snicolet          #+#    #+#             */
-/*   Updated: 2017/06/05 23:25:24 by snicolet         ###   ########.fr       */
+/*   Updated: 2017/06/06 19:22:20 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include <stdlib.h>
 #include <GL/glew.h>
+#include "tga.h"
 
-#define TGA_TYPE_TC_RAW		2
-
-#pragma pack(push, 1)
-
-typedef struct		s_tga
-{
-	char			id;
-	char			color_map;
-	char			type;
-	unsigned short	first_entry_index;
-	unsigned short	color_map_len;
-	unsigned char	bpp;
-	unsigned short	x_offset;
-	unsigned short	y_offset;
-	unsigned short	width;
-	unsigned short	height;
-	unsigned char	depth;
-	unsigned char	descriptor;
-	char			drop[3];
-}					t_tga;
-
-#pragma pack(pop)
-
-unsigned int	*load_tga(const char *filepath, t_tga *specs);
-GLuint			load_OGL_tga(const char *filepath);
-
-#define TGA_SIZE	sizeof(t_tga)
-
-static void		*load_tga_error(const char *error, char *file_content)
+static void			*load_tga_error(const char *error, char *file_content)
 {
 	if (file_content)
 		free(file_content);
@@ -50,7 +23,24 @@ static void		*load_tga_error(const char *error, char *file_content)
 	return (NULL);
 }
 
-unsigned int	*load_tga(const char *filepath, t_tga *specs)
+static unsigned int	*pixels_to_rgba(unsigned int *pixels, size_t n)
+{
+	unsigned int		color;
+	unsigned char		rgba[4];
+
+	while (n--)
+	{
+		color = pixels[n];
+		rgba[2] = ((color & TGA_RED) >> 8);
+		rgba[1] = ((color & TGA_GREEN) >> 16);
+		rgba[0] = ((color & TGA_BLUE) >> 24);
+		rgba[3] = (color & TGA_ALPHA);
+		pixels[n] = *((unsigned int *)(size_t)rgba);
+	}
+	return (pixels);
+}
+
+unsigned int		*load_tga(const char *filepath, t_tga *specs)
 {
 	size_t			file_size;
 	unsigned int	*pixels;
@@ -69,12 +59,12 @@ unsigned int	*load_tga(const char *filepath, t_tga *specs)
 	{
 		*specs = *header;
 		free(file_content);
-		return (pixels);
+		return (pixels_to_rgba(pixels, specs->height * specs->width));
 	}
 	return (load_tga_error("failed to get pixels\n", file_content));
 }
 
-GLuint			load_OGL_tga(const char *filepath)
+GLuint				load_OGL_tga(const char *filepath)
 {
 	t_tga				header;
 	GLuint				id;
@@ -84,18 +74,7 @@ GLuint			load_OGL_tga(const char *filepath)
 		return (0);
 	glGenTextures(1, &id);
 	glBindTexture(GL_TEXTURE_2D, id);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, header.width, header.height, 0,
+			GL_RGBA, GL_UNSIGNED_BYTE, pixels);
 	return (id);
-}
-
-int				main(int ac, char **av)
-{
-	t_tga				header;
-	unsigned int		*pixels;
-
-	if ((ac > 1) && ((pixels = load_tga(av[1], &header))))
-	{
-		ft_printf("resolution %hux%hu\n", header.width, header.height);
-		free(pixels);
-	}
-	return (0);
 }

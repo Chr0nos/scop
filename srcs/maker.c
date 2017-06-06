@@ -6,12 +6,13 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/07 12:35:02 by snicolet          #+#    #+#             */
-/*   Updated: 2017/06/01 17:48:27 by snicolet         ###   ########.fr       */
+/*   Updated: 2017/06/06 18:22:19 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ogl.h"
 #include "opengl.h"
+#include "tga.h"
 
 static int			make_vao(t_vertex_pack *pack)
 {
@@ -45,8 +46,9 @@ static GLint		make_texture(GLuint *image_id, const char *name,
 	pack = get_pack(NULL);
 	ft_printf("loading texture\n\tname: %s\n\tfrom: %s\n", name, filepath);
 	glActiveTexture(GL_TEXTURE0 + texture_id);
-	*image_id = SOIL_load_OGL_texture(filepath, SOIL_LOAD_AUTO,
-			SOIL_CREATE_NEW_ID, SOIL_FLAG_MIPMAPS | SOIL_FLAG_INVERT_Y);
+//	*image_id = SOIL_load_OGL_texture(filepath, SOIL_LOAD_AUTO,
+//			SOIL_CREATE_NEW_ID, SOIL_FLAG_MIPMAPS | SOIL_FLAG_INVERT_Y);
+	*image_id = load_OGL_tga(filepath);
 	if (!*image_id)
 	{
 		ft_putstr("\twarning: failed to load\n");
