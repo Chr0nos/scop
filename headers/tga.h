@@ -6,7 +6,7 @@
 /*   By: snicolet <marvin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/06 18:18:32 by snicolet          #+#    #+#             */
-/*   Updated: 2017/06/06 18:47:30 by snicolet         ###   ########.fr       */
+/*   Updated: 2017/06/07 00:33:17 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,6 @@ typedef struct		s_tga
 #define TGA_SIZE	sizeof(t_tga)
 
 unsigned int	*load_tga(const char *filepath, t_tga *specs);
-GLuint			load_OGL_tga(const char *filepath);
+GLuint			load_ogl_tga(const char *filepath);
 
 #endif
