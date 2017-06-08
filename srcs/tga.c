@@ -6,14 +6,15 @@
 /*   By: snicolet <marvin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/05 21:41:43 by snicolet          #+#    #+#             */
-/*   Updated: 2017/06/07 00:31:10 by snicolet         ###   ########.fr       */
+/*   Updated: 2017/06/08 23:49:21 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+#include "tga.h"
+#include <fcntl.h>
 #include <stdlib.h>
 #include <GL/glew.h>
-#include "tga.h"
 
 static void			*load_tga_error(const char *error, char *file_content)
 {
@@ -40,6 +41,12 @@ static unsigned int	*pixels_to_rgba(unsigned int *pixels, size_t n)
 	return (pixels);
 }
 
+/*
+** load a tga file into a unsigned int * to retrive pixels,
+** *specs will be filled by the function, in case of error each value will be
+** set to 0 and NULL will be returned
+*/
+
 unsigned int		*load_tga(const char *filepath, t_tga *specs)
 {
 	size_t			file_size;
@@ -63,6 +70,47 @@ unsigned int		*load_tga(const char *filepath, t_tga *specs)
 	}
 	return (load_tga_error("failed to get pixels\n", file_content));
 }
+
+/*
+** export pixels to a tga filepath, if the file already exists it will be
+** replaced
+** returns:
+** 0 = everything was ok, no error
+** 1 = wrong header type or memdup failed
+** 2 = failed to open destination file, check permissions
+*/
+
+int					save_tga(const char *filepath, const t_tga *specs,
+	const unsigned int *pixels)
+{
+	const size_t	size = specs->height * specs->width;
+	int				fd;
+	unsigned int	*px;
+	size_t			p;
+
+	if ((specs->type != TGA_TYPE_TC_RAW) ||
+			(!(px = ft_memdup(pixels, size << 2))))
+		return (1);
+	if (!(fd = open(filepath, O_RDWR | O_TRUNC | O_CREAT, 0644)))
+	{
+		free(px);
+		return (2);
+	}
+	p = size;
+	while (p--)
+		px[p] = (TGA_SR(px[p]) | TGA_SG(px[p]) | TGA_SB(px[p]) | TGA_SA(px[p]));
+	write(fd, specs, TGA_SIZE);
+	write(fd, px, size << 2);
+	close(fd);
+	free(px);
+	return (0);
+}
+
+/*
+** load fhe filepath tga file into the graphic card (must have a valid opengl
+** context)
+** return the id of the opengl texture, 0 in case of error
+*/
 
 GLuint				load_ogl_tga(const char *filepath)
 {

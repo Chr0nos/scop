@@ -6,7 +6,7 @@
 /*   By: snicolet <marvin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/06 18:18:32 by snicolet          #+#    #+#             */
-/*   Updated: 2017/06/07 00:33:17 by snicolet         ###   ########.fr       */
+/*   Updated: 2017/06/08 23:43:10 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,10 @@
 # define TGA_BLUE				0xff000000
 # define TGA_ALPHA				0x000000ff
 # define TGA_TYPE_TC_RAW		2
+# define TGA_SR(x)				((x & 0xff000000) >> 24)
+# define TGA_SG(x)				((x & 0x00ff0000) >> 8)
+# define TGA_SB(x)				((x & 0x0000ff00) << 8)
+# define TGA_SA(x)				((x & 0x000000ff) << 24)
 
 #pragma pack(push, 1)
 
@@ -44,5 +48,7 @@ typedef struct		s_tga
 
 unsigned int	*load_tga(const char *filepath, t_tga *specs);
 GLuint			load_ogl_tga(const char *filepath);
+int				save_tga(const char *filepath, const t_tga *specs,
+	const unsigned int *pixels);
 
 #endif
