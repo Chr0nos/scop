@@ -6,7 +6,7 @@
 /*   By: snicolet <marvin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/06 18:18:32 by snicolet          #+#    #+#             */
-/*   Updated: 2017/06/09 00:26:59 by snicolet         ###   ########.fr       */
+/*   Updated: 2017/06/09 00:34:45 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 # define TGA_TYPE_TC_RAW		2
 
 /*
-** from ABVR to RGBA
+** from ABGR to RGBA
 ** to remember: TGA_L = 'tga loader'
 */
 
@@ -27,7 +27,7 @@
 # define TGA_L(x)				(TGA_LR(x) | TGA_LG(x) | TGA_LB(x) | TGA_LA(x))
 
 /*
-** from RGBA to ABVR
+** from RGBA to ABGR
 ** to remember: TGA_S = 'tga saver'
 */
 
@@ -39,30 +39,30 @@
 
 #pragma pack(push, 1)
 
-typedef struct		s_tga
+typedef struct					s_tga
 {
-	char			id;
-	char			color_map;
-	char			type;
-	unsigned short	first_entry_index;
-	unsigned short	color_map_len;
-	unsigned char	bpp;
-	unsigned short	x_offset;
-	unsigned short	y_offset;
-	unsigned short	width;
-	unsigned short	height;
-	unsigned char	depth;
-	unsigned char	descriptor;
-	char			drop[3];
-}					t_tga;
+	char						id;
+	char						color_map;
+	char						type;
+	unsigned short				first_entry_index;
+	unsigned short				color_map_len;
+	unsigned char				bpp;
+	unsigned short				x_offset;
+	unsigned short				y_offset;
+	unsigned short				width;
+	unsigned short				height;
+	unsigned char				depth;
+	unsigned char				descriptor;
+	char						drop[3];
+}								t_tga;
 
 #pragma pack(pop)
 
-#define TGA_SIZE	sizeof(t_tga)
+#define TGA_SIZE				sizeof(t_tga)
 
-unsigned int	*load_tga(const char *filepath, t_tga *specs);
-GLuint			load_ogl_tga(const char *filepath);
-int				save_tga(const char *filepath, const t_tga *specs,
-	const unsigned int *pixels);
+unsigned int					*load_tga(const char *filepath, t_tga *specs);
+GLuint							load_ogl_tga(const char *filepath);
+int								save_tga(const char *filepath,
+		const t_tga *specs, const unsigned int *pixels);
 
 #endif
