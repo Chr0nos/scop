@@ -6,22 +6,36 @@
 /*   By: snicolet <marvin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/06 18:18:32 by snicolet          #+#    #+#             */
-/*   Updated: 2017/06/08 23:43:10 by snicolet         ###   ########.fr       */
+/*   Updated: 2017/06/09 00:26:59 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef TGA_H
 # include <GL/glew.h>
 # define TGA_H
-# define TGA_RED				0x0000ff00
-# define TGA_GREEN				0x00ff0000
-# define TGA_BLUE				0xff000000
-# define TGA_ALPHA				0x000000ff
 # define TGA_TYPE_TC_RAW		2
+
+/*
+** from ABVR to RGBA
+** to remember: TGA_L = 'tga loader'
+*/
+
+# define TGA_LR(x)				((x & 0x000000ff) << 24)
+# define TGA_LG(x)				((x & 0x0000ff00) << 8)
+# define TGA_LB(x)				((x & 0x00ff0000) >> 8)
+# define TGA_LA(x)				((x & 0xff000000) >> 24)
+# define TGA_L(x)				(TGA_LR(x) | TGA_LG(x) | TGA_LB(x) | TGA_LA(x))
+
+/*
+** from RGBA to ABVR
+** to remember: TGA_S = 'tga saver'
+*/
+
 # define TGA_SR(x)				((x & 0xff000000) >> 24)
 # define TGA_SG(x)				((x & 0x00ff0000) >> 8)
 # define TGA_SB(x)				((x & 0x0000ff00) << 8)
 # define TGA_SA(x)				((x & 0x000000ff) << 24)
+# define TGA_S(x)				(TGA_SR(x) | TGA_SG(x) | TGA_SB(x) | TGA_SA(x))
 
 #pragma pack(push, 1)
 

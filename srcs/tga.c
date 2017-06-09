@@ -6,7 +6,7 @@
 /*   By: snicolet <marvin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/05 21:41:43 by snicolet          #+#    #+#             */
-/*   Updated: 2017/06/08 23:49:21 by snicolet         ###   ########.fr       */
+/*   Updated: 2017/06/09 00:23:48 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,18 +26,8 @@ static void			*load_tga_error(const char *error, char *file_content)
 
 static unsigned int	*pixels_to_rgba(unsigned int *pixels, size_t n)
 {
-	unsigned int		color;
-	unsigned char		rgba[4];
-
 	while (n--)
-	{
-		color = pixels[n];
-		rgba[2] = ((color & TGA_RED) >> 8);
-		rgba[1] = ((color & TGA_GREEN) >> 16);
-		rgba[0] = ((color & TGA_BLUE) >> 24);
-		rgba[3] = (color & TGA_ALPHA);
-		pixels[n] = *((unsigned int *)(size_t)rgba);
-	}
+		pixels[n] = TGA_L(pixels[n]);
 	return (pixels);
 }
 
@@ -98,7 +88,7 @@ int					save_tga(const char *filepath, const t_tga *specs,
 	}
 	p = size;
 	while (p--)
-		px[p] = (TGA_SR(px[p]) | TGA_SG(px[p]) | TGA_SB(px[p]) | TGA_SA(px[p]));
+		px[p] = TGA_S(px[p]);
 	write(fd, specs, TGA_SIZE);
 	write(fd, px, size << 2);
 	close(fd);
