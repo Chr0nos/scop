@@ -6,7 +6,7 @@
 /*   By: snicolet <marvin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/05 21:41:43 by snicolet          #+#    #+#             */
-/*   Updated: 2017/06/09 00:23:48 by snicolet         ###   ########.fr       */
+/*   Updated: 2017/06/11 18:38:20 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ unsigned int		*load_tga(const char *filepath, t_tga *specs)
 
 	ft_bzero(specs, TGA_SIZE);
 	if (!(file_content = ft_readfile(filepath, &file_size)))
-		return load_tga_error("unable to read file\n", NULL);
+		return (load_tga_error("unable to read file\n", NULL));
 	if (file_size <= TGA_SIZE)
 		return (load_tga_error("invalid file or no content\n", file_content));
 	header = (t_tga*)(size_t)file_content;
