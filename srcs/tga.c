@@ -40,6 +40,7 @@ static unsigned int	*pixels_to_rgba(unsigned int *pixels, size_t n)
 unsigned int		*load_tga(const char *filepath, t_tga *specs)
 {
 	size_t			file_size;
+	size_t			pixels_size;
 	unsigned int	*pixels;
 	char			*file_content;
 	t_tga			*header;
@@ -50,10 +51,13 @@ unsigned int		*load_tga(const char *filepath, t_tga *specs)
 	if (file_size <= TGA_SIZE)
 		return (load_tga_error("invalid file or no content\n", file_content));
 	header = (t_tga*)(size_t)file_content;
-	if (header->type != TGA_TYPE_TC_RAW)
+	if ((header->type != TGA_TYPE_TC_RAW) || (header->depth != 32))
 		return (load_tga_error("unsupported file format\n", file_content));
-	if ((pixels = ft_memdup(&file_content[TGA_SIZE], file_size - TGA_SIZE)))
+	pixels_size = header->width * header->height * (header->depth >> 3) + 1;
+	tga_display(header);
+	if ((pixels = malloc(pixels_size)))
 	{
+		ft_memcpy(pixels, &file_content[TGA_SIZE], file_size - TGA_SIZE);
 		*specs = *header;
 		free(file_content);
 		return (pixels_to_rgba(pixels, specs->height * specs->width));
