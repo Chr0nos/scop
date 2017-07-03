@@ -6,7 +6,7 @@
 #    By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/07/24 07:18:03 by snicolet          #+#    #+#              #
-#*   Updated: 2017/06/06 18:20:57 by snicolet         ###   ########.fr       *#
+#*   Updated: 2017/07/02 23:43:45 by snicolet         ###   ########.fr       *#
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,7 @@ DEBUG=0
 CC=clang -O2 -march=native -mtune=native
 FLAGS=-Werror -Wextra -Wall -Weverything -Wno-reserved-id-macro -Wno-documentation -Wno-documentation-unknown-command -Wno-padded
 ifeq ($(DEBUG), 1)
-	FLAGS += -g3 -fsanitize=address
+	FLAGS += -g3
 endif
 DRAW=libdraw
 LIBFT=libft
@@ -32,7 +32,7 @@ NAME=scop
 SRC=main.c events.c display.c parser.c parser_duplicate.c fixcenter.c \
 	parser_count.c run.c maker.c parse_face.c attributes.c uniforms.c \
 	mouse.c reset.c scroll.c light.c matrix.c parse_postprocess.c parse_real.c \
-	configure.c resize.c tga.c
+	configure.c resize.c tga.c tga_display.c
 SRC_DIR=srcs
 OBJ=$(SRC:%.c=$(BUILDDIR)/%.o)
 BUILDDIR=build

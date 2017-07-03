@@ -6,7 +6,7 @@
 /*   By: snicolet <marvin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/05 21:41:43 by snicolet          #+#    #+#             */
-/*   Updated: 2017/06/11 18:38:20 by snicolet         ###   ########.fr       */
+/*   Updated: 2017/07/03 01:28:14 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,29 @@ static unsigned int	*pixels_to_rgba(unsigned int *pixels, size_t n)
 	return (pixels);
 }
 
+static unsigned int *tga_px3(unsigned char *pixels, const t_tga *specs)
+{
+	const size_t		pixels_total = specs->width * specs->height;
+	const size_t		size = pixels_total * 3;
+	size_t				p;
+	unsigned int		*buffer;
+	unsigned int		*px;
+
+	buffer = malloc(pixels_total * 4);
+	px = buffer;
+	p = 0;
+	while (p < size)
+	{
+		*(px++) = ((unsigned int)0xff << 24) |
+			((unsigned int)pixels[p + 2]) |
+			((unsigned int)pixels[p + 1] << 8) |
+			((unsigned int)pixels[p] << 16);
+		p += 3;
+	}
+	free(pixels);
+	return (buffer);
+}
+
 /*
 ** load a tga file into a unsigned int * to retrive pixels,
 ** *specs will be filled by the function, in case of error each value will be
@@ -51,15 +74,16 @@ unsigned int		*load_tga(const char *filepath, t_tga *specs)
 	if (file_size <= TGA_SIZE)
 		return (load_tga_error("invalid file or no content\n", file_content));
 	header = (t_tga*)(size_t)file_content;
-	if ((header->type != TGA_TYPE_TC_RAW) || (header->depth != 32))
+	if ((header->type != TGA_TYPE_TC_RAW) || (header->depth < 24))
 		return (load_tga_error("unsupported file format\n", file_content));
 	pixels_size = header->width * header->height * (header->depth >> 3) + 1;
-	tga_display(header);
 	if ((pixels = malloc(pixels_size)))
 	{
 		ft_memcpy(pixels, &file_content[TGA_SIZE], file_size - TGA_SIZE);
 		*specs = *header;
 		free(file_content);
+		if (specs->depth == 24)
+			return (tga_px3((void*)(size_t)pixels, specs));
 		return (pixels_to_rgba(pixels, specs->height * specs->width));
 	}
 	return (load_tga_error("failed to get pixels\n", file_content));
