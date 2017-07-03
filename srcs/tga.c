@@ -6,7 +6,7 @@
 /*   By: snicolet <marvin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/05 21:41:43 by snicolet          #+#    #+#             */
-/*   Updated: 2017/07/03 01:28:14 by snicolet         ###   ########.fr       */
+/*   Updated: 2017/07/03 01:31:27 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 #include <stdlib.h>
 #include <GL/glew.h>
 
-static void			*load_tga_error(const char *error, char *file_content)
+static void			*load_tga_error(const char *error, void *file_content)
 {
 	if (file_content)
 		free(file_content);
@@ -39,7 +39,8 @@ static unsigned int *tga_px3(unsigned char *pixels, const t_tga *specs)
 	unsigned int		*buffer;
 	unsigned int		*px;
 
-	buffer = malloc(pixels_total * 4);
+	if (!(buffer = malloc(pixels_total * 4)))
+		return (load_tga_error("failed to alloc the second stage", pixels));
 	px = buffer;
 	p = 0;
 	while (p < size)
