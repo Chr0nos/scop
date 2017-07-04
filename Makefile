@@ -20,7 +20,7 @@ endif
 DRAW=libdraw
 LIBFT=libft
 LINKER=-L$(DRAW) -lm -ldraw -Lglfw/src/ -lglfw3
-INC=-I$(DRAW)/headers -I $(LIBFT)/ -I./SOIL2-clone/incs -Iheaders -Iglew/include
+INC=-I$(DRAW)/headers -I $(LIBFT)/ -I./SOIL2-clone/incs -Iheaders -Iglew/include -Ilibtga/includes
 SOIL=./SOIL2-clone/libSOIL2.a
 ifeq ($(OS),Darwin)
 	INC+=-I ~/.brew/include -I/usr/local/include
@@ -28,11 +28,12 @@ ifeq ($(OS),Darwin)
 else
 	LINKER+=-L./SOIL2-clone -lGL -ldl -lpthread -lSOIL2 -L$(LIBFT) -lft -lX11 -lGLEW -lXrandr -lXinerama -lXcursor
 endif
+LINKER+=-Llibtga -ltga
 NAME=scop
 SRC=main.c events.c display.c parser.c parser_duplicate.c fixcenter.c \
 	parser_count.c run.c maker.c parse_face.c attributes.c uniforms.c \
 	mouse.c reset.c scroll.c light.c matrix.c parse_postprocess.c parse_real.c \
-	configure.c resize.c tga.c tga_display.c
+	configure.c resize.c
 SRC_DIR=srcs
 OBJ=$(SRC:%.c=$(BUILDDIR)/%.o)
 BUILDDIR=build
@@ -42,7 +43,7 @@ all: $(NAME)
 $(BUILDDIR):
 	mkdir -p $@
 
-$(NAME): $(SOIL) $(DRAW)/libdraw.a ./glfw/src/libglfw3.a $(BUILDDIR) $(OBJ)
+$(NAME): $(SOIL) $(DRAW)/libdraw.a ./glfw/src/libglfw3.a ./libtga/libtga.a $(BUILDDIR) $(OBJ)
 	$(CC) $(FLAGS) $(OBJ) -o $(NAME) $(LINKER)
 
 $(BUILDDIR)/%.o: $(SRC_DIR)/%.c
@@ -57,6 +58,7 @@ fclean: clean
 fcleanall: fclean
 	make -C $(DRAW) fclean
 	make -C $(LIBFT) fclean
+	make -C libtga fclean
 	make -C ./glfw/ clean
 
 reall: fcleanall all
@@ -72,6 +74,9 @@ $(DRAW)/libdraw.a: $(LIBFT)/libft.a
 ./SOIL2-clone/Makefile:
 	git submodule init
 	git submodule update
+
+./libtga/libtga.a:
+	make -C libtga
 
 ./glfw/src/libglfw3.a:
 	cd glfw && cmake -D-DBUILD_SHARED_LIBS=OFF . && make

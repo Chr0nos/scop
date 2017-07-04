@@ -48,7 +48,7 @@ static GLint		make_texture(GLuint *image_id, const char *name,
 	glActiveTexture(GL_TEXTURE0 + texture_id);
 //	*image_id = SOIL_load_OGL_texture(filepath, SOIL_LOAD_AUTO,
 //			SOIL_CREATE_NEW_ID, SOIL_FLAG_MIPMAPS | SOIL_FLAG_INVERT_Y);
-	*image_id = load_ogl_tga(filepath);
+	*image_id = tga_load_ogl(filepath);
 	if (!*image_id)
 	{
 		ft_putstr("\twarning: failed to load\n");

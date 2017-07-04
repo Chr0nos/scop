@@ -10,3 +10,6 @@
 [submodule "glfw"]
 	path = glfw
 	url = https://github.com/glfw/glfw.git
+[submodule "libtga"]
+	path = libtga
+	url = https://github.com/Chr0nos/libtga.git
