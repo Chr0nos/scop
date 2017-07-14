@@ -15,7 +15,6 @@
 # include "draw.h"
 # include "libft.h"
 # include "quaternion.h"
-# include <SOIL2.h>
 # include <GL/glew.h>
 # include <GLFW/glfw3.h>
 # define FLAG_UV		1u

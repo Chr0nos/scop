@@ -20,13 +20,12 @@ endif
 DRAW=libdraw
 LIBFT=libft
 LINKER=-L$(DRAW) -lm -ldraw -Lglfw/src/ -lglfw3
-INC=-I$(DRAW)/headers -I $(LIBFT)/ -I./SOIL2-clone/incs -Iheaders -Iglew/include -Ilibtga/includes -Iglfw/include
-SOIL=./SOIL2-clone/libSOIL2.a
+INC=-I$(DRAW)/headers -I $(LIBFT)/ -Iheaders -Iglew/include -Ilibtga/includes -Iglfw/include
 ifeq ($(OS),Darwin)
 	INC+=-I ~/.brew/include -I/usr/local/include
-	LINKER+=-framework OpenGL -L./SOIL2-clone/ -lSOIL2 -framework CoreFoundation -framework Cocoa -framework IOKit -framework CoreVideo -L/usr/local/lib -L$(LIBFT) -lft -L ~/.brew/lib/ -lGLEW
+	LINKER+=-framework OpenGL -L./SOIL2-clone/ -framework CoreFoundation -framework Cocoa -framework IOKit -framework CoreVideo -L/usr/local/lib -L$(LIBFT) -lft -L ~/.brew/lib/ -lGLEW
 else
-	LINKER+=-L./SOIL2-clone -lGL -ldl -lpthread -lSOIL2 -L$(LIBFT) -lft -lX11 -lGLEW -lXrandr -lXinerama -lXcursor
+	LINKER+=-lGL -ldl -lpthread -L$(LIBFT) -lft -lX11 -lGLEW -lXrandr -lXinerama -lXcursor
 endif
 LINKER+=-Llibtga -ltga
 NAME=scop
@@ -43,7 +42,7 @@ all: $(NAME)
 $(BUILDDIR):
 	mkdir -p $@
 
-$(NAME): $(SOIL) $(DRAW)/libdraw.a ./glfw/src/libglfw3.a ./libtga/libtga.a $(BUILDDIR) $(OBJ)
+$(NAME): $(DRAW)/libdraw.a ./glfw/src/libglfw3.a ./libtga/libtga.a $(BUILDDIR) $(OBJ)
 	$(CC) $(FLAGS) $(OBJ) -o $(NAME) $(LINKER)
 
 $(BUILDDIR)/%.o: $(SRC_DIR)/%.c
@@ -71,15 +70,8 @@ $(LIBFT)/libft.a:
 $(DRAW)/libdraw.a: $(LIBFT)/libft.a
 	make -j -C $(DRAW)
 
-./SOIL2-clone/Makefile:
-	git submodule init
-	git submodule update
-
 ./libtga/libtga.a:
 	make -C libtga
 
 ./glfw/src/libglfw3.a:
 	cd glfw && cmake -D-DBUILD_SHARED_LIBS=OFF . && make
-
-$(SOIL): ./SOIL2-clone/Makefile
-	make -C ./SOIL2-clone/
