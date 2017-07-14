@@ -1,0 +1,331 @@
+The system is: Linux - 4.11.9-1-ARCH - x86_64
+Compiling the C compiler identification source file "CMakeCCompilerId.c" succeeded.
+Compiler: /usr/bin/cc 
+Build flags: 
+Id flags:  
+
+The output was:
+0
+
+
+Compilation of the C compiler identification source "CMakeCCompilerId.c" produced "a.out"
+
+The C compiler identification is GNU, found in "/home/yoyo/scop/glfw/CMakeFiles/3.8.2/CompilerIdC/a.out"
+
+Determining if the C compiler works passed with the following output:
+Change Dir: /home/yoyo/scop/glfw/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_2bcc3/fast"
+make[1] : on entre dans le répertoire « /home/yoyo/scop/glfw/CMakeFiles/CMakeTmp »
+/usr/bin/make -f CMakeFiles/cmTC_2bcc3.dir/build.make CMakeFiles/cmTC_2bcc3.dir/build
+make[2] : on entre dans le répertoire « /home/yoyo/scop/glfw/CMakeFiles/CMakeTmp »
+Building C object CMakeFiles/cmTC_2bcc3.dir/testCCompiler.c.o
+/usr/bin/cc    -o CMakeFiles/cmTC_2bcc3.dir/testCCompiler.c.o   -c /home/yoyo/scop/glfw/CMakeFiles/CMakeTmp/testCCompiler.c
+Linking C executable cmTC_2bcc3
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_2bcc3.dir/link.txt --verbose=1
+/usr/bin/cc      -rdynamic CMakeFiles/cmTC_2bcc3.dir/testCCompiler.c.o  -o cmTC_2bcc3 
+make[2] : on quitte le répertoire « /home/yoyo/scop/glfw/CMakeFiles/CMakeTmp »
+make[1] : on quitte le répertoire « /home/yoyo/scop/glfw/CMakeFiles/CMakeTmp »
+
+
+Detecting C compiler ABI info compiled with the following output:
+Change Dir: /home/yoyo/scop/glfw/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_e8cae/fast"
+make[1] : on entre dans le répertoire « /home/yoyo/scop/glfw/CMakeFiles/CMakeTmp »
+/usr/bin/make -f CMakeFiles/cmTC_e8cae.dir/build.make CMakeFiles/cmTC_e8cae.dir/build
+make[2] : on entre dans le répertoire « /home/yoyo/scop/glfw/CMakeFiles/CMakeTmp »
+Building C object CMakeFiles/cmTC_e8cae.dir/CMakeCCompilerABI.c.o
+/usr/bin/cc    -o CMakeFiles/cmTC_e8cae.dir/CMakeCCompilerABI.c.o   -c /usr/share/cmake-3.8/Modules/CMakeCCompilerABI.c
+Linking C executable cmTC_e8cae
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_e8cae.dir/link.txt --verbose=1
+/usr/bin/cc     -v -rdynamic CMakeFiles/cmTC_e8cae.dir/CMakeCCompilerABI.c.o  -o cmTC_e8cae 
+Utilisation des specs internes.
+COLLECT_GCC=/usr/bin/cc
+COLLECT_LTO_WRAPPER=/usr/lib/gcc/x86_64-pc-linux-gnu/7.1.1/lto-wrapper
+Cible : x86_64-pc-linux-gnu
+Configuré avec: /build/gcc-multilib/src/gcc/configure --prefix=/usr --libdir=/usr/lib --libexecdir=/usr/lib --mandir=/usr/share/man --infodir=/usr/share/info --with-bugurl=https://bugs.archlinux.org/ --enable-languages=c,c++,ada,fortran,go,lto,objc,obj-c++ --enable-shared --enable-threads=posix --enable-libmpx --with-system-zlib --with-isl --enable-__cxa_atexit --disable-libunwind-exceptions --enable-clocale=gnu --disable-libstdcxx-pch --disable-libssp --enable-gnu-unique-object --enable-linker-build-id --enable-lto --enable-plugin --enable-install-libiberty --with-linker-hash-style=gnu --enable-gnu-indirect-function --enable-multilib --disable-werror --enable-checking=release --enable-default-pie --enable-default-ssp
+Modèle de thread: posix
+gcc version 7.1.1 20170630 (GCC) 
+COMPILER_PATH=/usr/lib/gcc/x86_64-pc-linux-gnu/7.1.1/:/usr/lib/gcc/x86_64-pc-linux-gnu/7.1.1/:/usr/lib/gcc/x86_64-pc-linux-gnu/:/usr/lib/gcc/x86_64-pc-linux-gnu/7.1.1/:/usr/lib/gcc/x86_64-pc-linux-gnu/
+LIBRARY_PATH=/usr/lib/gcc/x86_64-pc-linux-gnu/7.1.1/:/usr/lib/gcc/x86_64-pc-linux-gnu/7.1.1/../../../../lib/:/lib/../lib/:/usr/lib/../lib/:/usr/lib/gcc/x86_64-pc-linux-gnu/7.1.1/../../../:/lib/:/usr/lib/
+COLLECT_GCC_OPTIONS='-v' '-rdynamic' '-o' 'cmTC_e8cae' '-mtune=generic' '-march=x86-64'
+ /usr/lib/gcc/x86_64-pc-linux-gnu/7.1.1/collect2 -plugin /usr/lib/gcc/x86_64-pc-linux-gnu/7.1.1/liblto_plugin.so -plugin-opt=/usr/lib/gcc/x86_64-pc-linux-gnu/7.1.1/lto-wrapper -plugin-opt=-fresolution=/tmp/ccS72wy2.res -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lgcc_s --build-id --eh-frame-hdr --hash-style=gnu -m elf_x86_64 -export-dynamic -dynamic-linker /lib64/ld-linux-x86-64.so.2 -pie -o cmTC_e8cae /usr/lib/gcc/x86_64-pc-linux-gnu/7.1.1/../../../../lib/Scrt1.o /usr/lib/gcc/x86_64-pc-linux-gnu/7.1.1/../../../../lib/crti.o /usr/lib/gcc/x86_64-pc-linux-gnu/7.1.1/crtbeginS.o -L/usr/lib/gcc/x86_64-pc-linux-gnu/7.1.1 -L/usr/lib/gcc/x86_64-pc-linux-gnu/7.1.1/../../../../lib -L/lib/../lib -L/usr/lib/../lib -L/usr/lib/gcc/x86_64-pc-linux-gnu/7.1.1/../../.. CMakeFiles/cmTC_e8cae.dir/CMakeCCompilerABI.c.o -lgcc --as-needed -lgcc_s --no-as-needed -lc -lgcc --as-needed -lgcc_s --no-as-needed /usr/lib/gcc/x86_64-pc-linux-gnu/7.1.1/crtendS.o /usr/lib/gcc/x86_64-pc-linux-gnu/7.1.1/../../../../lib/crtn.o
+COLLECT_GCC_OPTIONS='-v' '-rdynamic' '-o' 'cmTC_e8cae' '-mtune=generic' '-march=x86-64'
+make[2] : on quitte le répertoire « /home/yoyo/scop/glfw/CMakeFiles/CMakeTmp »
+make[1] : on quitte le répertoire « /home/yoyo/scop/glfw/CMakeFiles/CMakeTmp »
+
+
+Parsed C implicit link information from above output:
+  link line regex: [^( *|.*[/\])(ld|([^/\]+-)?ld|collect2)[^/\]*( |$)]
+  ignore line: [Change Dir: /home/yoyo/scop/glfw/CMakeFiles/CMakeTmp]
+  ignore line: []
+  ignore line: [Run Build Command:"/usr/bin/make" "cmTC_e8cae/fast"]
+  ignore line: [make[1] : on entre dans le répertoire « /home/yoyo/scop/glfw/CMakeFiles/CMakeTmp »]
+  ignore line: [/usr/bin/make -f CMakeFiles/cmTC_e8cae.dir/build.make CMakeFiles/cmTC_e8cae.dir/build]
+  ignore line: [make[2] : on entre dans le répertoire « /home/yoyo/scop/glfw/CMakeFiles/CMakeTmp »]
+  ignore line: [Building C object CMakeFiles/cmTC_e8cae.dir/CMakeCCompilerABI.c.o]
+  ignore line: [/usr/bin/cc    -o CMakeFiles/cmTC_e8cae.dir/CMakeCCompilerABI.c.o   -c /usr/share/cmake-3.8/Modules/CMakeCCompilerABI.c]
+  ignore line: [Linking C executable cmTC_e8cae]
+  ignore line: [/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_e8cae.dir/link.txt --verbose=1]
+  ignore line: [/usr/bin/cc     -v -rdynamic CMakeFiles/cmTC_e8cae.dir/CMakeCCompilerABI.c.o  -o cmTC_e8cae ]
+  ignore line: [Utilisation des specs internes.]
+  ignore line: [COLLECT_GCC=/usr/bin/cc]
+  ignore line: [COLLECT_LTO_WRAPPER=/usr/lib/gcc/x86_64-pc-linux-gnu/7.1.1/lto-wrapper]
+  ignore line: [Cible : x86_64-pc-linux-gnu]
+  ignore line: [Configuré avec: /build/gcc-multilib/src/gcc/configure --prefix=/usr --libdir=/usr/lib --libexecdir=/usr/lib --mandir=/usr/share/man --infodir=/usr/share/info --with-bugurl=https://bugs.archlinux.org/ --enable-languages=c,c++,ada,fortran,go,lto,objc,obj-c++ --enable-shared --enable-threads=posix --enable-libmpx --with-system-zlib --with-isl --enable-__cxa_atexit --disable-libunwind-exceptions --enable-clocale=gnu --disable-libstdcxx-pch --disable-libssp --enable-gnu-unique-object --enable-linker-build-id --enable-lto --enable-plugin --enable-install-libiberty --with-linker-hash-style=gnu --enable-gnu-indirect-function --enable-multilib --disable-werror --enable-checking=release --enable-default-pie --enable-default-ssp]
+  ignore line: [Modèle de thread: posix]
+  ignore line: [gcc version 7.1.1 20170630 (GCC) ]
+  ignore line: [COMPILER_PATH=/usr/lib/gcc/x86_64-pc-linux-gnu/7.1.1/:/usr/lib/gcc/x86_64-pc-linux-gnu/7.1.1/:/usr/lib/gcc/x86_64-pc-linux-gnu/:/usr/lib/gcc/x86_64-pc-linux-gnu/7.1.1/:/usr/lib/gcc/x86_64-pc-linux-gnu/]
+  ignore line: [LIBRARY_PATH=/usr/lib/gcc/x86_64-pc-linux-gnu/7.1.1/:/usr/lib/gcc/x86_64-pc-linux-gnu/7.1.1/../../../../lib/:/lib/../lib/:/usr/lib/../lib/:/usr/lib/gcc/x86_64-pc-linux-gnu/7.1.1/../../../:/lib/:/usr/lib/]
+  ignore line: [COLLECT_GCC_OPTIONS='-v' '-rdynamic' '-o' 'cmTC_e8cae' '-mtune=generic' '-march=x86-64']
+  link line: [ /usr/lib/gcc/x86_64-pc-linux-gnu/7.1.1/collect2 -plugin /usr/lib/gcc/x86_64-pc-linux-gnu/7.1.1/liblto_plugin.so -plugin-opt=/usr/lib/gcc/x86_64-pc-linux-gnu/7.1.1/lto-wrapper -plugin-opt=-fresolution=/tmp/ccS72wy2.res -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lgcc_s --build-id --eh-frame-hdr --hash-style=gnu -m elf_x86_64 -export-dynamic -dynamic-linker /lib64/ld-linux-x86-64.so.2 -pie -o cmTC_e8cae /usr/lib/gcc/x86_64-pc-linux-gnu/7.1.1/../../../../lib/Scrt1.o /usr/lib/gcc/x86_64-pc-linux-gnu/7.1.1/../../../../lib/crti.o /usr/lib/gcc/x86_64-pc-linux-gnu/7.1.1/crtbeginS.o -L/usr/lib/gcc/x86_64-pc-linux-gnu/7.1.1 -L/usr/lib/gcc/x86_64-pc-linux-gnu/7.1.1/../../../../lib -L/lib/../lib -L/usr/lib/../lib -L/usr/lib/gcc/x86_64-pc-linux-gnu/7.1.1/../../.. CMakeFiles/cmTC_e8cae.dir/CMakeCCompilerABI.c.o -lgcc --as-needed -lgcc_s --no-as-needed -lc -lgcc --as-needed -lgcc_s --no-as-needed /usr/lib/gcc/x86_64-pc-linux-gnu/7.1.1/crtendS.o /usr/lib/gcc/x86_64-pc-linux-gnu/7.1.1/../../../../lib/crtn.o]
+    arg [/usr/lib/gcc/x86_64-pc-linux-gnu/7.1.1/collect2] ==> ignore
+    arg [-plugin] ==> ignore
+    arg [/usr/lib/gcc/x86_64-pc-linux-gnu/7.1.1/liblto_plugin.so] ==> ignore
+    arg [-plugin-opt=/usr/lib/gcc/x86_64-pc-linux-gnu/7.1.1/lto-wrapper] ==> ignore
+    arg [-plugin-opt=-fresolution=/tmp/ccS72wy2.res] ==> ignore
+    arg [-plugin-opt=-pass-through=-lgcc] ==> ignore
+    arg [-plugin-opt=-pass-through=-lgcc_s] ==> ignore
+    arg [-plugin-opt=-pass-through=-lc] ==> ignore
+    arg [-plugin-opt=-pass-through=-lgcc] ==> ignore
+    arg [-plugin-opt=-pass-through=-lgcc_s] ==> ignore
+    arg [--build-id] ==> ignore
+    arg [--eh-frame-hdr] ==> ignore
+    arg [--hash-style=gnu] ==> ignore
+    arg [-m] ==> ignore
+    arg [elf_x86_64] ==> ignore
+    arg [-export-dynamic] ==> ignore
+    arg [-dynamic-linker] ==> ignore
+    arg [/lib64/ld-linux-x86-64.so.2] ==> ignore
+    arg [-pie] ==> ignore
+    arg [-o] ==> ignore
+    arg [cmTC_e8cae] ==> ignore
+    arg [/usr/lib/gcc/x86_64-pc-linux-gnu/7.1.1/../../../../lib/Scrt1.o] ==> ignore
+    arg [/usr/lib/gcc/x86_64-pc-linux-gnu/7.1.1/../../../../lib/crti.o] ==> ignore
+    arg [/usr/lib/gcc/x86_64-pc-linux-gnu/7.1.1/crtbeginS.o] ==> ignore
+    arg [-L/usr/lib/gcc/x86_64-pc-linux-gnu/7.1.1] ==> dir [/usr/lib/gcc/x86_64-pc-linux-gnu/7.1.1]
+    arg [-L/usr/lib/gcc/x86_64-pc-linux-gnu/7.1.1/../../../../lib] ==> dir [/usr/lib/gcc/x86_64-pc-linux-gnu/7.1.1/../../../../lib]
+    arg [-L/lib/../lib] ==> dir [/lib/../lib]
+    arg [-L/usr/lib/../lib] ==> dir [/usr/lib/../lib]
+    arg [-L/usr/lib/gcc/x86_64-pc-linux-gnu/7.1.1/../../..] ==> dir [/usr/lib/gcc/x86_64-pc-linux-gnu/7.1.1/../../..]
+    arg [CMakeFiles/cmTC_e8cae.dir/CMakeCCompilerABI.c.o] ==> ignore
+    arg [-lgcc] ==> lib [gcc]
+    arg [--as-needed] ==> ignore
+    arg [-lgcc_s] ==> lib [gcc_s]
+    arg [--no-as-needed] ==> ignore
+    arg [-lc] ==> lib [c]
+    arg [-lgcc] ==> lib [gcc]
+    arg [--as-needed] ==> ignore
+    arg [-lgcc_s] ==> lib [gcc_s]
+    arg [--no-as-needed] ==> ignore
+    arg [/usr/lib/gcc/x86_64-pc-linux-gnu/7.1.1/crtendS.o] ==> ignore
+    arg [/usr/lib/gcc/x86_64-pc-linux-gnu/7.1.1/../../../../lib/crtn.o] ==> ignore
+  remove lib [gcc]
+  remove lib [gcc_s]
+  remove lib [gcc]
+  remove lib [gcc_s]
+  collapse library dir [/usr/lib/gcc/x86_64-pc-linux-gnu/7.1.1] ==> [/usr/lib/gcc/x86_64-pc-linux-gnu/7.1.1]
+  collapse library dir [/usr/lib/gcc/x86_64-pc-linux-gnu/7.1.1/../../../../lib] ==> [/usr/lib]
+  collapse library dir [/lib/../lib] ==> [/lib]
+  collapse library dir [/usr/lib/../lib] ==> [/usr/lib]
+  collapse library dir [/usr/lib/gcc/x86_64-pc-linux-gnu/7.1.1/../../..] ==> [/usr/lib]
+  implicit libs: [c]
+  implicit dirs: [/usr/lib/gcc/x86_64-pc-linux-gnu/7.1.1;/usr/lib;/lib]
+  implicit fwks: []
+
+
+
+
+Detecting C [-std=c11] compiler features compiled with the following output:
+Change Dir: /home/yoyo/scop/glfw/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_52e6e/fast"
+make[1] : on entre dans le répertoire « /home/yoyo/scop/glfw/CMakeFiles/CMakeTmp »
+/usr/bin/make -f CMakeFiles/cmTC_52e6e.dir/build.make CMakeFiles/cmTC_52e6e.dir/build
+make[2] : on entre dans le répertoire « /home/yoyo/scop/glfw/CMakeFiles/CMakeTmp »
+Building C object CMakeFiles/cmTC_52e6e.dir/feature_tests.c.o
+/usr/bin/cc   -std=c11 -o CMakeFiles/cmTC_52e6e.dir/feature_tests.c.o   -c /home/yoyo/scop/glfw/CMakeFiles/feature_tests.c
+Linking C executable cmTC_52e6e
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_52e6e.dir/link.txt --verbose=1
+/usr/bin/cc      -rdynamic CMakeFiles/cmTC_52e6e.dir/feature_tests.c.o  -o cmTC_52e6e 
+make[2] : on quitte le répertoire « /home/yoyo/scop/glfw/CMakeFiles/CMakeTmp »
+make[1] : on quitte le répertoire « /home/yoyo/scop/glfw/CMakeFiles/CMakeTmp »
+
+
+    Feature record: C_FEATURE:1c_function_prototypes
+    Feature record: C_FEATURE:1c_restrict
+    Feature record: C_FEATURE:1c_static_assert
+    Feature record: C_FEATURE:1c_variadic_macros
+
+
+Detecting C [-std=c99] compiler features compiled with the following output:
+Change Dir: /home/yoyo/scop/glfw/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_521a3/fast"
+make[1] : on entre dans le répertoire « /home/yoyo/scop/glfw/CMakeFiles/CMakeTmp »
+/usr/bin/make -f CMakeFiles/cmTC_521a3.dir/build.make CMakeFiles/cmTC_521a3.dir/build
+make[2] : on entre dans le répertoire « /home/yoyo/scop/glfw/CMakeFiles/CMakeTmp »
+Building C object CMakeFiles/cmTC_521a3.dir/feature_tests.c.o
+/usr/bin/cc   -std=c99 -o CMakeFiles/cmTC_521a3.dir/feature_tests.c.o   -c /home/yoyo/scop/glfw/CMakeFiles/feature_tests.c
+Linking C executable cmTC_521a3
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_521a3.dir/link.txt --verbose=1
+/usr/bin/cc      -rdynamic CMakeFiles/cmTC_521a3.dir/feature_tests.c.o  -o cmTC_521a3 
+make[2] : on quitte le répertoire « /home/yoyo/scop/glfw/CMakeFiles/CMakeTmp »
+make[1] : on quitte le répertoire « /home/yoyo/scop/glfw/CMakeFiles/CMakeTmp »
+
+
+    Feature record: C_FEATURE:1c_function_prototypes
+    Feature record: C_FEATURE:1c_restrict
+    Feature record: C_FEATURE:0c_static_assert
+    Feature record: C_FEATURE:1c_variadic_macros
+
+
+Detecting C [-std=c90] compiler features compiled with the following output:
+Change Dir: /home/yoyo/scop/glfw/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_9b42e/fast"
+make[1] : on entre dans le répertoire « /home/yoyo/scop/glfw/CMakeFiles/CMakeTmp »
+/usr/bin/make -f CMakeFiles/cmTC_9b42e.dir/build.make CMakeFiles/cmTC_9b42e.dir/build
+make[2] : on entre dans le répertoire « /home/yoyo/scop/glfw/CMakeFiles/CMakeTmp »
+Building C object CMakeFiles/cmTC_9b42e.dir/feature_tests.c.o
+/usr/bin/cc   -std=c90 -o CMakeFiles/cmTC_9b42e.dir/feature_tests.c.o   -c /home/yoyo/scop/glfw/CMakeFiles/feature_tests.c
+Linking C executable cmTC_9b42e
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_9b42e.dir/link.txt --verbose=1
+/usr/bin/cc      -rdynamic CMakeFiles/cmTC_9b42e.dir/feature_tests.c.o  -o cmTC_9b42e 
+make[2] : on quitte le répertoire « /home/yoyo/scop/glfw/CMakeFiles/CMakeTmp »
+make[1] : on quitte le répertoire « /home/yoyo/scop/glfw/CMakeFiles/CMakeTmp »
+
+
+    Feature record: C_FEATURE:1c_function_prototypes
+    Feature record: C_FEATURE:0c_restrict
+    Feature record: C_FEATURE:0c_static_assert
+    Feature record: C_FEATURE:0c_variadic_macros
+Determining if the include file pthread.h exists passed with the following output:
+Change Dir: /home/yoyo/scop/glfw/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_c7b40/fast"
+make[1] : on entre dans le répertoire « /home/yoyo/scop/glfw/CMakeFiles/CMakeTmp »
+/usr/bin/make -f CMakeFiles/cmTC_c7b40.dir/build.make CMakeFiles/cmTC_c7b40.dir/build
+make[2] : on entre dans le répertoire « /home/yoyo/scop/glfw/CMakeFiles/CMakeTmp »
+Building C object CMakeFiles/cmTC_c7b40.dir/CheckIncludeFile.c.o
+/usr/bin/cc    -o CMakeFiles/cmTC_c7b40.dir/CheckIncludeFile.c.o   -c /home/yoyo/scop/glfw/CMakeFiles/CMakeTmp/CheckIncludeFile.c
+Linking C executable cmTC_c7b40
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_c7b40.dir/link.txt --verbose=1
+/usr/bin/cc      -rdynamic CMakeFiles/cmTC_c7b40.dir/CheckIncludeFile.c.o  -o cmTC_c7b40 
+make[2] : on quitte le répertoire « /home/yoyo/scop/glfw/CMakeFiles/CMakeTmp »
+make[1] : on quitte le répertoire « /home/yoyo/scop/glfw/CMakeFiles/CMakeTmp »
+
+
+Determining if the function pthread_create exists in the pthread passed with the following output:
+Change Dir: /home/yoyo/scop/glfw/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_879c7/fast"
+make[1] : on entre dans le répertoire « /home/yoyo/scop/glfw/CMakeFiles/CMakeTmp »
+/usr/bin/make -f CMakeFiles/cmTC_879c7.dir/build.make CMakeFiles/cmTC_879c7.dir/build
+make[2] : on entre dans le répertoire « /home/yoyo/scop/glfw/CMakeFiles/CMakeTmp »
+Building C object CMakeFiles/cmTC_879c7.dir/CheckFunctionExists.c.o
+/usr/bin/cc   -DCHECK_FUNCTION_EXISTS=pthread_create   -o CMakeFiles/cmTC_879c7.dir/CheckFunctionExists.c.o   -c /usr/share/cmake-3.8/Modules/CheckFunctionExists.c
+Linking C executable cmTC_879c7
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_879c7.dir/link.txt --verbose=1
+/usr/bin/cc  -DCHECK_FUNCTION_EXISTS=pthread_create    -rdynamic CMakeFiles/cmTC_879c7.dir/CheckFunctionExists.c.o  -o cmTC_879c7 -lpthread 
+make[2] : on quitte le répertoire « /home/yoyo/scop/glfw/CMakeFiles/CMakeTmp »
+make[1] : on quitte le répertoire « /home/yoyo/scop/glfw/CMakeFiles/CMakeTmp »
+
+
+Determining if the function XOpenDisplay exists in the /usr/lib/libX11.so;/usr/lib/libXext.so passed with the following output:
+Change Dir: /home/yoyo/scop/glfw/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_95a5f/fast"
+make[1] : on entre dans le répertoire « /home/yoyo/scop/glfw/CMakeFiles/CMakeTmp »
+/usr/bin/make -f CMakeFiles/cmTC_95a5f.dir/build.make CMakeFiles/cmTC_95a5f.dir/build
+make[2] : on entre dans le répertoire « /home/yoyo/scop/glfw/CMakeFiles/CMakeTmp »
+Building C object CMakeFiles/cmTC_95a5f.dir/CheckFunctionExists.c.o
+/usr/bin/cc   -DCHECK_FUNCTION_EXISTS=XOpenDisplay   -o CMakeFiles/cmTC_95a5f.dir/CheckFunctionExists.c.o   -c /usr/share/cmake-3.8/Modules/CheckFunctionExists.c
+Linking C executable cmTC_95a5f
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_95a5f.dir/link.txt --verbose=1
+/usr/bin/cc  -DCHECK_FUNCTION_EXISTS=XOpenDisplay    -rdynamic CMakeFiles/cmTC_95a5f.dir/CheckFunctionExists.c.o  -o cmTC_95a5f /usr/lib/libX11.so /usr/lib/libXext.so 
+make[2] : on quitte le répertoire « /home/yoyo/scop/glfw/CMakeFiles/CMakeTmp »
+make[1] : on quitte le répertoire « /home/yoyo/scop/glfw/CMakeFiles/CMakeTmp »
+
+
+Determining if the function gethostbyname exists passed with the following output:
+Change Dir: /home/yoyo/scop/glfw/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_814b3/fast"
+make[1] : on entre dans le répertoire « /home/yoyo/scop/glfw/CMakeFiles/CMakeTmp »
+/usr/bin/make -f CMakeFiles/cmTC_814b3.dir/build.make CMakeFiles/cmTC_814b3.dir/build
+make[2] : on entre dans le répertoire « /home/yoyo/scop/glfw/CMakeFiles/CMakeTmp »
+Building C object CMakeFiles/cmTC_814b3.dir/CheckFunctionExists.c.o
+/usr/bin/cc   -DCHECK_FUNCTION_EXISTS=gethostbyname   -o CMakeFiles/cmTC_814b3.dir/CheckFunctionExists.c.o   -c /usr/share/cmake-3.8/Modules/CheckFunctionExists.c
+Linking C executable cmTC_814b3
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_814b3.dir/link.txt --verbose=1
+/usr/bin/cc  -DCHECK_FUNCTION_EXISTS=gethostbyname    -rdynamic CMakeFiles/cmTC_814b3.dir/CheckFunctionExists.c.o  -o cmTC_814b3 
+make[2] : on quitte le répertoire « /home/yoyo/scop/glfw/CMakeFiles/CMakeTmp »
+make[1] : on quitte le répertoire « /home/yoyo/scop/glfw/CMakeFiles/CMakeTmp »
+
+
+Determining if the function connect exists passed with the following output:
+Change Dir: /home/yoyo/scop/glfw/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_8a4e9/fast"
+make[1] : on entre dans le répertoire « /home/yoyo/scop/glfw/CMakeFiles/CMakeTmp »
+/usr/bin/make -f CMakeFiles/cmTC_8a4e9.dir/build.make CMakeFiles/cmTC_8a4e9.dir/build
+make[2] : on entre dans le répertoire « /home/yoyo/scop/glfw/CMakeFiles/CMakeTmp »
+Building C object CMakeFiles/cmTC_8a4e9.dir/CheckFunctionExists.c.o
+/usr/bin/cc   -DCHECK_FUNCTION_EXISTS=connect   -o CMakeFiles/cmTC_8a4e9.dir/CheckFunctionExists.c.o   -c /usr/share/cmake-3.8/Modules/CheckFunctionExists.c
+Linking C executable cmTC_8a4e9
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_8a4e9.dir/link.txt --verbose=1
+/usr/bin/cc  -DCHECK_FUNCTION_EXISTS=connect    -rdynamic CMakeFiles/cmTC_8a4e9.dir/CheckFunctionExists.c.o  -o cmTC_8a4e9 
+make[2] : on quitte le répertoire « /home/yoyo/scop/glfw/CMakeFiles/CMakeTmp »
+make[1] : on quitte le répertoire « /home/yoyo/scop/glfw/CMakeFiles/CMakeTmp »
+
+
+Determining if the function remove exists passed with the following output:
+Change Dir: /home/yoyo/scop/glfw/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_186e5/fast"
+make[1] : on entre dans le répertoire « /home/yoyo/scop/glfw/CMakeFiles/CMakeTmp »
+/usr/bin/make -f CMakeFiles/cmTC_186e5.dir/build.make CMakeFiles/cmTC_186e5.dir/build
+make[2] : on entre dans le répertoire « /home/yoyo/scop/glfw/CMakeFiles/CMakeTmp »
+Building C object CMakeFiles/cmTC_186e5.dir/CheckFunctionExists.c.o
+/usr/bin/cc   -DCHECK_FUNCTION_EXISTS=remove   -o CMakeFiles/cmTC_186e5.dir/CheckFunctionExists.c.o   -c /usr/share/cmake-3.8/Modules/CheckFunctionExists.c
+Linking C executable cmTC_186e5
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_186e5.dir/link.txt --verbose=1
+/usr/bin/cc  -DCHECK_FUNCTION_EXISTS=remove    -rdynamic CMakeFiles/cmTC_186e5.dir/CheckFunctionExists.c.o  -o cmTC_186e5 
+make[2] : on quitte le répertoire « /home/yoyo/scop/glfw/CMakeFiles/CMakeTmp »
+make[1] : on quitte le répertoire « /home/yoyo/scop/glfw/CMakeFiles/CMakeTmp »
+
+
+Determining if the function shmat exists passed with the following output:
+Change Dir: /home/yoyo/scop/glfw/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_6d440/fast"
+make[1] : on entre dans le répertoire « /home/yoyo/scop/glfw/CMakeFiles/CMakeTmp »
+/usr/bin/make -f CMakeFiles/cmTC_6d440.dir/build.make CMakeFiles/cmTC_6d440.dir/build
+make[2] : on entre dans le répertoire « /home/yoyo/scop/glfw/CMakeFiles/CMakeTmp »
+Building C object CMakeFiles/cmTC_6d440.dir/CheckFunctionExists.c.o
+/usr/bin/cc   -DCHECK_FUNCTION_EXISTS=shmat   -o CMakeFiles/cmTC_6d440.dir/CheckFunctionExists.c.o   -c /usr/share/cmake-3.8/Modules/CheckFunctionExists.c
+Linking C executable cmTC_6d440
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_6d440.dir/link.txt --verbose=1
+/usr/bin/cc  -DCHECK_FUNCTION_EXISTS=shmat    -rdynamic CMakeFiles/cmTC_6d440.dir/CheckFunctionExists.c.o  -o cmTC_6d440 
+make[2] : on quitte le répertoire « /home/yoyo/scop/glfw/CMakeFiles/CMakeTmp »
+make[1] : on quitte le répertoire « /home/yoyo/scop/glfw/CMakeFiles/CMakeTmp »
+
+
+Determining if the function IceConnectionNumber exists in the ICE passed with the following output:
+Change Dir: /home/yoyo/scop/glfw/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_16f1b/fast"
+make[1] : on entre dans le répertoire « /home/yoyo/scop/glfw/CMakeFiles/CMakeTmp »
+/usr/bin/make -f CMakeFiles/cmTC_16f1b.dir/build.make CMakeFiles/cmTC_16f1b.dir/build
+make[2] : on entre dans le répertoire « /home/yoyo/scop/glfw/CMakeFiles/CMakeTmp »
+Building C object CMakeFiles/cmTC_16f1b.dir/CheckFunctionExists.c.o
+/usr/bin/cc   -DCHECK_FUNCTION_EXISTS=IceConnectionNumber   -o CMakeFiles/cmTC_16f1b.dir/CheckFunctionExists.c.o   -c /usr/share/cmake-3.8/Modules/CheckFunctionExists.c
+Linking C executable cmTC_16f1b
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_16f1b.dir/link.txt --verbose=1
+/usr/bin/cc  -DCHECK_FUNCTION_EXISTS=IceConnectionNumber    -rdynamic CMakeFiles/cmTC_16f1b.dir/CheckFunctionExists.c.o  -o cmTC_16f1b -lICE 
+make[2] : on quitte le répertoire « /home/yoyo/scop/glfw/CMakeFiles/CMakeTmp »
+make[1] : on quitte le répertoire « /home/yoyo/scop/glfw/CMakeFiles/CMakeTmp »
+
+

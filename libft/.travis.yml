@@ -1,0 +1,15 @@
+language: c
+install: make
+compiler:
+- clang
+- gcc
+script:
+- make
+env:
+    global:
+    matrix:
+        - OPENGL_ENABLED=yes
+        - OPENGL_ENABLED=no
+os:
+    - linux
+    - osx
