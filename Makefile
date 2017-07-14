@@ -20,7 +20,7 @@ endif
 DRAW=libdraw
 LIBFT=libft
 LINKER=-L$(DRAW) -lm -ldraw -Lglfw/src/ -lglfw3
-INC=-I$(DRAW)/headers -I $(LIBFT)/ -I./SOIL2-clone/incs -Iheaders -Iglew/include -Ilibtga/includes
+INC=-I$(DRAW)/headers -I $(LIBFT)/ -I./SOIL2-clone/incs -Iheaders -Iglew/include -Ilibtga/includes -Iglfw/include
 SOIL=./SOIL2-clone/libSOIL2.a
 ifeq ($(OS),Darwin)
 	INC+=-I ~/.brew/include -I/usr/local/include
