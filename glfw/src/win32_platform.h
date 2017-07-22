@@ -25,9 +25,6 @@
 //
 //========================================================================
 
-#ifndef _glfw3_win32_platform_h_
-#define _glfw3_win32_platform_h_
-
 // We don't need all the fancy stuff
 #ifndef NOMINMAX
  #define NOMINMAX
@@ -224,6 +221,7 @@ typedef VkBool32 (APIENTRY *PFN_vkGetPhysicalDeviceWin32PresentationSupportKHR)(
 #define _GLFW_PLATFORM_MONITOR_STATE        _GLFWmonitorWin32 win32
 #define _GLFW_PLATFORM_CURSOR_STATE         _GLFWcursorWin32  win32
 #define _GLFW_PLATFORM_TLS_STATE            _GLFWtlsWin32     win32
+#define _GLFW_PLATFORM_MUTEX_STATE          _GLFWmutexWin32   win32
 
 
 // Win32-specific per-window data
@@ -337,6 +335,15 @@ typedef struct _GLFWtlsWin32
 
 } _GLFWtlsWin32;
 
+// Win32-specific mutex data
+//
+typedef struct _GLFWmutexWin32
+{
+    GLFWbool            allocated;
+    CRITICAL_SECTION    section;
+
+} _GLFWmutexWin32;
+
 
 GLFWbool _glfwRegisterWindowClassWin32(void);
 void _glfwUnregisterWindowClassWin32(void);
@@ -351,4 +358,3 @@ void _glfwPollMonitorsWin32(void);
 GLFWbool _glfwSetVideoModeWin32(_GLFWmonitor* monitor, const GLFWvidmode* desired);
 void _glfwRestoreVideoModeWin32(_GLFWmonitor* monitor);
 
-#endif // _glfw3_win32_platform_h_

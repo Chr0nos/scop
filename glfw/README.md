@@ -36,10 +36,10 @@ fixes live in [other branches](https://github.com/glfw/glfw/branches/all) until
 they are stable enough to merge.
 
 If you are new to GLFW, you may find the
-[tutorial](http://www.glfw.org/docs/latest/quick.html) for GLFW
-3 useful.  If you have used GLFW 2 in the past, there is a
-[transition guide](http://www.glfw.org/docs/latest/moving.html) for moving to
-the GLFW 3 API.
+[tutorial](http://www.glfw.org/docs/latest/quick.html) for GLFW 3 useful.  If
+you have used GLFW 2 in the past, there is a [transition
+guide](http://www.glfw.org/docs/latest/moving.html) for moving to the GLFW
+3 API.
 
 
 ## Compiling GLFW
@@ -53,12 +53,11 @@ MinGW-w64, on macOS with Clang and on Linux and other Unix-like systems with GCC
 and Clang.  It will likely compile in other environments as well, but this is
 not regularly tested.
 
-There are also [pre-compiled Windows
-binaries](http://www.glfw.org/download.html) available for all compilers
-supported on that platform.
+There are [pre-compiled Windows binaries](http://www.glfw.org/download.html)
+available for all supported compilers.
 
 See the [compilation guide](http://www.glfw.org/docs/latest/compile.html) for
-more information about how to compile GLFW.
+more information about how to compile GLFW yourself.
 
 
 ## Using GLFW
@@ -89,6 +88,9 @@ in the documentation for more information.
 
 GLFW itself depends only on the headers and libraries for your window system.
 
+The (experimental) Wayland backend also depends on the `extra-cmake-modules`
+package, which is used to generated Wayland protocol headers.
+
 The examples and test programs depend on a number of tiny libraries.  These are
 located in the `deps/` directory.
 
@@ -105,11 +107,11 @@ located in the `deps/` directory.
  - [Vulkan headers](https://www.khronos.org/registry/vulkan/) for Vulkan tests
 
 The Vulkan example additionally requires the Vulkan SDK to be installed, or it
-will not be included in the build.  On macOS you need to set the path to the
-MoltenVK SDK manually as it has no standard location.
+will not be included in the build.  On macOS you need to provide the path to the
+MoltenVK SDK manually as it has no standard installation location.
 
-The documentation is generated with [Doxygen](http://doxygen.org/).  If CMake
-does not find Doxygen, the documentation will not be generated when you build.
+The documentation is generated with [Doxygen](http://doxygen.org/) if CMake can
+find that tool.
 
 
 ## Reporting bugs
@@ -122,7 +124,16 @@ information on what to include when reporting a bug.
 
 ## Changelog
 
-- Added `glfwGetError` function for querying the last error code (#970)
+- Added `glfwGetError` function for querying the last error code and its
+  description (#970)
+- Added `glfwUpdateGamepadMappings` function for importing gamepad mappings in
+  SDL\_GameControllerDB format (#900)
+- Added `glfwJoystickIsGamepad` function for querying whether a joystick has
+  a gamepad mapping (#900)
+- Added `glfwGetGamepadName` function for querying the name provided by the
+  gamepad mapping (#900)
+- Added `glfwGetGamepadState` function, `GLFW_GAMEPAD_*` and `GLFWgamepadstate`
+  for retrieving gamepad input state (#900)
 - Added `glfwRequestWindowAttention` function for requesting attention from the
   user (#732,#988)
 - Added `glfwGetKeyScancode` function that allows retrieving platform dependent
@@ -170,6 +181,7 @@ information on what to include when reporting a bug.
 - [Win32] Bugfix: Vulkan libraries have a new path as of SDK 1.0.42.0 (#956)
 - [Win32] Bugfix: Monitors with no display devices were not enumerated (#960)
 - [Win32] Bugfix: Monitor events were not emitted (#784)
+- [Win32] Bugfix: The Cygwin DLL was installed to the wrong directory (#1035)
 - [X11] Moved to XI2 `XI_RawMotion` for disable cursor mode motion input (#125)
 - [X11] Replaced `_GLFW_HAS_XF86VM` compile-time option with dynamic loading
 - [X11] Bugfix: `glfwGetVideoMode` would segfault on Cygwin/X
@@ -180,7 +192,9 @@ information on what to include when reporting a bug.
 - [X11] Bugfix: IM-duplicated key events would leak at low polling rates (#747)
 - [X11] Bugfix: Gamma ramp setting via RandR did not validate ramp size
 - [X11] Bugfix: Key name string encoding depended on current locale (#981,#983)
+- [Linux] Moved to evdev for joystick input (#906,#1005)
 - [Linux] Bugfix: Event processing did not detect joystick disconnection (#932)
+- [Linux] Bugfix: The joystick device path could be truncated (#1025)
 - [Cocoa] Added support for Vulkan window surface creation via
           [MoltenVK](https://moltengl.com/moltenvk/) (#870)
 - [Cocoa] Added support for loading a `MainMenu.nib` when available
@@ -199,6 +213,10 @@ information on what to include when reporting a bug.
 - [Cocoa] Bugfix: Full screen framebuffer was incorrectly sized for some video
                   modes (#682)
 - [WGL] Added support for `WGL_EXT_colorspace` for OpenGL ES contexts
+- [WGL] Added support for `WGL_ARB_create_context_no_error`
+- [GLX] Added support for `GLX_ARB_create_context_no_error`
+- [GLX] Bugfix: Context creation could segfault if no GLXFBConfigs were
+                available (#1040)
 - [EGL] Added support for `EGL_KHR_get_all_proc_addresses` (#871)
 - [EGL] Added support for `EGL_KHR_context_flush_control`
 - [EGL] Bugfix: The test for `EGL_RGB_BUFFER` was invalid
@@ -239,7 +257,9 @@ skills.
  - blanco
  - Kyle Brenneman
  - Martin Capitanio
+ - David Carlier
  - Chi-kwan Chan
+ - Michał Cichoń
  - Lambert Clara
  - Andrew Corrigan
  - Noel Cower
@@ -307,6 +327,7 @@ skills.
  - Peoro
  - Braden Pellett
  - Arturo J. Pérez
+ - Anthony Pesch
  - Orson Peters
  - Emmanuel Gil Peyrot
  - Cyril Pichard
@@ -351,6 +372,7 @@ skills.
  - Jay Weisskopf
  - Frank Wille
  - yuriks
+ - Ryogo Yoshimura
  - Santi Zupancic
  - Jonas Ådahl
  - Lasse Öörni

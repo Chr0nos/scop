@@ -249,12 +249,12 @@ static void makeContextCurrentWGL(_GLFWwindow* window)
     if (window)
     {
         if (wglMakeCurrent(window->context.wgl.dc, window->context.wgl.handle))
-            _glfwPlatformSetTls(&_glfw.context, window);
+            _glfwPlatformSetTls(&_glfw.contextSlot, window);
         else
         {
             _glfwInputErrorWin32(GLFW_PLATFORM_ERROR,
                                  "WGL: Failed to make context current");
-            _glfwPlatformSetTls(&_glfw.context, NULL);
+            _glfwPlatformSetTls(&_glfw.contextSlot, NULL);
         }
     }
     else
@@ -265,7 +265,7 @@ static void makeContextCurrentWGL(_GLFWwindow* window)
                                  "WGL: Failed to clear current context");
         }
 
-        _glfwPlatformSetTls(&_glfw.context, NULL);
+        _glfwPlatformSetTls(&_glfw.contextSlot, NULL);
     }
 }
 
@@ -284,7 +284,7 @@ static void swapBuffersWGL(_GLFWwindow* window)
 
 static void swapIntervalWGL(int interval)
 {
-    _GLFWwindow* window = _glfwPlatformGetTls(&_glfw.context);
+    _GLFWwindow* window = _glfwPlatformGetTls(&_glfw.contextSlot);
 
     window->context.wgl.interval = interval;
 
@@ -418,6 +418,8 @@ static void loadWGLExtensions(void)
         extensionSupportedWGL("WGL_EXT_create_context_es2_profile");
     _glfw.wgl.ARB_create_context_robustness =
         extensionSupportedWGL("WGL_ARB_create_context_robustness");
+    _glfw.wgl.ARB_create_context_no_error =
+        extensionSupportedWGL("WGL_ARB_create_context_no_error");
     _glfw.wgl.EXT_swap_control =
         extensionSupportedWGL("WGL_EXT_swap_control");
     _glfw.wgl.EXT_colorspace =
@@ -475,11 +477,11 @@ void _glfwTerminateWGL(void)
         FreeLibrary(_glfw.wgl.instance);
 }
 
-#define setWGLattrib(attribName, attribValue) \
+#define setAttrib(a, v) \
 { \
-    attribs[index++] = attribName; \
-    attribs[index++] = attribValue; \
-    assert((size_t) index < sizeof(attribs) / sizeof(attribs[0])); \
+    assert((size_t) (index + 1) < sizeof(attribs) / sizeof(attribs[0])); \
+    attribs[index++] = a; \
+    attribs[index++] = v; \
 }
 
 // Create the OpenGL or OpenGL ES context
@@ -579,8 +581,6 @@ GLFWbool _glfwCreateContextWGL(_GLFWwindow* window,
 
         if (ctxconfig->debug)
             flags |= WGL_CONTEXT_DEBUG_BIT_ARB;
-        if (ctxconfig->noerror)
-            flags |= GL_CONTEXT_FLAG_NO_ERROR_BIT_KHR;
 
         if (ctxconfig->robustness)
         {
@@ -588,13 +588,13 @@ GLFWbool _glfwCreateContextWGL(_GLFWwindow* window,
             {
                 if (ctxconfig->robustness == GLFW_NO_RESET_NOTIFICATION)
                 {
-                    setWGLattrib(WGL_CONTEXT_RESET_NOTIFICATION_STRATEGY_ARB,
-                                 WGL_NO_RESET_NOTIFICATION_ARB);
+                    setAttrib(WGL_CONTEXT_RESET_NOTIFICATION_STRATEGY_ARB,
+                              WGL_NO_RESET_NOTIFICATION_ARB);
                 }
                 else if (ctxconfig->robustness == GLFW_LOSE_CONTEXT_ON_RESET)
                 {
-                    setWGLattrib(WGL_CONTEXT_RESET_NOTIFICATION_STRATEGY_ARB,
-                                 WGL_LOSE_CONTEXT_ON_RESET_ARB);
+                    setAttrib(WGL_CONTEXT_RESET_NOTIFICATION_STRATEGY_ARB,
+                              WGL_LOSE_CONTEXT_ON_RESET_ARB);
                 }
 
                 flags |= WGL_CONTEXT_ROBUST_ACCESS_BIT_ARB;
@@ -607,15 +607,21 @@ GLFWbool _glfwCreateContextWGL(_GLFWwindow* window,
             {
                 if (ctxconfig->release == GLFW_RELEASE_BEHAVIOR_NONE)
                 {
-                    setWGLattrib(WGL_CONTEXT_RELEASE_BEHAVIOR_ARB,
-                                 WGL_CONTEXT_RELEASE_BEHAVIOR_NONE_ARB);
+                    setAttrib(WGL_CONTEXT_RELEASE_BEHAVIOR_ARB,
+                              WGL_CONTEXT_RELEASE_BEHAVIOR_NONE_ARB);
                 }
                 else if (ctxconfig->release == GLFW_RELEASE_BEHAVIOR_FLUSH)
                 {
-                    setWGLattrib(WGL_CONTEXT_RELEASE_BEHAVIOR_ARB,
-                                 WGL_CONTEXT_RELEASE_BEHAVIOR_FLUSH_ARB);
+                    setAttrib(WGL_CONTEXT_RELEASE_BEHAVIOR_ARB,
+                              WGL_CONTEXT_RELEASE_BEHAVIOR_FLUSH_ARB);
                 }
             }
+        }
+
+        if (ctxconfig->noerror)
+        {
+            if (_glfw.wgl.ARB_create_context_no_error)
+                setAttrib(WGL_CONTEXT_OPENGL_NO_ERROR_ARB, GLFW_TRUE);
         }
 
         // NOTE: Only request an explicitly versioned context when necessary, as
@@ -623,17 +629,17 @@ GLFWbool _glfwCreateContextWGL(_GLFWwindow* window,
         //       highest version supported by the driver
         if (ctxconfig->major != 1 || ctxconfig->minor != 0)
         {
-            setWGLattrib(WGL_CONTEXT_MAJOR_VERSION_ARB, ctxconfig->major);
-            setWGLattrib(WGL_CONTEXT_MINOR_VERSION_ARB, ctxconfig->minor);
+            setAttrib(WGL_CONTEXT_MAJOR_VERSION_ARB, ctxconfig->major);
+            setAttrib(WGL_CONTEXT_MINOR_VERSION_ARB, ctxconfig->minor);
         }
 
         if (flags)
-            setWGLattrib(WGL_CONTEXT_FLAGS_ARB, flags);
+            setAttrib(WGL_CONTEXT_FLAGS_ARB, flags);
 
         if (mask)
-            setWGLattrib(WGL_CONTEXT_PROFILE_MASK_ARB, mask);
+            setAttrib(WGL_CONTEXT_PROFILE_MASK_ARB, mask);
 
-        setWGLattrib(0, 0);
+        setAttrib(0, 0);
 
         window->context.wgl.handle =
             _glfw.wgl.CreateContextAttribsARB(window->context.wgl.dc,
@@ -663,6 +669,11 @@ GLFWbool _glfwCreateContextWGL(_GLFWwindow* window,
             {
                 _glfwInputError(GLFW_VERSION_UNAVAILABLE,
                                 "WGL: Driver does not support the requested OpenGL profile");
+            }
+            else if (error == (0xc0070000 | ERROR_INCOMPATIBLE_DEVICE_CONTEXTS_ARB))
+            {
+                _glfwInputError(GLFW_INVALID_VALUE,
+                                "WGL: The share context is not compatible with the requested context");
             }
             else
             {
@@ -712,7 +723,7 @@ GLFWbool _glfwCreateContextWGL(_GLFWwindow* window,
     return GLFW_TRUE;
 }
 
-#undef setWGLattrib
+#undef setAttrib
 
 
 //////////////////////////////////////////////////////////////////////////

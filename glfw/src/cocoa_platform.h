@@ -24,9 +24,6 @@
 //
 //========================================================================
 
-#ifndef _glfw3_cocoa_platform_h_
-#define _glfw3_cocoa_platform_h_
-
 #include <stdint.h>
 #include <dlfcn.h>
 
@@ -51,7 +48,7 @@ typedef struct VkMacOSSurfaceCreateInfoMVK
 
 typedef VkResult (APIENTRY *PFN_vkCreateMacOSSurfaceMVK)(VkInstance,const VkMacOSSurfaceCreateInfoMVK*,const VkAllocationCallbacks*,VkSurfaceKHR*);
 
-#include "posix_tls.h"
+#include "posix_thread.h"
 #include "cocoa_joystick.h"
 #include "nsgl_context.h"
 #include "egl_context.h"
@@ -164,4 +161,3 @@ void _glfwPollMonitorsNS(void);
 GLFWbool _glfwSetVideoModeNS(_GLFWmonitor* monitor, const GLFWvidmode* desired);
 void _glfwRestoreVideoModeNS(_GLFWmonitor* monitor);
 
-#endif // _glfw3_cocoa_platform_h_

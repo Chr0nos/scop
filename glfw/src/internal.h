@@ -25,10 +25,6 @@
 //
 //========================================================================
 
-#ifndef _glfw3_internal_h_
-#define _glfw3_internal_h_
-
-
 #if defined(_GLFW_USE_CONFIG_H)
  #include "glfw_config.h"
 #endif
@@ -56,9 +52,11 @@
 #define _GLFW_POLL_PRESENCE     0
 #define _GLFW_POLL_AXES         1
 #define _GLFW_POLL_BUTTONS      2
+#define _GLFW_POLL_ALL          (_GLFW_POLL_AXES | _GLFW_POLL_BUTTONS)
 
 typedef int GLFWbool;
 
+typedef struct _GLFWerror       _GLFWerror;
 typedef struct _GLFWinitconfig  _GLFWinitconfig;
 typedef struct _GLFWwndconfig   _GLFWwndconfig;
 typedef struct _GLFWctxconfig   _GLFWctxconfig;
@@ -68,8 +66,11 @@ typedef struct _GLFWwindow      _GLFWwindow;
 typedef struct _GLFWlibrary     _GLFWlibrary;
 typedef struct _GLFWmonitor     _GLFWmonitor;
 typedef struct _GLFWcursor      _GLFWcursor;
+typedef struct _GLFWmapelement  _GLFWmapelement;
+typedef struct _GLFWmapping     _GLFWmapping;
 typedef struct _GLFWjoystick    _GLFWjoystick;
 typedef struct _GLFWtls         _GLFWtls;
+typedef struct _GLFWmutex       _GLFWmutex;
 
 typedef void (* _GLFWmakecontextcurrentfun)(_GLFWwindow*);
 typedef void (* _GLFWswapbuffersfun)(_GLFWwindow*);
@@ -253,13 +254,17 @@ typedef void (APIENTRY * PFN_vkVoidFunction)(void);
         y = t;                    \
     }
 
-// Maps a joystick pointer to an ID
-#define _GLFW_JOYSTICK_ID(js) ((int) ((js) - _glfw.joysticks))
-
 
 //========================================================================
 // Platform-independent structures
 //========================================================================
+
+struct _GLFWerror
+{
+    _GLFWerror*     next;
+    int             code;
+    char            description[1024];
+};
 
 /*! @brief Initialization configuration.
  *
@@ -469,6 +474,24 @@ struct _GLFWcursor
     _GLFW_PLATFORM_CURSOR_STATE;
 };
 
+/*! @brief Gamepad mapping element structure
+ */
+struct _GLFWmapelement
+{
+    uint8_t         type;
+    uint8_t         value;
+};
+
+/*! @brief Gamepad mapping structure
+ */
+struct _GLFWmapping
+{
+    char            name[128];
+    char            guid[33];
+    _GLFWmapelement buttons[15];
+    _GLFWmapelement axes[6];
+};
+
 /*! @brief Joystick structure
  */
 struct _GLFWjoystick
@@ -481,6 +504,8 @@ struct _GLFWjoystick
     unsigned char*  hats;
     int             hatCount;
     char*           name;
+    char            guid[33];
+    _GLFWmapping*   mapping;
 
     // This is defined in the joystick API's joystick.h
     _GLFW_PLATFORM_JOYSTICK_STATE;
@@ -490,8 +515,16 @@ struct _GLFWjoystick
  */
 struct _GLFWtls
 {
-    // This is defined in the platform's tls.h
+    // This is defined in the platform's thread.h
     _GLFW_PLATFORM_TLS_STATE;
+};
+
+/*! @brief Mutex structure.
+ */
+struct _GLFWmutex
+{
+    // This is defined in the platform's thread.h
+    _GLFW_PLATFORM_MUTEX_STATE;
 };
 
 /*! @brief Library global data.
@@ -508,17 +541,20 @@ struct _GLFWlibrary
         int             refreshRate;
     } hints;
 
+    _GLFWerror*         errorListHead;
     _GLFWcursor*        cursorListHead;
-
     _GLFWwindow*        windowListHead;
 
     _GLFWmonitor**      monitors;
     int                 monitorCount;
 
     _GLFWjoystick       joysticks[GLFW_JOYSTICK_LAST + 1];
+    _GLFWmapping*       mappings;
+    int                 mappingCount;
 
-    _GLFWtls            error;
-    _GLFWtls            context;
+    _GLFWtls            errorSlot;
+    _GLFWtls            contextSlot;
+    _GLFWmutex          errorLock;
 
     struct {
         uint64_t        offset;
@@ -594,7 +630,7 @@ int _glfwPlatformCreateStandardCursor(_GLFWcursor* cursor, int shape);
 void _glfwPlatformDestroyCursor(_GLFWcursor* cursor);
 void _glfwPlatformSetCursor(_GLFWwindow* window, _GLFWcursor* cursor);
 
-const char* _glfwPlatformGetKeyName(int key, int scancode);
+const char* _glfwPlatformGetScancodeName(int scancode);
 int _glfwPlatformGetKeyScancode(int key);
 
 void _glfwPlatformGetMonitorPos(_GLFWmonitor* monitor, int* xpos, int* ypos);
@@ -606,7 +642,8 @@ void _glfwPlatformSetGammaRamp(_GLFWmonitor* monitor, const GLFWgammaramp* ramp)
 void _glfwPlatformSetClipboardString(_GLFWwindow* window, const char* string);
 const char* _glfwPlatformGetClipboardString(_GLFWwindow* window);
 
-int _glfwPlatformPollJoystick(int jid, int mode);
+int _glfwPlatformPollJoystick(_GLFWjoystick* js, int mode);
+void _glfwPlatformUpdateGamepadGUID(char* guid);
 
 uint64_t _glfwPlatformGetTimerValue(void);
 uint64_t _glfwPlatformGetTimerFrequency(void);
@@ -655,7 +692,11 @@ GLFWbool _glfwPlatformCreateTls(_GLFWtls* tls);
 void _glfwPlatformDestroyTls(_GLFWtls* tls);
 void* _glfwPlatformGetTls(_GLFWtls* tls);
 void _glfwPlatformSetTls(_GLFWtls* tls, void* value);
-GLFWbool _glfwPlatformIsValidTls(_GLFWtls* tls);
+
+GLFWbool _glfwPlatformCreateMutex(_GLFWmutex* mutex);
+void _glfwPlatformDestroyMutex(_GLFWmutex* mutex);
+void _glfwPlatformLockMutex(_GLFWmutex* mutex);
+void _glfwPlatformUnlockMutex(_GLFWmutex* mutex);
 
 /*! @} */
 
@@ -802,15 +843,15 @@ void _glfwInputMonitor(_GLFWmonitor* monitor, int action, int placement);
 void _glfwInputMonitorWindow(_GLFWmonitor* monitor, _GLFWwindow* window);
 
 /*! @brief Notifies shared code of an error.
- *  @param[in] error The error code most suitable for the error.
+ *  @param[in] code The error code most suitable for the error.
  *  @param[in] format The `printf` style format string of the error
  *  description.
  *  @ingroup event
  */
 #if defined(__GNUC__)
-void _glfwInputError(int error, const char* format, ...) __attribute__((format(printf, 2, 3)));
+void _glfwInputError(int code, const char* format, ...) __attribute__((format(printf, 2, 3)));
 #else
-void _glfwInputError(int error, const char* format, ...);
+void _glfwInputError(int code, const char* format, ...);
 #endif
 
 /*! @brief Notifies shared code of files or directories dropped on a window.
@@ -822,32 +863,32 @@ void _glfwInputError(int error, const char* format, ...);
 void _glfwInputDrop(_GLFWwindow* window, int count, const char** names);
 
 /*! @brief Notifies shared code of a joystick connection or disconnection.
- *  @param[in] jid The joystick that was connected or disconnected.
+ *  @param[in] js The joystick that was connected or disconnected.
  *  @param[in] event One of `GLFW_CONNECTED` or `GLFW_DISCONNECTED`.
  *  @ingroup event
  */
-void _glfwInputJoystick(int jid, int event);
+void _glfwInputJoystick(_GLFWjoystick* js, int event);
 
 /*! @brief Notifies shared code of the new value of a joystick axis.
- *  @param[in] jid The joystick whose axis to update.
+ *  @param[in] js The joystick whose axis to update.
  *  @param[in] axis The index of the axis to update.
  *  @param[in] value The new value of the axis.
  */
-void _glfwInputJoystickAxis(int jid, int axis, float value);
+void _glfwInputJoystickAxis(_GLFWjoystick* js, int axis, float value);
 
 /*! @brief Notifies shared code of the new value of a joystick button.
- *  @param[in] jid The joystick whose button to update.
+ *  @param[in] js The joystick whose button to update.
  *  @param[in] button The index of the button to update.
  *  @param[in] value The new value of the button.
  */
-void _glfwInputJoystickButton(int jid, int button, char value);
+void _glfwInputJoystickButton(_GLFWjoystick* js, int button, char value);
 
 /*! @brief Notifies shared code of the new value of a joystick hat.
- *  @param[in] jid The joystick whose hat to update.
+ *  @param[in] js The joystick whose hat to update.
  *  @param[in] button The index of the hat to update.
  *  @param[in] value The new value of the hat.
  */
-void _glfwInputJoystickHat(int jid, int hat, char value);
+void _glfwInputJoystickHat(_GLFWjoystick* js, int hat, char value);
 
 
 //========================================================================
@@ -938,16 +979,16 @@ void _glfwFreeMonitor(_GLFWmonitor* monitor);
 /*! @brief Returns an available joystick object with arrays and name allocated.
  *  @ingroup utility
   */
-_GLFWjoystick* _glfwAllocJoystick(const char* name, int axisCount, int buttonCount, int hatCount);
+_GLFWjoystick* _glfwAllocJoystick(const char* name,
+                                  const char* guid,
+                                  int axisCount,
+                                  int buttonCount,
+                                  int hatCount);
 
 /*! @brief Frees arrays and name and flags the joystick object as unused.
  *  @ingroup utility
   */
 void _glfwFreeJoystick(_GLFWjoystick* js);
-
-/*! @ingroup utility
- */
-GLFWbool _glfwIsPrintable(int key);
 
 /*! @ingroup utility
  */
@@ -961,4 +1002,3 @@ void _glfwTerminateVulkan(void);
  */
 const char* _glfwGetVulkanResultString(VkResult result);
 
-#endif // _glfw3_internal_h_

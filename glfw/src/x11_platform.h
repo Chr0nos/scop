@@ -25,9 +25,6 @@
 //
 //========================================================================
 
-#ifndef _glfw3_x11_platform_h_
-#define _glfw3_x11_platform_h_
-
 #include <unistd.h>
 #include <signal.h>
 #include <stdint.h>
@@ -95,7 +92,7 @@ typedef VkBool32 (APIENTRY *PFN_vkGetPhysicalDeviceXlibPresentationSupportKHR)(V
 typedef VkResult (APIENTRY *PFN_vkCreateXcbSurfaceKHR)(VkInstance,const VkXcbSurfaceCreateInfoKHR*,const VkAllocationCallbacks*,VkSurfaceKHR*);
 typedef VkBool32 (APIENTRY *PFN_vkGetPhysicalDeviceXcbPresentationSupportKHR)(VkPhysicalDevice,uint32_t,xcb_connection_t*,xcb_visualid_t);
 
-#include "posix_tls.h"
+#include "posix_thread.h"
 #include "posix_time.h"
 #include "xkb_unicode.h"
 #include "glx_context.h"
@@ -335,4 +332,3 @@ void _glfwInputErrorX11(int error, const char* message);
 
 void _glfwPushSelectionToManagerX11(void);
 
-#endif // _glfw3_x11_platform_h_

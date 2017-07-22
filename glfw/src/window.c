@@ -192,7 +192,7 @@ GLFWAPI GLFWwindow* glfwCreateWindow(int width, int height,
     window->denom       = GLFW_DONT_CARE;
 
     // Save the currently current context so it can be restored later
-    previous = _glfwPlatformGetTls(&_glfw.context);
+    previous = _glfwPlatformGetTls(&_glfw.contextSlot);
     if (ctxconfig.client != GLFW_NO_API)
         glfwMakeContextCurrent(NULL);
 
@@ -388,7 +388,7 @@ GLFWAPI void glfwWindowHint(int hint, int value)
             _glfw.hints.refreshRate = value;
             break;
         default:
-            _glfwInputError(GLFW_INVALID_ENUM, "Invalid window hint %i", hint);
+            _glfwInputError(GLFW_INVALID_ENUM, "Invalid window hint 0x%08X", hint);
             break;
     }
 }
@@ -408,7 +408,7 @@ GLFWAPI void glfwDestroyWindow(GLFWwindow* handle)
 
     // The window's context must not be current on another thread when the
     // window is destroyed
-    if (window == _glfwPlatformGetTls(&_glfw.context))
+    if (window == _glfwPlatformGetTls(&_glfw.contextSlot))
         glfwMakeContextCurrent(NULL);
 
     _glfwPlatformDestroyWindow(window);
@@ -757,7 +757,7 @@ GLFWAPI int glfwGetWindowAttrib(GLFWwindow* handle, int attrib)
             return window->context.noerror;
     }
 
-    _glfwInputError(GLFW_INVALID_ENUM, "Invalid window attribute %i", attrib);
+    _glfwInputError(GLFW_INVALID_ENUM, "Invalid window attribute 0x%08X", attrib);
     return 0;
 }
 
@@ -804,7 +804,7 @@ GLFWAPI void glfwSetWindowAttrib(GLFWwindow* handle, int attrib, int value)
             return;
     }
 
-    _glfwInputError(GLFW_INVALID_ENUM, "Invalid window attribute %i", attrib);
+    _glfwInputError(GLFW_INVALID_ENUM, "Invalid window attribute 0x%08X", attrib);
 }
 
 GLFWAPI GLFWmonitor* glfwGetWindowMonitor(GLFWwindow* handle)

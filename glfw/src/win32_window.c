@@ -628,24 +628,24 @@ static LRESULT CALLBACK windowProc(HWND hWnd, UINT uMsg,
             else
                 action = GLFW_RELEASE;
 
-            for (i = 0;  i < GLFW_MOUSE_BUTTON_LAST;  i++)
+            for (i = 0;  i <= GLFW_MOUSE_BUTTON_LAST;  i++)
             {
                 if (window->mouseButtons[i] == GLFW_PRESS)
                     break;
             }
 
-            if (i == GLFW_MOUSE_BUTTON_LAST)
+            if (i > GLFW_MOUSE_BUTTON_LAST)
                 SetCapture(hWnd);
 
             _glfwInputMouseClick(window, button, action, getKeyMods());
 
-            for (i = 0;  i < GLFW_MOUSE_BUTTON_LAST;  i++)
+            for (i = 0;  i <= GLFW_MOUSE_BUTTON_LAST;  i++)
             {
                 if (window->mouseButtons[i] == GLFW_PRESS)
                     break;
             }
 
-            if (i == GLFW_MOUSE_BUTTON_LAST)
+            if (i > GLFW_MOUSE_BUTTON_LAST)
                 ReleaseCapture();
 
             if (uMsg == WM_XBUTTONDOWN || uMsg == WM_XBUTTONUP)
@@ -1609,15 +1609,9 @@ void _glfwPlatformSetCursorMode(_GLFWwindow* window, int mode)
         updateCursorImage(window);
 }
 
-const char* _glfwPlatformGetKeyName(int key, int scancode)
+const char* _glfwPlatformGetScancodeName(int scancode)
 {
     WCHAR name[16];
-
-    if (key != GLFW_KEY_UNKNOWN)
-        scancode = _glfw.win32.scancodes[key];
-
-    if (!_glfwIsPrintable(_glfw.win32.keycodes[scancode]))
-        return NULL;
 
     if (!GetKeyNameTextW(scancode << 16, name, sizeof(name) / sizeof(WCHAR)))
         return NULL;

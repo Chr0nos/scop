@@ -199,12 +199,12 @@ static void makeContextCurrentEGL(_GLFWwindow* window)
         }
     }
 
-    _glfwPlatformSetTls(&_glfw.context, window);
+    _glfwPlatformSetTls(&_glfw.contextSlot, window);
 }
 
 static void swapBuffersEGL(_GLFWwindow* window)
 {
-    if (window != _glfwPlatformGetTls(&_glfw.context))
+    if (window != _glfwPlatformGetTls(&_glfw.contextSlot))
     {
         _glfwInputError(GLFW_PLATFORM_ERROR,
                         "EGL: The context must be current on the calling thread when swapping buffers");
@@ -233,7 +233,7 @@ static int extensionSupportedEGL(const char* extension)
 
 static GLFWglproc getProcAddressEGL(const char* procname)
 {
-    _GLFWwindow* window = _glfwPlatformGetTls(&_glfw.context);
+    _GLFWwindow* window = _glfwPlatformGetTls(&_glfw.contextSlot);
 
     if (window->context.egl.client)
     {
@@ -426,11 +426,11 @@ void _glfwTerminateEGL(void)
     }
 }
 
-#define setEGLattrib(attribName, attribValue) \
+#define setAttrib(a, v) \
 { \
-    attribs[index++] = attribName; \
-    attribs[index++] = attribValue; \
-    assert((size_t) index < sizeof(attribs) / sizeof(attribs[0])); \
+    assert((size_t) (index + 1) < sizeof(attribs) / sizeof(attribs[0])); \
+    attribs[index++] = a; \
+    attribs[index++] = v; \
 }
 
 // Create the OpenGL or OpenGL ES context
@@ -494,12 +494,6 @@ GLFWbool _glfwCreateContextEGL(_GLFWwindow* window,
                 mask |= EGL_CONTEXT_OPENGL_CORE_PROFILE_BIT_KHR;
             else if (ctxconfig->profile == GLFW_OPENGL_COMPAT_PROFILE)
                 mask |= EGL_CONTEXT_OPENGL_COMPATIBILITY_PROFILE_BIT_KHR;
-
-            if (_glfw.egl.KHR_create_context_no_error)
-            {
-                if (ctxconfig->noerror)
-                    flags |= EGL_CONTEXT_OPENGL_NO_ERROR_KHR;
-            }
         }
 
         if (ctxconfig->debug)
@@ -509,51 +503,57 @@ GLFWbool _glfwCreateContextEGL(_GLFWwindow* window,
         {
             if (ctxconfig->robustness == GLFW_NO_RESET_NOTIFICATION)
             {
-                setEGLattrib(EGL_CONTEXT_OPENGL_RESET_NOTIFICATION_STRATEGY_KHR,
-                             EGL_NO_RESET_NOTIFICATION_KHR);
+                setAttrib(EGL_CONTEXT_OPENGL_RESET_NOTIFICATION_STRATEGY_KHR,
+                          EGL_NO_RESET_NOTIFICATION_KHR);
             }
             else if (ctxconfig->robustness == GLFW_LOSE_CONTEXT_ON_RESET)
             {
-                setEGLattrib(EGL_CONTEXT_OPENGL_RESET_NOTIFICATION_STRATEGY_KHR,
-                             EGL_LOSE_CONTEXT_ON_RESET_KHR);
+                setAttrib(EGL_CONTEXT_OPENGL_RESET_NOTIFICATION_STRATEGY_KHR,
+                          EGL_LOSE_CONTEXT_ON_RESET_KHR);
             }
 
             flags |= EGL_CONTEXT_OPENGL_ROBUST_ACCESS_BIT_KHR;
         }
 
+        if (ctxconfig->noerror)
+        {
+            if (_glfw.egl.KHR_create_context_no_error)
+                setAttrib(EGL_CONTEXT_OPENGL_NO_ERROR_KHR, GLFW_TRUE);
+        }
+
         if (ctxconfig->major != 1 || ctxconfig->minor != 0)
         {
-            setEGLattrib(EGL_CONTEXT_MAJOR_VERSION_KHR, ctxconfig->major);
-            setEGLattrib(EGL_CONTEXT_MINOR_VERSION_KHR, ctxconfig->minor);
+            setAttrib(EGL_CONTEXT_MAJOR_VERSION_KHR, ctxconfig->major);
+            setAttrib(EGL_CONTEXT_MINOR_VERSION_KHR, ctxconfig->minor);
         }
 
         if (mask)
-            setEGLattrib(EGL_CONTEXT_OPENGL_PROFILE_MASK_KHR, mask);
+            setAttrib(EGL_CONTEXT_OPENGL_PROFILE_MASK_KHR, mask);
 
         if (flags)
-            setEGLattrib(EGL_CONTEXT_FLAGS_KHR, flags);
+            setAttrib(EGL_CONTEXT_FLAGS_KHR, flags);
     }
     else
     {
         if (ctxconfig->client == GLFW_OPENGL_ES_API)
-            setEGLattrib(EGL_CONTEXT_CLIENT_VERSION, ctxconfig->major);
+            setAttrib(EGL_CONTEXT_CLIENT_VERSION, ctxconfig->major);
     }
 
     if (_glfw.egl.KHR_context_flush_control)
     {
         if (ctxconfig->release == GLFW_RELEASE_BEHAVIOR_NONE)
         {
-            setEGLattrib(EGL_CONTEXT_RELEASE_BEHAVIOR_KHR,
-                         EGL_CONTEXT_RELEASE_BEHAVIOR_NONE_KHR);
+            setAttrib(EGL_CONTEXT_RELEASE_BEHAVIOR_KHR,
+                      EGL_CONTEXT_RELEASE_BEHAVIOR_NONE_KHR);
         }
         else if (ctxconfig->release == GLFW_RELEASE_BEHAVIOR_FLUSH)
         {
-            setEGLattrib(EGL_CONTEXT_RELEASE_BEHAVIOR_KHR,
-                         EGL_CONTEXT_RELEASE_BEHAVIOR_FLUSH_KHR);
+            setAttrib(EGL_CONTEXT_RELEASE_BEHAVIOR_KHR,
+                      EGL_CONTEXT_RELEASE_BEHAVIOR_FLUSH_KHR);
         }
     }
 
-    setEGLattrib(EGL_NONE, EGL_NONE);
+    setAttrib(EGL_NONE, EGL_NONE);
 
     window->context.egl.handle = eglCreateContext(_glfw.egl.display,
                                                   config, share, attribs);
@@ -573,12 +573,10 @@ GLFWbool _glfwCreateContextEGL(_GLFWwindow* window,
         if (fbconfig->sRGB)
         {
             if (_glfw.egl.KHR_gl_colorspace)
-            {
-                setEGLattrib(EGL_GL_COLORSPACE_KHR, EGL_GL_COLORSPACE_SRGB_KHR);
-            }
+                setAttrib(EGL_GL_COLORSPACE_KHR, EGL_GL_COLORSPACE_SRGB_KHR);
         }
 
-        setEGLattrib(EGL_NONE, EGL_NONE);
+        setAttrib(EGL_NONE, EGL_NONE);
     }
 
     window->context.egl.surface =
@@ -678,7 +676,7 @@ GLFWbool _glfwCreateContextEGL(_GLFWwindow* window,
     return GLFW_TRUE;
 }
 
-#undef setEGLattrib
+#undef setAttrib
 
 // Returns the Visual and depth of the chosen EGLConfig
 //
