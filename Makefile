@@ -23,7 +23,7 @@ LINKER=-L$(DRAW) -lm -ldraw -Lglfw/src/ -lglfw3
 INC=-I$(DRAW)/headers -I $(LIBFT)/ -Iheaders -Iglew/include -Ilibtga/includes -Iglfw/include
 ifeq ($(OS),Darwin)
 	INC+=-I ~/.brew/include -I/usr/local/include
-	LINKER+=-framework OpenGL -L./SOIL2-clone/ -framework CoreFoundation -framework Cocoa -framework IOKit -framework CoreVideo -L/usr/local/lib -L$(LIBFT) -lft -L ~/.brew/lib/ -lGLEW
+	LINKER+=-framework OpenGL -framework CoreFoundation -framework Cocoa -framework IOKit -framework CoreVideo -L/usr/local/lib -L$(LIBFT) -lft -L ~/.brew/lib/ -lGLEW
 else
 	LINKER+=-lGL -ldl -lpthread -L$(LIBFT) -lft -lX11 -lGLEW -lXrandr -lXinerama -lXcursor
 endif
