@@ -6,7 +6,7 @@
 #    By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/07/24 07:18:03 by snicolet          #+#    #+#              #
-#*   Updated: 2017/07/02 23:43:45 by snicolet         ###   ########.fr       *#
+#*   Updated: 2018/03/09 18:03:51 by snicolet         ###   ########.fr       *#
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,7 +20,7 @@ endif
 DRAW=libdraw
 LIBFT=libft
 LINKER=-L$(DRAW) -lm -ldraw -Lglfw/src/ -lglfw3
-INC=-I$(DRAW)/headers -I $(LIBFT)/ -I./SOIL2-clone/incs -Iheaders -Iglew/include -Ilibtga/includes -Iglfw/include
+INC=-I$(DRAW)/headers -I $(LIBFT)/include -I./SOIL2-clone/incs -Iheaders -Iglew/include -Ilibtga/includes -Iglfw/include
 SOIL=./SOIL2-clone/libSOIL2.a
 ifeq ($(OS),Darwin)
 	INC+=-I ~/.brew/include -I/usr/local/include

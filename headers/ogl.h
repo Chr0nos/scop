@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/24 07:24:26 by snicolet          #+#    #+#             */
-/*   Updated: 2017/06/06 09:20:17 by snicolet         ###   ########.fr       */
+/*   Updated: 2017/07/25 02:05:47 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,7 @@ typedef struct			s_vertex_pack
 	t_quaternion		camera_quat;
 	t_m4				model;
 	t_quaternion		model_quat;
+	t_v3d				model_axis;
 	t_v2i				mouse_last;
 	size_t				input;
 	double				fov;

@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/07 12:33:10 by snicolet          #+#    #+#             */
-/*   Updated: 2017/06/05 14:59:38 by snicolet         ###   ########.fr       */
+/*   Updated: 2017/07/21 01:01:31 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,7 @@ int					run_parse(const char *filepath, const char *texture,
 	ret = 2;
 	if (pack.items)
 	{
-		pack.texture_path = (texture) ? texture : "textures/default.jpg";
+		pack.texture_path = (texture) ? texture : "textures/default.tga";
 		pack.normal_map_path = normal_map;
 		ret = run_window(&pack);
 		ft_putendl("cleaning main structure pack");

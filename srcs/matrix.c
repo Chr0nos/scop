@@ -6,7 +6,7 @@
 /*   By: snicolet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/04 14:24:41 by snicolet          #+#    #+#             */
-/*   Updated: 2017/07/25 01:00:41 by snicolet         ###   ########.fr       */
+/*   Updated: 2017/07/25 02:05:56 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ void				matrix_init(t_vertex_pack *pack)
 	pack->fov = (double)DISPLAY_FOV;
 	pack->camera_quat = geo_quat_identity();
 	pack->model_quat = geo_quat_identity();
-	pack->model_axis = (t_v3f){0.0f, 1.0f, 0.0f};
+	pack->model_axis = AXIS_Y;
 	pack->camera = geo_quat_tomatrix(pack->camera_quat);
 	pack->camera.w = (t_v4d){0.0, 0.0, -8.0, 1.0};
 	pack->input |= INPUT_RLAST | INPUT_AUTOROT;
