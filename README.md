@@ -10,7 +10,7 @@ make
 ```
 
 # Usage
-./scop file.obj <texture> <normal_map>
+./scop file.obj [texture] <normal_map>
 
 # Run it
 ```
@@ -33,6 +33,10 @@ make
 | -                | zoom out                       |
 | +                | zoom out                       |
 | click + drag     | rotate the object              |
+| z                | toggle faces viewing mode      |
+| x                | incrase face view mode         |
+| c                | decrase face view mode         |
+     
 
 # Rotation
 All rotations are performed by quaternions
