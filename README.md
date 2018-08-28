@@ -20,13 +20,12 @@ make
 # Keybinding
 | Key              | purpose                        |
 |:-----------------|:-------------------------------|
-| left arrow       | rotate the object              |
-| right arrow      | rotate the object              |
-| up arrow         | rotate the object              |
-| down arrow       | rotate the object              |
+| left arrow       | move the object                |
+| right arrow      | move the object                |
+| up arrow         | move the object                |
+| down arrow       | move the object                |
+| w,asdeq          | rotate the object              |
 | space            | stop/start automatic rotation  |
-| e                | rotate the object              |
-| q                | rotate the object              |
 | l                | toggle lighting support        |
 | k                | toggle normal_map              |
 | mouse wheel      | zoom in/out                    |
