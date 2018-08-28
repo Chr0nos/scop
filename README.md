@@ -24,7 +24,7 @@ make
 | right arrow      | move the object                |
 | up arrow         | move the object                |
 | down arrow       | move the object                |
-| w,asdeq          | rotate the object              |
+| wasdeq           | rotate the object              |
 | space            | stop/start automatic rotation  |
 | l                | toggle lighting support        |
 | k                | toggle normal_map              |
