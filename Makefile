@@ -65,6 +65,9 @@ reall: fcleanall all
 
 re: fclean all
 
+$(LIBFT)/libft.so:
+	make -j CC=clang OPENGL_ENABLED=yes BTREE= -C $(LIBFT) so
+
 $(LIBFT)/libft.a:
 	make -j CC=clang OPENGL_ENABLED=yes BTREE= -C $(LIBFT)
 
