@@ -80,9 +80,9 @@ int					make_program(t_vertex_pack *pack)
 	int		link_ok;
 
 	ft_putendl("making program");
-	if (!(pack->fs = ft_shader_compile(GL_FRAGMENT_SHADER, "fragment.glsl")))
+	if (!(pack->fs = ft_shader_compile(GL_FRAGMENT_SHADER, SHADER_FRAGM)))
 		return (1);
-	if (!(pack->vs = ft_shader_compile(GL_VERTEX_SHADER, "vertex.glsl")))
+	if (!(pack->vs = ft_shader_compile(GL_VERTEX_SHADER, SHADER_VERTEX)))
 		return (2);
 	ft_putendl("shaders ok");
 	pack->program = glCreateProgram();

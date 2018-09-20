@@ -34,6 +34,8 @@
 # define AXIS_X			(t_v3d){1.0, 0.0, 0.0}
 # define AXIS_Y			(t_v3d){0.0, 1.0, 0.0}
 # define AXIS_Z			(t_v3d){0.0, 0.0, 1.0}
+# define SHADER_FRAGM	"./shaders/fragment.glsl"
+# define SHADER_VERTEX	"./shaders/vertex.glsl"
 
 typedef struct			s_obj_stats
 {
