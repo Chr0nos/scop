@@ -12,10 +12,10 @@
 
 OS=$(shell uname -s)
 DEBUG=0
-CC=clang -O2 -march=native -mtune=native
-FLAGS=-Werror -Wextra -Wall -Weverything -Wno-reserved-id-macro -Wno-documentation -Wno-documentation-unknown-command -Wno-padded
+CC=clang
+CFLAGS=-O2 -march=native -mtune=native -Werror -Wextra -Wall -Weverything -Wno-reserved-id-macro -Wno-documentation -Wno-documentation-unknown-command -Wno-padded
 ifeq ($(DEBUG), 1)
-	FLAGS += -g3
+	CFLAGS += -g3
 endif
 
 DRAW=./libs/libdraw
@@ -49,13 +49,10 @@ $(BUILDDIR):
 	mkdir -p $@
 
 $(NAME): $(SOIL) $(DRAW)/libdraw.a $(GLFW)/src/libglfw3.a $(LIBTGA)/libtga.a $(BUILDDIR) $(OBJ)
-	$(CC) $(FLAGS) $(OBJ) -o $(NAME) $(LINKER)
+	$(CC) $(CFLAGS) $(OBJ) -o $(NAME) $(LINKER)
 
 $(BUILDDIR)/%.o: $(SRC_DIR)/%.c
-	$(CC) -c $(INC) $(FLAGS) $< -o $@
-
-$(LIBFT):
-	git clone git@github.com:/Chr0nos/libft.git
+	$(CC) -c $(INC) $(CFLAGS) $< -o $@
 
 clean:
 	$(RM) -r $(BUILDDIR)
@@ -66,12 +63,17 @@ fclean: clean
 fcleanall: fclean
 	make -C $(DRAW) fclean
 	make -C $(LIBFT) fclean
-	make -C libtga fclean
-	make -C ./glfw/ clean
+	make -C $(LIBTGA) fclean
+	make -C $(GLFW) clean
 
 reall: fcleanall all
 
 re: fclean all
+
+# libft (general purpose library)
+
+$(LIBFT):
+	git clone git@github.com:/Chr0nos/libft.git
 
 $(LIBFT)/libft.so: ./libs/libft
 	make -j CC=clang OPENGL_ENABLED=yes BTREE= -C $(LIBFT) so
@@ -79,14 +81,22 @@ $(LIBFT)/libft.so: ./libs/libft
 $(LIBFT)/libft.a: ./libs/libft
 	make -j CC=clang OPENGL_ENABLED=yes BTREE= -C $(LIBFT)
 
+# libdraw (mathematical functions (quaternions))
+
 $(DRAW)/libdraw.a: $(LIBFT)/libft.a
 	make -j -C $(DRAW)
+
+# libtga (tga files loader)
 
 $(LIBTGA)/libtga.a:
 	make -C $(LIBTGA)
 
+# glfw (opengl rendering)
+
 $(GLFW)/src/libglfw3.a:
 	cd $(GLFW) && cmake -D-DBUILD_SHARED_LIBS=OFF . && make
+
+# soil (image loading)
 
 $(SOIL): $(SOIL2)/Makefile
 	make -C ./libs/SOIL2-clone/
