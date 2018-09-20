@@ -56,6 +56,7 @@ static int			run_window_real(t_vertex_pack *pack, GLFWwindow *window)
 	glfwSetMouseButtonCallback(window, &mouse_button_callback);
 	glfwSetCursorPosCallback(window, &mouse_pos_callback);
 	glfwSetScrollCallback(window, &scroll_callback);
+	glfwSetDropCallback(window, &dragndrop);
 	glClearDepth((double)(INFINITY));
 	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 	glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);

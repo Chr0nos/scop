@@ -81,3 +81,10 @@ void			key_callback(GLFWwindow *window, int key, int scancode,
 	}
 	light_move(key, pack, 0.5f);
 }
+
+void			dragndrop(GLFWwindow *window, int count, const char **files)
+{
+	ft_printf("received event for %p : %d files\n", window, count);
+	while (count--)
+		ft_printf("file %2d : %s\n", count, files[count]);
+}

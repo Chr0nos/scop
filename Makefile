@@ -49,6 +49,9 @@ $(NAME): $(SOIL) $(DRAW)/libdraw.a ./glfw/src/libglfw3.a ./libtga/libtga.a $(BUI
 $(BUILDDIR)/%.o: $(SRC_DIR)/%.c
 	$(CC) -c $(INC) $(FLAGS) $< -o $@
 
+libft:
+	git clone git@github.com:/Chr0nos/libft.git
+
 clean:
 	$(RM) -r $(BUILDDIR)
 
@@ -65,10 +68,10 @@ reall: fcleanall all
 
 re: fclean all
 
-$(LIBFT)/libft.so:
+$(LIBFT)/libft.so: libft
 	make -j CC=clang OPENGL_ENABLED=yes BTREE= -C $(LIBFT) so
 
-$(LIBFT)/libft.a:
+$(LIBFT)/libft.a: libft
 	make -j CC=clang OPENGL_ENABLED=yes BTREE= -C $(LIBFT)
 
 $(DRAW)/libdraw.a: $(LIBFT)/libft.a

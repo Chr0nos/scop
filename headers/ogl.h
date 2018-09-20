@@ -161,6 +161,8 @@ void					key_callback(GLFWwindow *window, int key, int scancode,
 		int action);
 void					framebuffer_size_callback(GLFWwindow *window,
 	int width, int height);
+void					dragndrop(GLFWwindow *window, int count,
+	const char **files);
 
 /*
 ** parser
