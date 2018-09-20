@@ -1,15 +1,15 @@
 [submodule "SOIL2-clone"]
-	path = SOIL2-clone
+	path = libs/SOIL2-clone
 	url = https://github.com/alelievr/SOIL2-clone
 [submodule "libdraw"]
-	path = libdraw
+	path = libs/libdraw
 	url = git@github.com:Chr0nos/libdraw.git
 [submodule "libft"]
-	path = libft
+	path = libs/libft
 	url = git@github.com:Chr0nos/libft.git
 [submodule "glfw"]
-	path = glfw
+	path = libs/glfw
 	url = https://github.com/glfw/glfw.git
 [submodule "libtga"]
-	path = libtga
+	path = libs/libtga
 	url = git@github.com:/Chr0nos/libtga.git

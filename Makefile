@@ -17,18 +17,23 @@ FLAGS=-Werror -Wextra -Wall -Weverything -Wno-reserved-id-macro -Wno-documentati
 ifeq ($(DEBUG), 1)
 	FLAGS += -g3
 endif
-DRAW=libdraw
-LIBFT=libft
-LINKER=-L$(DRAW) -lm -ldraw -Lglfw/src/ -lglfw3
-INC=-I$(DRAW)/headers -I $(LIBFT)/include -I./SOIL2-clone/incs -Iheaders -Iglew/include -Ilibtga/includes -Iglfw/include
-SOIL=./SOIL2-clone/libSOIL2.a
+
+DRAW=./libs/libdraw
+LIBFT=./libs/libft
+LIBTGA=./libs/libtga
+GLFW=./libs/glfw
+SOIL2=./libs/SOIL2-clone
+
+LINKER=-L$(DRAW) -lm -ldraw -L$(GLFW)/src/ -lglfw3
+INC=-I$(DRAW)/headers -I $(LIBFT)/include -I$(SOIL2)/incs -Iheaders -Iglew/include -I$(LIBTGA)/includes -I$(GLFW)/include
+SOIL=$(SOIL2)/libSOIL2.a
 ifeq ($(OS),Darwin)
 	INC+=-I ~/.brew/include -I/usr/local/include
-	LINKER+=-framework OpenGL -L./SOIL2-clone/ -lSOIL2 -framework CoreFoundation -framework Cocoa -framework IOKit -framework CoreVideo -L/usr/local/lib -L$(LIBFT) -lft -L ~/.brew/lib/ -lGLEW
+	LINKER+=-framework OpenGL -L$(SOIL2)/ -lSOIL2 -framework CoreFoundation -framework Cocoa -framework IOKit -framework CoreVideo -L/usr/local/lib -L$(LIBFT) -lft -L ~/.brew/lib/ -lGLEW
 else
-	LINKER+=-L./SOIL2-clone -lGL -ldl -lpthread -lSOIL2 -L$(LIBFT) -lft -lX11 -lGLEW -lXrandr -lXinerama -lXcursor
+	LINKER+=-L$(SOIL2) -lGL -ldl -lpthread -lSOIL2 -L$(LIBFT) -lft -lX11 -lGLEW -lXrandr -lXinerama -lXcursor
 endif
-LINKER+=-Llibtga -ltga
+LINKER+=-L$(LIBTGA) -ltga
 NAME=scop
 SRC=main.c events.c display.c parser.c parser_duplicate.c fixcenter.c \
 	parser_count.c run.c maker.c parse_face.c attributes.c uniforms.c \
@@ -43,13 +48,13 @@ all: $(NAME)
 $(BUILDDIR):
 	mkdir -p $@
 
-$(NAME): $(SOIL) $(DRAW)/libdraw.a ./glfw/src/libglfw3.a ./libtga/libtga.a $(BUILDDIR) $(OBJ)
+$(NAME): $(SOIL) $(DRAW)/libdraw.a $(GLFW)/src/libglfw3.a $(LIBTGA)/libtga.a $(BUILDDIR) $(OBJ)
 	$(CC) $(FLAGS) $(OBJ) -o $(NAME) $(LINKER)
 
 $(BUILDDIR)/%.o: $(SRC_DIR)/%.c
 	$(CC) -c $(INC) $(FLAGS) $< -o $@
 
-libft:
+$(LIBFT):
 	git clone git@github.com:/Chr0nos/libft.git
 
 clean:
@@ -68,24 +73,24 @@ reall: fcleanall all
 
 re: fclean all
 
-$(LIBFT)/libft.so: libft
+$(LIBFT)/libft.so: ./libs/libft
 	make -j CC=clang OPENGL_ENABLED=yes BTREE= -C $(LIBFT) so
 
-$(LIBFT)/libft.a: libft
+$(LIBFT)/libft.a: ./libs/libft
 	make -j CC=clang OPENGL_ENABLED=yes BTREE= -C $(LIBFT)
 
 $(DRAW)/libdraw.a: $(LIBFT)/libft.a
 	make -j -C $(DRAW)
 
-./SOIL2-clone/Makefile:
+$(LIBTGA)/libtga.a:
+	make -C $(LIBTGA)
+
+$(GLFW)/src/libglfw3.a:
+	cd $(GLFW) && cmake -D-DBUILD_SHARED_LIBS=OFF . && make
+
+$(SOIL): $(SOIL2)/Makefile
+	make -C ./libs/SOIL2-clone/
+
+$(SOIL2)/Makefile:
 	git submodule init
 	git submodule update
-
-./libtga/libtga.a:
-	make -C libtga
-
-./glfw/src/libglfw3.a:
-	cd glfw && cmake -D-DBUILD_SHARED_LIBS=OFF . && make
-
-$(SOIL): ./SOIL2-clone/Makefile
-	make -C ./SOIL2-clone/
