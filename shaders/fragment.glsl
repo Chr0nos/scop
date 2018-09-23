@@ -71,11 +71,14 @@ void main() {
 	float brightness;
 
 	if ((flags & FLAG_NOLIGHT) == 0)
+	{
 		brightness = make_brightness();
+		color *= light.color * brightness;
+	}
 	else
 		brightness = 1.0;
-	color *= light.color * brightness;
-	color = mix(color, fcolor, clamp(tex_switch, 0, 1));
+	if (tex_switch > 0)
+		color = mix(color, fcolor, clamp(tex_switch, 0, 1));
 	// color.xyz = (get_normal() + 1.0f) * 0.5;
 	frag_color = color;
 }

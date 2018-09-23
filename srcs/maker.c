@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/07 12:35:02 by snicolet          #+#    #+#             */
-/*   Updated: 2018/05/04 18:47:26 by snicolet         ###   ########.fr       */
+/*   Updated: 2018/09/23 03:43:22 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,9 +46,9 @@ static GLint		make_texture(GLuint *image_id, const char *name,
 	pack = get_pack(NULL);
 	ft_printf("loading texture\n\tname: %s\n\tfrom: %s\n", name, filepath);
 	glActiveTexture(GL_TEXTURE0 + texture_id);
-	//*image_id = SOIL_load_OGL_texture(filepath, SOIL_LOAD_AUTO,
-	 //		SOIL_CREATE_NEW_ID, SOIL_FLAG_MIPMAPS | SOIL_FLAG_INVERT_Y);
-	*image_id = tga_load_ogl(filepath);
+	*image_id = SOIL_load_OGL_texture(filepath, SOIL_LOAD_AUTO,
+	 		SOIL_CREATE_NEW_ID, SOIL_FLAG_MIPMAPS | SOIL_FLAG_INVERT_Y);
+	//*image_id = tga_load_ogl(filepath);
 	if (!*image_id)
 	{
 		ft_putstr("\twarning: failed to load\n");
