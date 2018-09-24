@@ -6,7 +6,7 @@
 #    By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/07/24 07:18:03 by snicolet          #+#    #+#              #
-#*   Updated: 2018/03/09 18:03:51 by snicolet         ###   ########.fr       *#
+#*   Updated: 2018/09/24 12:29:20 by snicolet         ###   ########.fr       *#
 #                                                                              #
 # **************************************************************************** #
 
@@ -84,7 +84,7 @@ $(LIBFT)/libft.a: ./libs/libft
 # libdraw (mathematical functions (quaternions))
 
 $(DRAW)/libdraw.a: $(LIBFT)/libft.a
-	make -j -C $(DRAW)
+	make -j -C $(DRAW) DRAW=
 
 # libtga (tga files loader)
 
