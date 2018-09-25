@@ -6,7 +6,7 @@
 /*   By: snicolet <marvin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/03 13:54:08 by snicolet          #+#    #+#             */
-/*   Updated: 2017/06/05 14:57:57 by snicolet         ###   ########.fr       */
+/*   Updated: 2018/09/26 00:58:34 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,18 +22,19 @@ void			flag_toggle(t_vertex_pack *pack, const unsigned int flag)
 	ft_printf("new flags state: %b\n", pack->flags_shader);
 }
 
-void			light_move(int key, t_vertex_pack *pack, const float speed)
+void			light_move(int key, t_vertex_pack *pack,
+	const float speed)
 {
 	t_v3f	*pos;
 
 	pos = &pack->light.position;
-	if (key == GLFW_KEY_KP_8)
+	if ((key == GLFW_KEY_KP_8) || (key == GLFW_KEY_UP))
 		pos->y += speed;
-	else if (key == GLFW_KEY_KP_5)
+	else if ((key == GLFW_KEY_KP_5) || (key == GLFW_KEY_DOWN))
 		pos->y += -speed;
-	else if (key == GLFW_KEY_KP_4)
+	else if ((key == GLFW_KEY_KP_4) || (key == GLFW_KEY_LEFT))
 		pos->x += speed;
-	else if (key == GLFW_KEY_KP_6)
+	else if ((key == GLFW_KEY_KP_6) || (key == GLFW_KEY_RIGHT))
 		pos->x += -speed;
 	else if (key == GLFW_KEY_KP_7)
 		pos->z += -speed;

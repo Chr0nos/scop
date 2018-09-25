@@ -6,7 +6,7 @@
 /*   By: snicolet <marvin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/07 12:33:10 by snicolet          #+#    #+#             */
-/*   Updated: 2018/09/26 00:18:55 by snicolet         ###   ########.fr       */
+/*   Updated: 2018/09/26 01:00:07 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,8 +51,7 @@ static int			run_program(t_vertex_pack *pack, GLFWwindow *window)
 
 static int			run_window_real(t_vertex_pack *pack, GLFWwindow *window)
 {
-	glfwSetKeyCallback(window,
-			(void(*)(GLFWwindow *, int, int, int, int))(size_t)&key_callback);
+	glfwSetKeyCallback(window, &key_callback);
 	glfwSetMouseButtonCallback(window, &mouse_button_callback);
 	glfwSetCursorPosCallback(window, &mouse_pos_callback);
 	glfwSetScrollCallback(window, &scroll_callback);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   events.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
+/*   By: snicolet <marvin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/22 13:16:55 by snicolet          #+#    #+#             */
-/*   Updated: 2017/06/05 19:11:55 by snicolet         ###   ########.fr       */
+/*   Updated: 2018/09/26 01:03:46 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,19 +67,25 @@ static void		key_press(GLFWwindow *window, t_vertex_pack *pack, int key,
 }
 
 void			key_callback(GLFWwindow *window, int key, int scancode,
-		int action)
+		int action, int mods)
 {
 	t_vertex_pack		*pack;
 
 	(void)scancode;
 	pack = get_pack(NULL);
-	if (action == 1)
+	if (action == GLFW_PRESS)
 	{
-		key_press(window, pack, key, &pack->uniforms);
-		if (key == GLFW_KEY_SPACE)
-			pack->input ^= INPUT_AUTOROT;
+		if (mods & GLFW_MOD_ALT)
+			light_move(key, pack, 0.5f);
+		else
+		{
+			key_press(window, pack, key, &pack->uniforms);
+			if (key == GLFW_KEY_SPACE)
+				pack->input ^= INPUT_AUTOROT;
+		}
 	}
-	light_move(key, pack, 0.5f);
+	else if ((action == GLFW_REPEAT) && (mods & GLFW_MOD_ALT))
+		light_move(key, pack, 0.5f);
 }
 
 void			dragndrop(GLFWwindow *window, int count, const char **files)

@@ -6,7 +6,7 @@
 /*   By: snicolet <marvin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/24 07:24:26 by snicolet          #+#    #+#             */
-/*   Updated: 2018/09/26 00:18:37 by snicolet         ###   ########.fr       */
+/*   Updated: 2018/09/26 00:56:12 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -162,8 +162,7 @@ void					flag_toggle(t_vertex_pack *pack,
 		const unsigned int flag);
 void					matrix_init(t_vertex_pack *pack);
 t_m4					make_matrix(GLFWwindow *window, t_vertex_pack *pack);
-void					light_move(int key, t_vertex_pack *pack,
-		const float speed);
+void					light_move(int key, t_vertex_pack *pack, const float speed);
 
 /*
 ** events
@@ -178,7 +177,7 @@ void					mouse_pos_callback(GLFWwindow *window, double xpos,
 void					scroll_callback(GLFWwindow *window, double xoffset,
 		double yoffset);
 void					key_callback(GLFWwindow *window, int key, int scancode,
-		int action);
+		int action, int mods);
 void					framebuffer_size_callback(GLFWwindow *window,
 	int width, int height);
 void					dragndrop(GLFWwindow *window, int count,

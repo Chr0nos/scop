@@ -6,7 +6,7 @@
 /*   By: snicolet <marvin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/04 14:24:41 by snicolet          #+#    #+#             */
-/*   Updated: 2018/09/26 00:05:41 by snicolet         ###   ########.fr       */
+/*   Updated: 2018/09/26 01:06:50 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,8 +54,9 @@ t_m4				make_matrix(GLFWwindow *window, t_vertex_pack *pack)
 {
 	t_m4					m;
 
-	matrix_keyboard(window, &pack->model_quat, &pack->camera.w,
-		glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS ? 0.5 : 0.1);
+	if (glfwGetKey(window, GLFW_KEY_LEFT_ALT) != GLFW_PRESS)
+		matrix_keyboard(window, &pack->model_quat, &pack->camera.w,
+			glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS ? 0.5 : 0.1);
 	m = geo_quat_tomatrix(pack->model_quat);
 	return (m);
 }
