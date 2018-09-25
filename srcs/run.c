@@ -6,7 +6,7 @@
 /*   By: snicolet <marvin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/07 12:33:10 by snicolet          #+#    #+#             */
-/*   Updated: 2018/09/26 00:11:43 by snicolet         ###   ########.fr       */
+/*   Updated: 2018/09/26 00:18:55 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,7 @@ int					run_parse(const char *filepath, const char *texture,
 	ret = 2;
 	if (pack.items)
 	{
-		pack.tex_diffuse.filepath = (texture) ? texture : "./ressources/textures/default.jpg";
+		pack.tex_diffuse.filepath = (texture) ? texture : DEFAULT_TEXTURE;
 		pack.tex_diffuse.type = DIFFUSE;
 		pack.tex_diffuse.uniform = "texture_sampler";
 		pack.tex_normal_map.filepath = normal_map;

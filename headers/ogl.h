@@ -6,7 +6,7 @@
 /*   By: snicolet <marvin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/24 07:24:26 by snicolet          #+#    #+#             */
-/*   Updated: 2018/09/26 00:09:48 by snicolet         ###   ########.fr       */
+/*   Updated: 2018/09/26 00:18:37 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,11 +36,19 @@
 # define AXIS_Z			(t_v3d){0.0, 0.0, 1.0}
 # define SHADER_FRAGM	"./shaders/fragment.glsl"
 # define SHADER_VERTEX	"./shaders/vertex.glsl"
+# define DEFAULT_TEXTURE "./ressources/textures/default.jpg"
 
 enum					e_texture_type {
 	DIFFUSE,
 	NORMAL_MAP,
+	METALIC,
+	EMISSION_MAP
 };
+
+/*
+** id: the uniform id
+** opengl_id : image texture id
+*/
 
 struct					s_texture_info
 {
