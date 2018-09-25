@@ -6,7 +6,7 @@
 /*   By: snicolet <marvin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/07 12:35:02 by snicolet          #+#    #+#             */
-/*   Updated: 2018/09/26 00:10:18 by snicolet         ###   ########.fr       */
+/*   Updated: 2018/09/26 01:42:43 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,8 +94,8 @@ int					make_program(t_vertex_pack *pack)
 	if (!link_ok)
 		return (3);
 	glUseProgram(pack->program);
-	make_texture(pack->program, &pack->tex_diffuse);
-	make_texture(pack->program, &pack->tex_normal_map);
+	make_texture(pack->program, &pack->textures[DIFFUSE]);
+	make_texture(pack->program, &pack->textures[NORMAL_MAP]);
 	make_vao(pack);
 	ft_putendl("program done");
 	return (0);

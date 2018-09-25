@@ -6,7 +6,7 @@
 /*   By: snicolet <marvin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/04 14:24:41 by snicolet          #+#    #+#             */
-/*   Updated: 2018/09/26 01:06:50 by snicolet         ###   ########.fr       */
+/*   Updated: 2018/09/26 01:43:59 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ t_m4				make_matrix(GLFWwindow *window, t_vertex_pack *pack)
 void				matrix_init(t_vertex_pack *pack)
 {
 	pack->flags_shader |= FLAG_SH_NLIGHT;
-	if (pack->tex_normal_map.filepath)
+	if (pack->textures[NORMAL_MAP].filepath)
 		pack->flags_shader |= FLAG_SH_NMAP;
 	pack->fov = (double)DISPLAY_FOV;
 	pack->camera_quat = geo_quat_identity();

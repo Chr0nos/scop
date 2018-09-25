@@ -6,7 +6,7 @@
 /*   By: snicolet <marvin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/24 07:24:26 by snicolet          #+#    #+#             */
-/*   Updated: 2018/09/26 00:56:12 by snicolet         ###   ########.fr       */
+/*   Updated: 2018/09/26 01:41:27 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@
 enum					e_texture_type {
 	DIFFUSE,
 	NORMAL_MAP,
-	METALIC,
+	AMBIANT_OCCLUSION,
 	EMISSION_MAP
 };
 
@@ -58,6 +58,8 @@ struct					s_texture_info
 	GLint				opengl_id;
 	enum e_texture_type	type;
 };
+
+# define TEXTURES_COUNT	2
 
 typedef struct			s_obj_stats
 {
@@ -135,8 +137,7 @@ typedef struct			s_vertex_pack
 	GLuint				normal;
 	GLuint				index_uv;
 	t_vertex_attribs	attribs;
-	struct s_texture_info tex_diffuse;
-	struct s_texture_info tex_normal_map;
+	struct s_texture_info textures[TEXTURES_COUNT];
 	t_uniforms			uniforms;
 	t_light				light;
 }						t_vertex_pack;
