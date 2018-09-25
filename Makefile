@@ -6,7 +6,7 @@
 #    By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/07/24 07:18:03 by snicolet          #+#    #+#              #
-#*   Updated: 2018/09/25 23:00:22 by snicolet         ###   ########.fr       *#
+#*   Updated: 2018/09/26 00:13:27 by snicolet         ###   ########.fr       *#
 #                                                                              #
 # **************************************************************************** #
 
@@ -106,7 +106,7 @@ $(SOIL2)/Makefile:
 	git submodule update
 
 ressources/obj/zealot:
-	rm zealot.zip
+	rm -f zealot.zip
 	wget https://thorin.me/static/objs/zealot.zip
 	unzip zealot.zip -d ./ressources/obj/
 	rm zealot.zip
