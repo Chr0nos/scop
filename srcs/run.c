@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   run.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
+/*   By: snicolet <marvin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/07 12:33:10 by snicolet          #+#    #+#             */
-/*   Updated: 2017/07/21 01:01:31 by snicolet         ###   ########.fr       */
+/*   Updated: 2018/09/26 00:11:43 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,8 @@
 static void			delete_textures(t_vertex_pack *pack)
 {
 	const GLuint	ids[2] = {
-		pack->texture,
-		pack->normal_map
+		pack->tex_diffuse.id,
+		pack->tex_normal_map.id
 	};
 
 	ft_putstr("deleting textures\n");
@@ -106,8 +106,12 @@ int					run_parse(const char *filepath, const char *texture,
 	ret = 2;
 	if (pack.items)
 	{
-		pack.texture_path = (texture) ? texture : "textures/default.tga";
-		pack.normal_map_path = normal_map;
+		pack.tex_diffuse.filepath = (texture) ? texture : "./ressources/textures/default.jpg";
+		pack.tex_diffuse.type = DIFFUSE;
+		pack.tex_diffuse.uniform = "texture_sampler";
+		pack.tex_normal_map.filepath = normal_map;
+		pack.tex_normal_map.type = NORMAL_MAP;
+		pack.tex_normal_map.uniform = "normal_map";
 		ret = run_window(&pack);
 		ft_putendl("cleaning main structure pack");
 		ft_mfree(2, pack.items, pack.faces);

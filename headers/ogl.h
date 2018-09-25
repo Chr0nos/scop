@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ogl.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
+/*   By: snicolet <marvin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/24 07:24:26 by snicolet          #+#    #+#             */
-/*   Updated: 2017/07/25 02:05:47 by snicolet         ###   ########.fr       */
+/*   Updated: 2018/09/26 00:09:48 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,20 @@
 # define AXIS_Z			(t_v3d){0.0, 0.0, 1.0}
 # define SHADER_FRAGM	"./shaders/fragment.glsl"
 # define SHADER_VERTEX	"./shaders/vertex.glsl"
+
+enum					e_texture_type {
+	DIFFUSE,
+	NORMAL_MAP,
+};
+
+struct					s_texture_info
+{
+	const char			*filepath;
+	const char			*uniform;
+	GLuint				id;
+	GLint				opengl_id;
+	enum e_texture_type	type;
+};
 
 typedef struct			s_obj_stats
 {
@@ -109,17 +123,13 @@ typedef struct			s_vertex_pack
 	GLuint				program;
 	GLuint				vbo;
 	GLuint				vao;
-	GLuint				texture;
-	GLuint				normal_map;
 	GLuint				indices;
 	GLuint				normal;
 	GLuint				index_uv;
 	t_vertex_attribs	attribs;
-	GLint				texture_id;
-	GLint				normal_map_id;
+	struct s_texture_info tex_diffuse;
+	struct s_texture_info tex_normal_map;
 	t_uniforms			uniforms;
-	const char			*texture_path;
-	const char			*normal_map_path;
 	t_light				light;
 }						t_vertex_pack;
 

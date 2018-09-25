@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   matrix.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: snicolet <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: snicolet <marvin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/04 14:24:41 by snicolet          #+#    #+#             */
-/*   Updated: 2017/07/25 02:05:56 by snicolet         ###   ########.fr       */
+/*   Updated: 2018/09/26 00:05:41 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ t_m4				make_matrix(GLFWwindow *window, t_vertex_pack *pack)
 void				matrix_init(t_vertex_pack *pack)
 {
 	pack->flags_shader |= FLAG_SH_NLIGHT;
-	if (pack->normal_map_path)
+	if (pack->tex_normal_map.filepath)
 		pack->flags_shader |= FLAG_SH_NMAP;
 	pack->fov = (double)DISPLAY_FOV;
 	pack->camera_quat = geo_quat_identity();

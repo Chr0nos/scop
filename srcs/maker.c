@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   maker.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
+/*   By: snicolet <marvin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/07 12:35:02 by snicolet          #+#    #+#             */
-/*   Updated: 2018/09/23 03:43:22 by snicolet         ###   ########.fr       */
+/*   Updated: 2018/09/26 00:10:18 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,34 +37,34 @@ static int			make_vao(t_vertex_pack *pack)
 	return (0);
 }
 
-static GLint		make_texture(GLuint *image_id, const char *name,
-		const char *filepath, const GLuint texture_id)
+static int			make_texture(const GLuint program, struct s_texture_info *tex)
 {
-	t_vertex_pack		*pack;
-	GLint				id;
+	static GLuint	texture_id = 1;
+	GLint			id;
 
-	pack = get_pack(NULL);
-	ft_printf("loading texture\n\tname: %s\n\tfrom: %s\n", name, filepath);
+	ft_printf("loading texture %s (program: %u) uniform: %s\n",
+		tex->filepath, program, tex->uniform);
+	if (!tex->filepath)
+		return (EXIT_FAILURE);
 	glActiveTexture(GL_TEXTURE0 + texture_id);
-	*image_id = SOIL_load_OGL_texture(filepath, SOIL_LOAD_AUTO,
-	 		SOIL_CREATE_NEW_ID, SOIL_FLAG_MIPMAPS | SOIL_FLAG_INVERT_Y);
-	//*image_id = tga_load_ogl(filepath);
-	if (!*image_id)
+	tex->id = SOIL_load_OGL_texture(tex->filepath, SOIL_LOAD_AUTO,
+		SOIL_CREATE_NEW_ID, SOIL_FLAG_MIPMAPS | SOIL_FLAG_INVERT_Y);
+	if (!tex->id)
 	{
-		ft_putstr("\twarning: failed to load\n");
-		return (-1);
+		ft_dprintf(STDERR_FILENO, "%s", "\terror on load\n");
+		return (EXIT_FAILURE);
 	}
-	glBindTexture(GL_TEXTURE_2D, *image_id);
-	id = glGetUniformLocation(pack->program, name);
-	ft_printf("\ttexture id: %d\n\timage id: %d\n\topengl id: %d\n", id,
-			*image_id, texture_id);
+	tex->opengl_id = (GLint)texture_id++;
+	glBindTexture(GL_TEXTURE_2D, tex->id);
+	id = glGetUniformLocation(program, tex->uniform);
+	ft_printf("\tuniform id: %d\n\topengl id: %d\n", id, tex->id);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	glUniform1i(id, (GLint)texture_id);
+	glUniform1i(id, tex->opengl_id);
 	glGenerateMipmap(GL_TEXTURE_2D);
-	return (id);
+	return (EXIT_SUCCESS);
 }
 
 static void			make_program_binds(t_vertex_pack *pack)
@@ -77,7 +77,7 @@ static void			make_program_binds(t_vertex_pack *pack)
 
 int					make_program(t_vertex_pack *pack)
 {
-	int		link_ok;
+	int						link_ok;
 
 	ft_putendl("making program");
 	if (!(pack->fs = ft_shader_compile(GL_FRAGMENT_SHADER, SHADER_FRAGM)))
@@ -94,11 +94,8 @@ int					make_program(t_vertex_pack *pack)
 	if (!link_ok)
 		return (3);
 	glUseProgram(pack->program);
-	pack->texture_id = make_texture(&pack->texture, "texture_sampler",
-			pack->texture_path, 1);
-	if (pack->normal_map_path)
-		pack->normal_map_id = make_texture(&pack->normal_map, "normal_map",
-				pack->normal_map_path, 2);
+	make_texture(pack->program, &pack->tex_diffuse);
+	make_texture(pack->program, &pack->tex_normal_map);
 	make_vao(pack);
 	ft_putendl("program done");
 	return (0);
