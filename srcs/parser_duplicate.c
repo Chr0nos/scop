@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_duplicate.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
+/*   By: snicolet <marvin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/26 17:39:06 by snicolet          #+#    #+#             */
-/*   Updated: 2017/06/05 14:58:32 by snicolet         ###   ########.fr       */
+/*   Updated: 2018/09/26 01:30:23 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static void				load_params(t_vertex_pack *pack, t_vertex_item *item,
 	if (c > 2)
 		c = 0;
 	color_load(&item->color,
-			(unsigned int[3]){0xffff, 0xffffffff, 0xff0000ff}[c++]);
+			(unsigned int[3]){0xff000000, 0x00ff0000, 0x0000ff00}[c++]);
 	if ((index_uv >= 0) && (index_uv < (int)pack->stats.uv))
 		item->uv = pack->uv[index_uv];
 	if ((index_nm >= 0) && (index_nm < (int)pack->stats.normal))
