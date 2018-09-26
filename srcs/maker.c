@@ -6,7 +6,7 @@
 /*   By: snicolet <marvin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/07 12:35:02 by snicolet          #+#    #+#             */
-/*   Updated: 2018/09/26 02:10:25 by snicolet         ###   ########.fr       */
+/*   Updated: 2018/09/26 03:26:36 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ static int			make_texture(const GLuint program, struct s_texture_info *tex)
 	static GLuint	texture_id = 1;
 	GLint			id;
 
-	ft_printf("loading texture %s (program: %u) uniform: %s\n",
+	ft_printf("loading texture %s\n\tprogram: %u\n\tuniform: %s\n",
 		tex->filepath, program, tex->uniform);
 	if (!tex->filepath)
 		return (EXIT_FAILURE);
