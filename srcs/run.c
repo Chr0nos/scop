@@ -6,7 +6,7 @@
 /*   By: snicolet <marvin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/07 12:33:10 by snicolet          #+#    #+#             */
-/*   Updated: 2018/09/26 02:08:44 by snicolet         ###   ########.fr       */
+/*   Updated: 2018/09/26 03:52:43 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,12 +125,12 @@ int					run_parse(int ac, char **av)
 		return (21);
 	ft_printf("parsing total time: %f secs\n", glfwGetTime() - parsing_started);
 	ret = 2;
-	if (pack.items)
+	if (pack.object.items)
 	{
 		command_parse(ac - 1, &av[1], pack.textures);
 		ret = run_window(&pack);
 		ft_putendl("cleaning main structure pack");
-		ft_mfree(2, pack.items, pack.faces);
+		ft_mfree(2, pack.object.items, pack.object.faces);
 	}
 	ft_putendl("cleaning glfw");
 	glfwTerminate();

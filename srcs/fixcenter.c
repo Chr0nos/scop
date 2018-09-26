@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fixcenter.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: snicolet <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: snicolet <marvin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/16 16:55:22 by snicolet          #+#    #+#             */
-/*   Updated: 2017/05/26 14:50:50 by snicolet         ###   ########.fr       */
+/*   Updated: 2018/09/26 03:51:28 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,17 +32,17 @@ static void				load_max(t_v3f a, t_v3f *b)
 		b->z = a.z;
 }
 
-static t_v3f			get_center(t_vertex_pack *pack, size_t n)
+static t_v3f			get_center(struct s_object *object, size_t n)
 {
 	t_vertex_item	*i;
 	t_v3f			min;
 	t_v3f			max;
 
-	min = pack->items[0].position;
-	max = pack->items[0].position;
+	min = object->items[0].position;
+	max = object->items[0].position;
 	while (n--)
 	{
-		i = &pack->items[n];
+		i = &object->items[n];
 		load_min(i->position, &min);
 		load_max(i->position, &max);
 	}
@@ -53,13 +53,13 @@ static t_v3f			get_center(t_vertex_pack *pack, size_t n)
 	});
 }
 
-void					fixcenter(t_vertex_pack *pack)
+void					fixcenter(struct s_object *object)
 {
 	size_t		p;
 
-	pack->center = get_center(pack, pack->stats.vertex);
-	p = pack->stats.vertex;
+	object->center = get_center(object, object->stats.vertex);
+	p = object->stats.vertex;
 	while (p--)
-		pack->items[p].position =
-			geo_subv3(pack->items[p].position, pack->center);
+		object->items[p].position =
+			geo_subv3(object->items[p].position, object->center);
 }

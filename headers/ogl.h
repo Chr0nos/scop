@@ -6,7 +6,7 @@
 /*   By: snicolet <marvin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/24 07:24:26 by snicolet          #+#    #+#             */
-/*   Updated: 2018/09/26 02:05:02 by snicolet         ###   ########.fr       */
+/*   Updated: 2018/09/26 04:27:22 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,8 +108,19 @@ typedef struct			s_light
 	t_v4f				color;
 }						t_light;
 
-typedef struct			s_vertex_pack
+struct					s_transform {
+	t_quaternion		q;
+	t_m4				matrix;
+	t_v3d				axis;
+	t_v3f				scale;
+	t_v3f				position;
+};
+
+struct					s_object
 {
+	unsigned int		flags;
+	GLuint				vbo;
+	GLuint				vao;
 	t_vertex_item		*items;
 	t_v3i				*faces;
 	t_v3i				*fuv;
@@ -119,11 +130,18 @@ typedef struct			s_vertex_pack
 	t_v3f				*vertex;
 	t_obj_stats			stats;
 	t_v3f				center;
+	GLuint				indices;
+	GLuint				normal;
+	GLuint				index_uv;
+	t_vertex_attribs	attribs;
+	struct s_transform	transform;
+};
+
+typedef struct			s_vertex_pack
+{
+	struct s_object		object;
 	t_m4				camera;
 	t_quaternion		camera_quat;
-	t_m4				model;
-	t_quaternion		model_quat;
-	t_v3d				model_axis;
 	t_v2i				mouse_last;
 	size_t				input;
 	double				fov;
@@ -131,18 +149,12 @@ typedef struct			s_vertex_pack
 	GLuint				fs;
 	GLuint				vs;
 	GLuint				program;
-	GLuint				vbo;
-	GLuint				vao;
-	GLuint				indices;
-	GLuint				normal;
-	GLuint				index_uv;
-	t_vertex_attribs	attribs;
 	struct s_texture_info textures[TEXTURES_COUNT];
 	t_uniforms			uniforms;
 	t_light				light;
 }						t_vertex_pack;
 
-void					auto_rotate(t_vertex_pack *pack);
+void					auto_rotate(const size_t input, struct s_object *object);
 void					configure_opengl(void);
 void					error_handler(int id, const char *str);
 void					clean_pack(t_vertex_pack *pack);
@@ -152,12 +164,12 @@ t_m4					make_matrix(GLFWwindow *window, t_vertex_pack *pack);
 int						display_loop(GLFWwindow *window, t_vertex_pack *pack);
 int						make_program(t_vertex_pack *pack);
 int						make_vertex_items(t_vertex_pack *pack);
-void					send_attributes(t_vertex_pack *pack);
+void					send_attributes(const GLuint program, struct s_object *object);
 t_vertex_pack			*get_pack(t_vertex_pack *pack);
 void					send_uniforms(GLFWwindow *window, t_vertex_pack *pack);
 
 void					reset_camera(t_vertex_pack *pack);
-void					reset_model(t_vertex_pack *pack);
+void					reset_model(struct s_object *object);
 void					light_toggle(t_vertex_pack *pack);
 void					flag_toggle(t_vertex_pack *pack,
 		const unsigned int flag);
@@ -188,17 +200,17 @@ void					dragndrop(GLFWwindow *window, int count,
 ** parser
 */
 
-int						parse_face(const char *line, t_vertex_pack *pack);
-int						parse_duplicate(t_vertex_pack *pack);
+int						parse_face(const char *line, struct s_object *object);
+int						parse_duplicate(struct s_object *object);
 void					color_load(t_v4f *target, const unsigned int color);
-int						parse_post_process(t_vertex_pack *pack);
-int						parse_real(const char *filepath, t_vertex_pack *pack);
+int						parse_post_process(struct s_object *object);
+int						parse_real(const char *filepath, struct s_object *object);
 int						run_parse(int ac, char **av);
 int						parse_obj(t_vertex_pack *pack, const char *filepath);
 t_obj_stats				parser_count(const char *filepath);
 t_v3i					*load_faces(t_list *faces, const int max,
 	size_t *faces_count);
-void					fixcenter(t_vertex_pack *pack);
+void					fixcenter(struct s_object *object);
 
 void					debug_tbn(t_vertex_pack *pack);
 

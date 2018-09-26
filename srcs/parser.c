@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
+/*   By: snicolet <marvin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/16 15:47:56 by snicolet          #+#    #+#             */
-/*   Updated: 2017/06/05 14:58:12 by snicolet         ###   ########.fr       */
+/*   Updated: 2018/09/26 04:20:33 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,19 +26,21 @@ void					color_load(t_v4f *target, const unsigned int color)
 
 static t_vertex_pack	*parse_setptrs(t_vertex_pack *pack)
 {
-	const t_obj_stats	*stats = &pack->stats;
+	struct s_object		*object;
+	const t_obj_stats	*stats = &pack->object.stats;
 
-	pack->items = ft_memalloc(sizeof(t_vertex_item) * stats->vertex);
-	pack->faces = ft_memalloc(sizeof(t_v3i) * stats->faces);
-	pack->fuv = ft_memalloc(sizeof(t_v3i) * stats->faces);
-	pack->uv = ft_memalloc(sizeof(t_v2f) * stats->uv);
-	pack->fnormals = ft_memalloc(sizeof(t_v3i) * stats->faces);
-	pack->normals = ft_memalloc(sizeof(t_v3f) * stats->normal);
-	if ((!pack->items) || (!pack->faces) || (!pack->fuv) ||
-		(!pack->uv) || (!pack->fnormals) || (!pack->normals))
+	object = &pack->object;
+	object->items = ft_memalloc(sizeof(t_vertex_item) * stats->vertex);
+	object->faces = ft_memalloc(sizeof(t_v3i) * stats->faces);
+	object->fuv = ft_memalloc(sizeof(t_v3i) * stats->faces);
+	object->uv = ft_memalloc(sizeof(t_v2f) * stats->uv);
+	object->fnormals = ft_memalloc(sizeof(t_v3i) * stats->faces);
+	object->normals = ft_memalloc(sizeof(t_v3f) * stats->normal);
+	if ((!object->items) || (!object->faces) || (!object->fuv) ||
+		(!object->uv) || (!object->fnormals) || (!object->normals))
 	{
-		ft_mfree(6, pack->items, pack->faces, pack->fuv, pack->uv,
-				pack->normal, pack->fnormals);
+		ft_mfree(6, object->items, object->faces, object->fuv, object->uv,
+				object->normal, object->fnormals);
 		ft_dprintf(2, "error: failed to malloc !\n");
 		return (NULL);
 	}
@@ -49,8 +51,8 @@ int						parse_obj(t_vertex_pack *pack, const char *filepath)
 {
 	t_vertex_pack		pack_copy;
 
-	pack->stats = parser_count(filepath);
-	if (pack->stats.vertex + pack->stats.faces == 0)
+	pack->object.stats = parser_count(filepath);
+	if (pack->object.stats.vertex + pack->object.stats.faces == 0)
 	{
 		ft_dprintf(2, "error: no faces or vertex to display\n");
 		return (1);
@@ -58,7 +60,7 @@ int						parse_obj(t_vertex_pack *pack, const char *filepath)
 	if (!(parse_setptrs(pack)))
 		return (1);
 	pack_copy = *pack;
-	if ((parse_real(filepath, &pack_copy) < 0) && (ft_mfree(1, pack->items)))
+	if ((parse_real(filepath, &pack_copy.object) < 0) && (ft_mfree(1, pack->object.items)))
 		return (1);
-	return (parse_post_process(pack));
+	return (parse_post_process(&pack->object));
 }

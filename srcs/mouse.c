@@ -6,22 +6,22 @@
 /*   By: snicolet <marvin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/31 12:52:00 by snicolet          #+#    #+#             */
-/*   Updated: 2017/06/05 14:56:13 by snicolet         ###   ########.fr       */
+/*   Updated: 2018/09/26 04:25:28 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ogl.h"
 
-static void		mouse_look(t_vertex_pack *pack, const t_v2i vec)
+static void		mouse_look(struct s_transform *transform, const t_v2i vec)
 {
 	t_quaternion		*q;
 
-	q = &pack->model_quat;
+	q = &transform->q;
 	if (vec.x != 0)
 		*q = geo_quat_mult(*q, geo_quat_rot(AXIS_Y, 0.002 * vec.x));
 	if (vec.y != 0)
 		*q = geo_quat_mult(*q, geo_quat_rot(AXIS_X, 0.002 * vec.y));
-	pack->model = geo_quat_tomatrix_offset(pack->model_quat, pack->model.w);
+	transform->matrix = geo_quat_tomatrix_offset(*q, transform->matrix.w);
 }
 
 static double	clamp(const double x, const double min, const double max)
@@ -61,7 +61,8 @@ void			mouse_pos_callback(GLFWwindow *window, double xpos, double ypos)
 		pack->input &= ~INPUT_RLAST;
 	}
 	if (pack->input & INPUT_LCLICK)
-		mouse_look(pack, (t_v2i){pos.x - last->x, pos.y - last->y});
+		mouse_look(&pack->object.transform,
+			(t_v2i){pos.x - last->x, pos.y - last->y});
 	else if (pack->input & INPUT_RCLICK)
 		mouse_move(pack, (t_v2i){pos.x - last->x, pos.y - last->y}, 0.01);
 	if (pack->input & INPUT_CLICK)

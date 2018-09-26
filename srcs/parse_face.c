@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_face.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
+/*   By: snicolet <marvin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/08 13:34:37 by snicolet          #+#    #+#             */
-/*   Updated: 2017/06/04 17:32:54 by snicolet         ###   ########.fr       */
+/*   Updated: 2018/09/26 03:56:33 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ static int			fix_item(int *x, const int max)
 	return (*x);
 }
 
-static int			parse_face_extra(const char *line, t_vertex_pack *pack,
+static int			parse_face_extra(const char *line, struct s_object *object,
 	const t_v3i *history)
 {
 	int		ret;
@@ -52,11 +52,11 @@ static int			parse_face_extra(const char *line, t_vertex_pack *pack,
 	ret = ft_sscanfq(line, "\\S%d/%d/%d", &idx.x, &idx.y, &idx.z);
 	if (ret <= 0)
 		return (1);
-	if (fix_item(&idx.x, (int)pack->stats.current_vertex) < 0)
+	if (fix_item(&idx.x, (int)object->stats.current_vertex) < 0)
 		return (1);
-	*(pack->faces++) = (t_v3i){history[0].x, history[2].x, idx.x};
-	*(pack->fuv++) = (t_v3i){history[0].y, history[2].y, idx.y - 1};
-	*(pack->fnormals++) = (t_v3i){history[0].z, history[2].z, idx.z - 1};
+	*(object->faces++) = (t_v3i){history[0].x, history[2].x, idx.x};
+	*(object->fuv++) = (t_v3i){history[0].y, history[2].y, idx.y - 1};
+	*(object->fnormals++) = (t_v3i){history[0].z, history[2].z, idx.z - 1};
 	return (2);
 }
 
@@ -87,13 +87,13 @@ static t_v3i		get_maximals(const t_obj_stats *stats)
 ** return the amount of faces found on the line
 */
 
-int					parse_face(const char *line, t_vertex_pack *pack)
+int					parse_face(const char *line, struct s_object *object)
 {
 	size_t			p;
 	int				ret;
 	t_v3i			idx;
 	t_v3i			history[3];
-	const t_v3i		max = get_maximals(&pack->stats);
+	const t_v3i		max = get_maximals(&object->stats);
 
 	p = 0;
 	idx = (t_v3i){0, 0, 0};
@@ -103,15 +103,15 @@ int					parse_face(const char *line, t_vertex_pack *pack)
 				&idx.x, &line, &idx.y, &line, &idx.z, &line)) < 0)
 			return (0);
 		fix_idx(&idx, max);
-		((int*)pack->faces)[p] = idx.x;
-		((int*)pack->fuv)[p] = idx.y;
-		((int*)pack->fnormals)[p] = idx.z;
+		((int*)object->faces)[p] = idx.x;
+		((int*)object->fuv)[p] = idx.y;
+		((int*)object->fnormals)[p] = idx.z;
 		history[p++] = idx;
 	}
-	pack->faces++;
-	pack->fuv++;
-	pack->fnormals++;
+	object->faces++;
+	object->fuv++;
+	object->fnormals++;
 	if ((p == 3) && (*line))
-		return (parse_face_extra(line, pack, history));
+		return (parse_face_extra(line, object, history));
 	return (1);
 }

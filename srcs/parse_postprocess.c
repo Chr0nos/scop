@@ -6,30 +6,30 @@
 /*   By: snicolet <marvin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/04 15:21:46 by snicolet          #+#    #+#             */
-/*   Updated: 2017/06/06 09:21:06 by snicolet         ###   ########.fr       */
+/*   Updated: 2018/09/26 04:16:00 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ogl.h"
 
-int						parse_post_process(t_vertex_pack *pack)
+int						parse_post_process(struct s_object *object)
 {
-	const int			mv = (int)pack->stats.vertex - 1;
+	const int			mv = (int)object->stats.vertex - 1;
 	size_t				p;
 
-	p = pack->stats.faces;
+	p = object->stats.faces;
 	while (p--)
 	{
-		if ((pack->faces[p].x > mv) || (pack->faces[p].y > mv) ||
-				(pack->faces[p].z > mv))
+		if ((object->faces[p].x > mv) || (object->faces[p].y > mv) ||
+				(object->faces[p].z > mv))
 		{
-			ft_printf("%lu -> %d %d %d\n", p, pack->faces[p].x,
-					pack->faces[p].y, pack->faces[p].z);
+			ft_printf("%lu -> %d %d %d\n", p, object->faces[p].x,
+					object->faces[p].y, object->faces[p].z);
 			ft_dprintf(2, "error: invalid face in obj file !\n");
 			return (1);
 		}
 	}
-	fixcenter(pack);
-	parse_duplicate(pack);
+	fixcenter(object);
+	parse_duplicate(object);
 	return (0);
 }
