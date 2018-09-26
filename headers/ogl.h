@@ -6,7 +6,7 @@
 /*   By: snicolet <marvin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/24 07:24:26 by snicolet          #+#    #+#             */
-/*   Updated: 2018/09/26 01:41:27 by snicolet         ###   ########.fr       */
+/*   Updated: 2018/09/26 02:05:02 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@
 # define DEFAULT_TEXTURE "./ressources/textures/default.jpg"
 
 enum					e_texture_type {
-	DIFFUSE,
+	DIFFUSE = 0,
 	NORMAL_MAP,
 	AMBIANT_OCCLUSION,
 	EMISSION_MAP
@@ -59,7 +59,7 @@ struct					s_texture_info
 	enum e_texture_type	type;
 };
 
-# define TEXTURES_COUNT	2
+# define TEXTURES_COUNT	3
 
 typedef struct			s_obj_stats
 {
@@ -193,8 +193,7 @@ int						parse_duplicate(t_vertex_pack *pack);
 void					color_load(t_v4f *target, const unsigned int color);
 int						parse_post_process(t_vertex_pack *pack);
 int						parse_real(const char *filepath, t_vertex_pack *pack);
-int						run_parse(const char *filepath, const char *texture,
-	const char *normal_map);
+int						run_parse(int ac, char **av);
 int						parse_obj(t_vertex_pack *pack, const char *filepath);
 t_obj_stats				parser_count(const char *filepath);
 t_v3i					*load_faces(t_list *faces, const int max,

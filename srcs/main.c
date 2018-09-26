@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
+/*   By: snicolet <marvin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/25 17:36:02 by snicolet          #+#    #+#             */
-/*   Updated: 2017/05/26 21:11:41 by snicolet         ###   ########.fr       */
+/*   Updated: 2018/09/26 01:58:22 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,5 +39,5 @@ int					main(int ac, char **av)
 	if (!glfwInit())
 		return (11);
 	ft_printf("Init ok\nGlfw version: %s\n", glfwGetVersionString());
-	return (run_parse(av[1], (ac > 2) ? av[2] : NULL, (ac > 3) ? av[3] : NULL));
+	return (run_parse(ac - 1, &av[1]));
 }

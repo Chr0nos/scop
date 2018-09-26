@@ -5,6 +5,7 @@
 #define AXIS_Z			vec3(0.0, 0.0, 1.0)
 uniform sampler2D	texture_sampler;
 uniform sampler2D	normal_map;
+uniform sampler2D	ambiant_occlusion;
 uniform float		tex_switch;
 uniform int			tex_mode;
 uniform struct		s_light {
@@ -73,7 +74,7 @@ void main() {
 	if ((flags & FLAG_NOLIGHT) == 0)
 	{
 		brightness = make_brightness();
-		color *= light.color * brightness;
+		color *= light.color * brightness + texture(ambiant_occlusion, uv);
 	}
 	else
 		brightness = 1.0;
