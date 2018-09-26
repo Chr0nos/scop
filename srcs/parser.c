@@ -6,7 +6,7 @@
 /*   By: snicolet <marvin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/16 15:47:56 by snicolet          #+#    #+#             */
-/*   Updated: 2018/09/26 04:20:33 by snicolet         ###   ########.fr       */
+/*   Updated: 2018/09/26 04:36:05 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ int						parse_obj(t_vertex_pack *pack, const char *filepath)
 	}
 	if (!(parse_setptrs(pack)))
 		return (1);
+	pack->object_count = 1;
 	pack_copy = *pack;
 	if ((parse_real(filepath, &pack_copy.object) < 0) && (ft_mfree(1, pack->object.items)))
 		return (1);

@@ -6,7 +6,7 @@
 /*   By: snicolet <marvin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/24 07:24:26 by snicolet          #+#    #+#             */
-/*   Updated: 2018/09/26 04:27:22 by snicolet         ###   ########.fr       */
+/*   Updated: 2018/09/26 04:34:22 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,6 +140,7 @@ struct					s_object
 typedef struct			s_vertex_pack
 {
 	struct s_object		object;
+	size_t				object_count;
 	t_m4				camera;
 	t_quaternion		camera_quat;
 	t_v2i				mouse_last;
