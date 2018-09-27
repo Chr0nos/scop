@@ -6,7 +6,7 @@
 /*   By: snicolet <marvin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/22 13:16:55 by snicolet          #+#    #+#             */
-/*   Updated: 2018/09/26 01:03:46 by snicolet         ###   ########.fr       */
+/*   Updated: 2018/09/26 04:07:40 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ static void		key_press(GLFWwindow *window, t_vertex_pack *pack, int key,
 	else if (key == GLFW_KEY_R)
 		reset_camera(pack);
 	else if (key == GLFW_KEY_T)
-		reset_model(pack);
+		reset_model(&pack->object);
 	else if (key == GLFW_KEY_M)
 		update_fov(window, pack, 5.0);
 	else if (key == GLFW_KEY_N)

@@ -6,7 +6,7 @@
 /*   By: snicolet <marvin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/07 12:35:02 by snicolet          #+#    #+#             */
-/*   Updated: 2018/09/26 03:26:36 by snicolet         ###   ########.fr       */
+/*   Updated: 2018/09/26 04:28:31 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,25 +14,25 @@
 #include "opengl.h"
 #include "tga.h"
 
-static int			make_vao(t_vertex_pack *pack)
+static int			make_vao(const GLuint program, struct s_object *object)
 {
 	ft_putendl("making vbo");
-	pack->vbo = 0;
-	glGenBuffers(1, &pack->vbo);
-	glBindBuffer(GL_ARRAY_BUFFER, pack->vbo);
+	object->vbo = 0;
+	glGenBuffers(1, &object->vbo);
+	glBindBuffer(GL_ARRAY_BUFFER, object->vbo);
 	glBufferData(GL_ARRAY_BUFFER,
-		(GLsizeiptr)(sizeof(t_vertex_item) * pack->stats.vertex),
-		(float*)pack->items,
+		(GLsizeiptr)(sizeof(t_vertex_item) * object->stats.vertex),
+		(float*)object->items,
 		GL_STATIC_DRAW);
 	ft_putendl("making faces indices");
-	ft_opengl_buffer_load(&pack->indices, GL_ELEMENT_ARRAY_BUFFER,
-		pack->faces, pack->stats.faces * sizeof(t_v3i));
+	ft_opengl_buffer_load(&object->indices, GL_ELEMENT_ARRAY_BUFFER,
+		object->faces, object->stats.faces * sizeof(t_v3i));
 	ft_putendl("making vao");
-	pack->vao = 0;
-	glGenVertexArrays(1, &pack->vao);
-	glBindVertexArray(pack->vao);
-	glBindBuffer(GL_ARRAY_BUFFER, pack->vbo);
-	send_attributes(pack);
+	object->vao = 0;
+	glGenVertexArrays(1, &object->vao);
+	glBindVertexArray(object->vao);
+	glBindBuffer(GL_ARRAY_BUFFER, object->vbo);
+	send_attributes(program, object);
 	glBindVertexArray(0);
 	return (0);
 }
@@ -97,7 +97,7 @@ int					make_program(t_vertex_pack *pack)
 	make_texture(pack->program, &pack->textures[DIFFUSE]);
 	make_texture(pack->program, &pack->textures[NORMAL_MAP]);
 	make_texture(pack->program, &pack->textures[AMBIANT_OCCLUSION]);
-	make_vao(pack);
+	make_vao(pack->program, &pack->object);
 	ft_putendl("program done");
 	return (0);
 }
