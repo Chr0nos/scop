@@ -91,9 +91,11 @@ static int			run_window(t_vertex_pack *pack)
 
 static int			command_parse(int ac, char **av,
 	struct s_texture_info *textures)
+
 {
-	const char	*uniforms[] = {"texture_sampler", "normal_map", "ambiant_occlusion"};
 	int			p;
+	const char	*uniforms[] = {"texture_sampler", "normal_map",
+		"ambiant_occlusion"};
 
 	ft_bzero(textures, sizeof(struct s_texture_info) * TEXTURES_COUNT);
 	p = 0;

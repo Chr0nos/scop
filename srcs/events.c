@@ -79,7 +79,7 @@ void			key_callback(GLFWwindow *window, int key, int scancode,
 	pack = get_pack(NULL);
 	if (action == GLFW_PRESS)
 	{
-		if (mods & GLFW_MOD_ALT)
+		if (mods & GLFW_MOD_SHIFT)
 			light_move(key, pack, 0.5f);
 		else
 		{
@@ -88,7 +88,7 @@ void			key_callback(GLFWwindow *window, int key, int scancode,
 				pack->input ^= INPUT_AUTOROT;
 		}
 	}
-	else if ((action == GLFW_REPEAT) && (mods & GLFW_MOD_ALT))
+	else if ((action == GLFW_REPEAT) && (mods & GLFW_MOD_SHIFT))
 		light_move(key, pack, 0.5f);
 }
 

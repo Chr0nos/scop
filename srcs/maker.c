@@ -37,7 +37,8 @@ static int			make_vao(const GLuint program, struct s_object *object)
 	return (0);
 }
 
-static int			make_texture(const GLuint program, struct s_texture_info *tex)
+static int			make_texture(const GLuint program,
+	struct s_texture_info *tex)
 {
 	static GLuint	texture_id = 1;
 	GLint			id;
@@ -73,6 +74,7 @@ static void			make_program_binds(t_vertex_pack *pack)
 	glBindAttribLocation(pack->program, 1, "my_color");
 	glBindAttribLocation(pack->program, 2, "my_uv");
 	glBindAttribLocation(pack->program, 3, "my_normal");
+	glBindAttribLocation(pack->program, 4, "my_tangeant");
 }
 
 int					make_program(t_vertex_pack *pack)

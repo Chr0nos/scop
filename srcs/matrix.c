@@ -21,7 +21,26 @@ void				auto_rotate(const size_t input, struct s_object *object)
 			geo_quat_rot(AXIS_Y, speed));
 }
 
-static void			matrix_keyboard(GLFWwindow *window, t_quaternion *q,
+static void			quat_rotations(GLFWwindow *window,
+	t_quaternion *q, const double speed)
+{
+	if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT))
+		return ;
+	if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
+		*q = geo_quat_mult(*q, geo_quat_rot(AXIS_Y, speed));
+	else if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
+		*q = geo_quat_mult(*q, geo_quat_rot(AXIS_Y, -speed));
+	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
+		*q = geo_quat_mult(*q, geo_quat_rot(AXIS_X, -speed));
+	else if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
+		*q = geo_quat_mult(*q, geo_quat_rot(AXIS_X, speed));
+	if (glfwGetKey(window, GLFW_KEY_E) == GLFW_PRESS)
+		*q = geo_quat_mult(*q, geo_quat_rot(AXIS_Z, speed));
+	else if (glfwGetKey(window, GLFW_KEY_Q) == GLFW_PRESS)
+		*q = geo_quat_mult(*q, geo_quat_rot(AXIS_Z, -speed));
+}
+
+static void			matrix_keyboard(GLFWwindow *window,
 	t_v4d *cam, const double speed)
 {
 	if (glfwGetKey(window, GLFW_KEY_EQUAL) == GLFW_PRESS)
@@ -36,18 +55,6 @@ static void			matrix_keyboard(GLFWwindow *window, t_quaternion *q,
 		cam->y -= speed;
 	else if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS)
 		cam->y += speed;
-	if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
-		*q = geo_quat_mult(*q, geo_quat_rot(AXIS_Y, 0.02));
-	else if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
-		*q = geo_quat_mult(*q, geo_quat_rot(AXIS_Y, -0.02));
-	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
-		*q = geo_quat_mult(*q, geo_quat_rot(AXIS_X, -0.02));
-	else if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
-		*q = geo_quat_mult(*q, geo_quat_rot(AXIS_X, 0.02));
-	if (glfwGetKey(window, GLFW_KEY_E) == GLFW_PRESS)
-		*q = geo_quat_mult(*q, geo_quat_rot(AXIS_Z, 0.02));
-	else if (glfwGetKey(window, GLFW_KEY_Q) == GLFW_PRESS)
-		*q = geo_quat_mult(*q, geo_quat_rot(AXIS_Z, -0.02));
 }
 
 t_m4				make_matrix(GLFWwindow *window, t_vertex_pack *pack)
@@ -57,8 +64,9 @@ t_m4				make_matrix(GLFWwindow *window, t_vertex_pack *pack)
 
 	object = &pack->object;
 	if (glfwGetKey(window, GLFW_KEY_LEFT_ALT) != GLFW_PRESS)
-		matrix_keyboard(window, &object->transform.q, &pack->camera.w,
+		matrix_keyboard(window, &pack->camera.w,
 			glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS ? 0.5 : 0.1);
+	quat_rotations(window, &object->transform.q, 0.02);
 	m = geo_quat_tomatrix(object->transform.q);
 	return (m);
 }

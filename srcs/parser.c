@@ -61,7 +61,8 @@ int						parse_obj(t_vertex_pack *pack, const char *filepath)
 		return (1);
 	pack->object_count = 1;
 	pack_copy = *pack;
-	if ((parse_real(filepath, &pack_copy.object) < 0) && (ft_mfree(1, pack->object.items)))
+	if ((parse_real(filepath, &pack_copy.object) < 0) &&
+			(ft_mfree(1, pack->object.items)))
 		return (1);
 	return (parse_post_process(&pack->object));
 }

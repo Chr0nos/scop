@@ -28,17 +28,17 @@ void			light_move(int key, t_vertex_pack *pack,
 	t_v3f	*pos;
 
 	pos = &pack->light.position;
-	if ((key == GLFW_KEY_KP_8) || (key == GLFW_KEY_UP))
+	if ((key == GLFW_KEY_KP_8) || (key == GLFW_KEY_W))
 		pos->y += speed;
-	else if ((key == GLFW_KEY_KP_5) || (key == GLFW_KEY_DOWN))
+	else if ((key == GLFW_KEY_KP_5) || (key == GLFW_KEY_S))
 		pos->y += -speed;
-	else if ((key == GLFW_KEY_KP_4) || (key == GLFW_KEY_LEFT))
+	else if ((key == GLFW_KEY_KP_4) || (key == GLFW_KEY_D))
 		pos->x += speed;
-	else if ((key == GLFW_KEY_KP_6) || (key == GLFW_KEY_RIGHT))
+	else if ((key == GLFW_KEY_KP_6) || (key == GLFW_KEY_A))
 		pos->x += -speed;
-	else if (key == GLFW_KEY_KP_7)
+	else if ((key == GLFW_KEY_KP_7) || (key == GLFW_KEY_Q))
 		pos->z += -speed;
-	else if (key == GLFW_KEY_KP_9)
+	else if ((key == GLFW_KEY_KP_9) || (key == GLFW_KEY_E))
 		pos->z += speed;
 	else
 		return ;

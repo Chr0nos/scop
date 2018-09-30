@@ -20,8 +20,8 @@
 ** for the faces detection (key C)
 */
 
-static void				load_params(struct s_object *object, t_vertex_item *item,
-		const size_t p, size_t offset)
+static void				load_params(struct s_object *object,
+	t_vertex_item *item, const size_t p, size_t offset)
 {
 	const int		index_face = ((int*)&(object->faces[p]))[offset];
 	const int		index_uv = ((int*)&(object->fuv[p]))[offset];
