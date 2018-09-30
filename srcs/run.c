@@ -34,6 +34,9 @@ static int			run_program(t_vertex_pack *pack, GLFWwindow *window)
 		ft_dprintf(2, "error while making program\n");
 		return (41);
 	}
+	make_texture(pack->program, &pack->textures[DIFFUSE]);
+	make_texture(pack->program, &pack->textures[NORMAL_MAP]);
+	make_texture(pack->program, &pack->textures[AMBIANT_OCCLUSION]);
 	ret = display_loop(window, pack);
 	delete_textures(pack);
 	ft_putendl("cleaning shaders");

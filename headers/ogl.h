@@ -183,6 +183,8 @@ void					flag_toggle(t_vertex_pack *pack,
 void					matrix_init(t_vertex_pack *pack);
 t_m4					make_matrix(GLFWwindow *window, t_vertex_pack *pack);
 void					light_move(int key, t_vertex_pack *pack, const float speed);
+int						make_texture(const GLuint program,
+	struct s_texture_info *tex);
 
 /*
 ** events

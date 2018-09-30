@@ -37,8 +37,7 @@ static int			make_vao(const GLuint program, struct s_object *object)
 	return (0);
 }
 
-static int			make_texture(const GLuint program,
-	struct s_texture_info *tex)
+int			make_texture(const GLuint program, struct s_texture_info *tex)
 {
 	static GLuint	texture_id = 1;
 	GLint			id;
@@ -96,9 +95,6 @@ int					make_program(t_vertex_pack *pack)
 	if (!link_ok)
 		return (3);
 	glUseProgram(pack->program);
-	make_texture(pack->program, &pack->textures[DIFFUSE]);
-	make_texture(pack->program, &pack->textures[NORMAL_MAP]);
-	make_texture(pack->program, &pack->textures[AMBIANT_OCCLUSION]);
 	make_vao(pack->program, &pack->object);
 	ft_putendl("program done");
 	return (0);
