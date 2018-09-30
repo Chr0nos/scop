@@ -97,8 +97,7 @@ static int			command_parse(int ac, char **av,
 
 {
 	int			p;
-	const char	*uniforms[] = {"texture_sampler", "normal_map",
-		"ambiant_occlusion"};
+	const char	*uniforms[] = {"diffuse", "normal_map", "ambiant_occlusion"};
 
 	ft_bzero(textures, sizeof(struct s_texture_info) * TEXTURES_COUNT);
 	p = 0;

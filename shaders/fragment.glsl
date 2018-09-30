@@ -7,7 +7,7 @@
 #define AXIS_X			vec3(1.0, 0.0, 0.0)
 #define AXIS_Y			vec3(0.0, 1.0, 0.0)
 #define AXIS_Z			vec3(0.0, 0.0, 1.0)
-uniform sampler2D	texture_sampler;
+uniform sampler2D	diffuse;
 uniform sampler2D	normal_map;
 uniform sampler2D	ambiant_occlusion;
 uniform float		tex_switch;
@@ -53,22 +53,24 @@ vec3	get_normal(void)
 
 float	make_brightness(void)
 {
-	vec3 normal = get_normal();
-	vec3 fpos = vec3(transpose(view) * vec4(fvertex.xyz, 1));
-	vec3 stl = light.position - fpos;
-	float brightness = dot(normal, normalize(stl));
+	vec3	normal = get_normal();
+	vec3	fpos = vec3(transpose(view) * vec4(fvertex.xyz, 1));
+	vec3	stl = light.position - fpos;
+	float	brightness = dot(normal, normalize(stl));
+
 	return (clamp(brightness, 0.2, 1.0));
 }
 
 float	make_directional_brightness(vec3 direction)
 {
-	float brightness = max(dot(
+	float	brightness = max(dot(
 				(vec4(fnormal, 0) * inverse(model)).xyz, direction), 0);
+
 	return (clamp(brightness, 0.0, 1.0));
 }
 
 void main() {
-	vec4	color = texture(texture_sampler, uv);
+	vec4	color;
 
 	if ((flags & FLAG_DBG_NORM) != 0)
 		color.xyz = get_normal();
@@ -76,6 +78,7 @@ void main() {
 		color.xyz = (vec4(ftangeant, 0) * inverse(model)).xyz;
 	if ((flags & FLAG_DBG) == 0)
 	{
+		color = texture(diffuse, uv);
 		if ((flags & FLAG_NOLIGHT) == 0)
 		{
 			color *= light.color *

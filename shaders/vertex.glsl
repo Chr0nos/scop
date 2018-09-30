@@ -16,18 +16,6 @@ out vec4		fcolor;
 out vec4		fvertex;
 out	vec3		ftangeant;
 
-mat3	get_tbn(void)
-{
-	vec3	t;
-	vec3	b;
-	vec3	n;
-
-	t = normalize(vec3(model * vec4(my_tangeant, 0.0)));
-	b = normalize(vec3(model * vec4(my_b, 0.0)));
-	n = normalize(vec3(model * vec4(my_normal, 0.0)));
-	return (mat3(t, b, n));
-}
-
 void main() {
 	fvertex = projection * inverse(view) * model * vec4(my_position, 1.0);
 	gl_Position = fvertex;
