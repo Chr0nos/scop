@@ -6,7 +6,7 @@
 /*   By: snicolet <marvin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/24 07:24:26 by snicolet          #+#    #+#             */
-/*   Updated: 2018/09/26 04:34:22 by snicolet         ###   ########.fr       */
+/*   Updated: 2018/09/30 18:59:12 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@
 # define DISPLAY_FOV	45
 # define FLAG_SH_NMAP	(1u << 0)
 # define FLAG_SH_NLIGHT	(1u << 1)
+# define FLAG_SHD_NORM	(1u << 2)
+# define FLAG_SHD_TAN	(1u << 3)
 # define INPUT_LCLICK	(1u << 0)
 # define INPUT_RCLICK	(1u << 1)
 # define INPUT_MCLICK	(1u << 2)
@@ -79,6 +81,7 @@ typedef struct			s_vertex_item
 	t_v4f				color;
 	t_v2f				uv;
 	t_v3f				normal;
+	t_v3f				tangeant;
 }						t_vertex_item;
 
 typedef struct			s_vertex_attribs
@@ -87,6 +90,7 @@ typedef struct			s_vertex_attribs
 	GLint				color;
 	GLint				uv;
 	GLint				normal;
+	GLint				tangeant;
 }						t_vertex_attribs;
 
 typedef struct			s_uniforms
@@ -106,6 +110,7 @@ typedef struct			s_light
 {
 	t_v3f				position;
 	t_v4f				color;
+	float				intensity;
 }						t_light;
 
 struct					s_transform {

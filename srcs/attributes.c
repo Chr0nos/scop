@@ -6,7 +6,7 @@
 /*   By: snicolet <marvin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/11 18:43:49 by snicolet          #+#    #+#             */
-/*   Updated: 2018/09/26 04:28:45 by snicolet         ###   ########.fr       */
+/*   Updated: 2018/09/30 17:22:49 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ static void		set_attributes(const GLuint program,
 	attrs->color = glGetAttribLocation(program, "my_color");
 	attrs->uv = glGetAttribLocation(program, "my_uv");
 	attrs->normal = glGetAttribLocation(program, "my_normal");
+	attrs->tangeant = glGetAttribLocation(program, "my_tangeant");
 }
 
 void			send_attributes(const GLuint program, struct s_object *object)
@@ -33,6 +34,7 @@ void			send_attributes(const GLuint program, struct s_object *object)
 	glEnableVertexAttribArray((GLuint)object->attribs.color);
 	glEnableVertexAttribArray((GLuint)object->attribs.uv);
 	glEnableVertexAttribArray((GLuint)object->attribs.normal);
+	glEnableVertexAttribArray((GLuint)object->attribs.tangeant);
 	glVertexAttribPointer((GLuint)object->attribs.position,
 		3, GL_FLOAT, GL_FALSE, step, NULL);
 	glVertexAttribPointer((GLuint)object->attribs.color,
@@ -41,4 +43,6 @@ void			send_attributes(const GLuint program, struct s_object *object)
 		2, GL_FLOAT, GL_FALSE, step, (void*)(sizeof(float) * offset_uv));
 	glVertexAttribPointer((GLuint)object->attribs.normal,
 		3, GL_FLOAT, GL_FALSE, step, (void*)(sizeof(float) * 9));
+	glVertexAttribPointer((GLuint)object->attribs.tangeant,
+		3, GL_FLOAT, GL_FALSE, step, (void*)(sizeof(float) * 12));
 }

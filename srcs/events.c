@@ -6,7 +6,7 @@
 /*   By: snicolet <marvin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/22 13:16:55 by snicolet          #+#    #+#             */
-/*   Updated: 2018/09/26 04:07:40 by snicolet         ###   ########.fr       */
+/*   Updated: 2018/09/30 18:19:36 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,10 @@ static void		key_press(GLFWwindow *window, t_vertex_pack *pack, int key,
 		flag_toggle(pack, FLAG_SH_NLIGHT);
 	else if (key == GLFW_KEY_K)
 		flag_toggle(pack, FLAG_SH_NMAP);
+	else if (key == GLFW_KEY_H)
+		flag_toggle(pack, FLAG_SHD_TAN);
+	else if (key == GLFW_KEY_J)
+		flag_toggle(pack, FLAG_SHD_NORM);
 }
 
 void			key_callback(GLFWwindow *window, int key, int scancode,
