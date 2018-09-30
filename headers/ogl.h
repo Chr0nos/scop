@@ -178,7 +178,7 @@ void					reset_camera(t_vertex_pack *pack);
 void					reset_model(struct s_object *object);
 void					light_toggle(t_vertex_pack *pack);
 void					flag_toggle(t_vertex_pack *pack,
-		const unsigned int flag);
+		const unsigned int flag, const unsigned int mask);
 void					matrix_init(t_vertex_pack *pack);
 t_m4					make_matrix(GLFWwindow *window, t_vertex_pack *pack);
 void					light_move(int key, t_vertex_pack *pack, const float speed);

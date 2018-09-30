@@ -12,10 +12,11 @@
 
 #include "ogl.h"
 
-void			flag_toggle(t_vertex_pack *pack, const unsigned int flag)
+void			flag_toggle(t_vertex_pack *pack, const unsigned int flag,
+	const unsigned int mask)
 {
 	if (pack->flags_shader & flag)
-		pack->flags_shader &= ~flag;
+		pack->flags_shader &= ~flag & mask;
 	else
 		pack->flags_shader |= flag;
 	glUniform1ui(pack->uniforms.flags, pack->flags_shader);

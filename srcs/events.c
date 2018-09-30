@@ -61,13 +61,13 @@ static void		key_press(GLFWwindow *window, t_vertex_pack *pack, int key,
 	else if (key == GLFW_KEY_N)
 		update_fov(window, pack, -5.0);
 	else if (key == GLFW_KEY_L)
-		flag_toggle(pack, FLAG_SH_NLIGHT);
+		flag_toggle(pack, FLAG_SH_NLIGHT, FLAG_SH_NMAP);
 	else if (key == GLFW_KEY_K)
-		flag_toggle(pack, FLAG_SH_NMAP);
+		flag_toggle(pack, FLAG_SH_NMAP, 0xffffffff);
 	else if (key == GLFW_KEY_H)
-		flag_toggle(pack, FLAG_SHD_TAN);
+		flag_toggle(pack, FLAG_SHD_TAN, 0);
 	else if (key == GLFW_KEY_J)
-		flag_toggle(pack, FLAG_SHD_NORM);
+		flag_toggle(pack, FLAG_SHD_NORM, 0);
 }
 
 void			key_callback(GLFWwindow *window, int key, int scancode,
