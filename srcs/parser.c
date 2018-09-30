@@ -24,12 +24,10 @@ void					color_load(t_v4f *target, const unsigned int color)
 	};
 }
 
-static t_vertex_pack	*parse_setptrs(t_vertex_pack *pack)
+static				int parse_setptrs(struct s_object *object)
 {
-	struct s_object		*object;
-	const t_obj_stats	*stats = &pack->object.stats;
+	const t_obj_stats	*stats = &object->stats;
 
-	object = &pack->object;
 	object->items = ft_memalloc(sizeof(t_vertex_item) * stats->vertex);
 	object->faces = ft_memalloc(sizeof(t_v3i) * stats->faces);
 	object->fuv = ft_memalloc(sizeof(t_v3i) * stats->faces);
@@ -42,9 +40,9 @@ static t_vertex_pack	*parse_setptrs(t_vertex_pack *pack)
 		ft_mfree(6, object->items, object->faces, object->fuv, object->uv,
 				object->normal, object->fnormals);
 		ft_dprintf(2, "error: failed to malloc !\n");
-		return (NULL);
+		return (EXIT_FAILURE);
 	}
-	return (pack);
+	return (EXIT_SUCCESS);
 }
 
 int						parse_obj(t_vertex_pack *pack, const char *filepath)
@@ -55,14 +53,14 @@ int						parse_obj(t_vertex_pack *pack, const char *filepath)
 	if (pack->object.stats.vertex + pack->object.stats.faces == 0)
 	{
 		ft_dprintf(2, "error: no faces or vertex to display\n");
-		return (1);
+		return (EXIT_FAILURE);
 	}
-	if (!(parse_setptrs(pack)))
-		return (1);
+	if (parse_setptrs(&pack->object))
+		return (EXIT_FAILURE);
 	pack->object_count = 1;
 	pack_copy = *pack;
 	if ((parse_real(filepath, &pack_copy.object) < 0) &&
 			(ft_mfree(1, pack->object.items)))
-		return (1);
+		return (EXIT_FAILURE);
 	return (parse_post_process(&pack->object));
 }
