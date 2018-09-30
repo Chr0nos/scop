@@ -1,4 +1,5 @@
 #version 400 core
+
 #define FLAG_NMAP		1u
 #define FLAG_NOLIGHT	2u
 #define FLAG_DBG_TAN	4u
@@ -7,6 +8,7 @@
 #define AXIS_X			vec3(1.0, 0.0, 0.0)
 #define AXIS_Y			vec3(0.0, 1.0, 0.0)
 #define AXIS_Z			vec3(0.0, 0.0, 1.0)
+
 uniform sampler2D	diffuse;
 uniform sampler2D	normal_map;
 uniform sampler2D	ambiant_occlusion;
@@ -29,7 +31,7 @@ in vec3				ftangeant;
 
 out vec4			frag_color;
 
-mat3	get_tbn(void)
+mat3		get_tbn(void)
 {
 	vec3	t;
 	vec3	b;
@@ -41,7 +43,7 @@ mat3	get_tbn(void)
 	return (mat3(normalize(t), normalize(b), n));
 }
 
-vec3	get_normal(void)
+vec3		get_normal(void)
 {
 	vec3	normal;
 
@@ -51,7 +53,7 @@ vec3	get_normal(void)
 	return ((vec4(normal * get_tbn(), 0) * inverse(model)).xyz);
 }
 
-float	make_brightness(void)
+float		make_brightness(void)
 {
 	vec3	normal = get_normal();
 	vec3	fpos = vec3(transpose(view) * vec4(fvertex.xyz, 1));
@@ -61,7 +63,7 @@ float	make_brightness(void)
 	return (clamp(brightness, 0.2, 1.0));
 }
 
-float	make_directional_brightness(vec3 direction)
+float		make_directional_brightness(vec3 direction)
 {
 	float	brightness = max(dot(
 				(vec4(fnormal, 0) * inverse(model)).xyz, direction), 0);
@@ -69,7 +71,7 @@ float	make_directional_brightness(vec3 direction)
 	return (clamp(brightness, 0.0, 1.0));
 }
 
-void main() {
+void		main() {
 	vec4	color;
 
 	if ((flags & FLAG_DBG_NORM) != 0)
