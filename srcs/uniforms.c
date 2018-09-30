@@ -27,6 +27,7 @@ static void			set_uniforms_ids(t_vertex_pack *pack, t_uniforms *u)
 	u->camera = glGetUniformLocation(pack->program, "view");
 	u->light_pos = glGetUniformLocation(pack->program, "light.position");
 	u->light_color = glGetUniformLocation(pack->program, "light.color");
+	u->light_intensity = glGetUniformLocation(pack->program, "light.intensity");
 	u->texture_switch = glGetUniformLocation(pack->program, "tex_switch");
 	u->flags = glGetUniformLocation(pack->program, "flags");
 }
@@ -38,7 +39,7 @@ void				send_uniforms(GLFWwindow *window, t_vertex_pack *pack)
 
 	u = &pack->uniforms;
 	pack->light = (t_light){
-		.position = (t_v3f){0.0f, 0.0f, 0.0f},
+		.position = (t_v3f){0.0f, 0.0f, -11.0f},
 		.color = (t_v4f){1.0f, 1.0f, 1.0f, 1.0f},
 		.intensity = 1.0f
 	};
@@ -50,6 +51,7 @@ void				send_uniforms(GLFWwindow *window, t_vertex_pack *pack)
 	glUniform1f(u->texture_switch, u->texture_switch_val);
 	glUniform3fv(u->light_pos, 1, (const GLfloat *)&pack->light.position);
 	glUniform4fv(u->light_color, 1, (const GLfloat *)&pack->light.color);
+	glUniform1f(u->light_intensity, pack->light.intensity);
 	send_uniforms_tex(pack->textures[DIFFUSE].opengl_id, pack->textures[DIFFUSE].id, 1);
 	if (pack->textures[NORMAL_MAP].id)
 		send_uniforms_tex(pack->textures[NORMAL_MAP].opengl_id,

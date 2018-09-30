@@ -102,6 +102,7 @@ typedef struct			s_uniforms
 	float				texture_switch_val;
 	GLint				light_pos;
 	GLint				light_color;
+	GLint				light_intensity;
 	GLint				camera;
 	GLint				flags;
 }						t_uniforms;
