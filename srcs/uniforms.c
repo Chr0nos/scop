@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/28 11:24:17 by snicolet          #+#    #+#             */
-/*   Updated: 2018/10/01 15:24:35 by map              ###   ########.fr       */
+/*   Updated: 2018/10/01 16:01:47 by map              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void				send_uniforms(GLFWwindow *window, t_vertex_pack *pack)
 	pack->light = (t_light){
 		.position = (t_v3f){8.0f, 15.0f, 0.0f},
 		.color = (t_v4f){1.0f, 1.0f, 1.0f, 1.0f},
-		.intensity = 20.0f
+		.intensity = 16.0f
 	};
 	proj = geo_mk4_tof(get_projection(window, pack->fov, 1.0, 100.0));
 	set_uniforms_ids(pack, u);

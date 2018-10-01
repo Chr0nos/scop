@@ -69,7 +69,7 @@ float		make_brightness(void)
 {
 	vec3	fpos = fvertex.xyz;
 	// get light to pos vector
-	vec3	stl = fpos - light.position;
+	vec3	stl = light.position - fpos;
 	// get intensity based on light intensity parameter and distance from the light
 	float	brightness = light.intensity / clamp(length(stl), light.intensity, 500.0f);
 	// multiply the directional light calculatioin from the point light
