@@ -81,7 +81,7 @@ float		make_directional_brightness(vec3 direction)
 {
 	// dot between dir and normal in global space == directionale light
 	float	brightness = max(dot(get_normal(), direction), 0);
-	return (clamp(brightness, 0.0, 1.0));
+	return (clamp(brightness + 0.2f, 0.0, 1.0));
 }
 
 void		main() {
@@ -96,9 +96,10 @@ void		main() {
 		color = texture(diffuse, uv);
 		if ((flags & FLAG_NOLIGHT) == 0)
 		{
-			color *= light.color *
-				//make_directional_brightness(AXIS_Z);
-				make_brightness(); // * ((texture(ambiant_occlusion, uv) + 2.0) / 3.0);
+			color *= light.color *(
+				make_directional_brightness(-AXIS_Y)// * 0.2) +
+				+ make_brightness()//; * ((texture(ambiant_occlusion, uv) + 2.0) / 3.0);
+				);
 		}
 		if (tex_switch > 0)
 			color = mix(color, fcolor, clamp(tex_switch, 0, 1));
