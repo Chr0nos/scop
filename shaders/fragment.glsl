@@ -31,42 +31,47 @@ in vec3				ftangeant;
 
 out vec4			frag_color;
 
-mat3		get_tbn(void)
+vec3		get_tangeant(void)
+{
+	vec3 tangeant;
+
+	tangeant = inverse(mat3(view)) * mat3(model) * ftangeant;
+	return tangeant;
+}
+
+mat3		get_tbn(vec3 normal)
 {
 	vec3	t;
 	vec3	b;
 	vec3	n;
 
-	n = normalize(fnormal);
-	t = normalize(ftangeant);
+	n = normalize(normal);
+	t = normalize(get_tangeant());
 	b = cross(t, n);
-	return (mat3(normalize(t), normalize(b), n));
+	return (mat3(t, normalize(b), n));
 }
 
 vec3		get_normal(void)
 {
 	vec3	normal;
 
+	normal = inverse(mat3(view)) * mat3(model) * fnormal;
 	if ((flags & FLAG_NMAP) == 0)
-		return ((vec4(fnormal, 0) * inverse(model)).xyz);
-	normal = texture(normal_map, uv).rgb * 2.0 - 1.0;
-	return ((vec4(normal * get_tbn(), 0) * inverse(model)).xyz);
+		return normal;
+	return (get_tbn(normal) * (texture(normal_map, uv).rgb * 2.0 - 1.0));
 }
 
 float		make_brightness(void)
 {
-	vec3	normal = get_normal();
-	vec3	fpos = vec3(transpose(view) * vec4(fvertex.xyz, 1));
-	vec3	stl = light.position - fpos;
-	float	brightness = dot(normal, normalize(stl));
-
-	return (clamp(brightness, 0.2, 1.0));
+	vec3	fpos = fvertex.xyz;
+	vec3	stl = fpos - light.position;
+	float	brightness = light.intensity / clamp(length(stl), light.intensity, 500.0f);
+	return (max(dot(get_normal(), normalize(stl)), 0.0) *  brightness);
 }
 
 float		make_directional_brightness(vec3 direction)
 {
-	float	brightness = max(dot(
-				(vec4(fnormal, 0) * inverse(model)).xyz, direction), 0);
+	float	brightness = max(dot(get_normal(), direction), 0);
 
 	return (clamp(brightness, 0.0, 1.0));
 }
@@ -77,18 +82,19 @@ void		main() {
 	if ((flags & FLAG_DBG_NORM) != 0)
 		color.xyz = get_normal();
 	if ((flags & FLAG_DBG_TAN) != 0)
-		color.xyz = (vec4(ftangeant, 0) * inverse(model)).xyz;
+		color.xyz = get_tangeant();
 	if ((flags & FLAG_DBG) == 0)
 	{
 		color = texture(diffuse, uv);
 		if ((flags & FLAG_NOLIGHT) == 0)
 		{
 			color *= light.color *
-			//	make_directional_brightness(AXIS_X);
-				make_brightness() * ((texture(ambiant_occlusion, uv) + 2.0) / 3.0);
+				//make_directional_brightness(AXIS_Z);
+				make_brightness(); // * ((texture(ambiant_occlusion, uv) + 2.0) / 3.0);
 		}
 		if (tex_switch > 0)
-			color = mix(color, fcolor, clamp(tex_switch, 0, 1));
+			//color = mix(color, fcolor, clamp(tex_switch, 0, 1));
+			color.xyz = fvertex.xyz;
 	}
 	frag_color = color;
 }
