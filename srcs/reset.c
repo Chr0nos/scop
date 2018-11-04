@@ -6,7 +6,7 @@
 /*   By: snicolet <marvin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/01 13:57:30 by snicolet          #+#    #+#             */
-/*   Updated: 2017/06/01 14:48:25 by snicolet         ###   ########.fr       */
+/*   Updated: 2018/09/26 04:07:02 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,8 @@ void		reset_camera(t_vertex_pack *pack)
 	pack->camera.w.z = -8;
 }
 
-void		reset_model(t_vertex_pack *pack)
+void		reset_model(struct s_object *object)
 {
-	pack->model_quat = geo_quat_identity();
-	pack->model = geo_quat_tomatrix(pack->model_quat);
+	object->transform.q = geo_quat_identity();
+	object->transform.matrix = geo_quat_tomatrix(object->transform.q);
 }

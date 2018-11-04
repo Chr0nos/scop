@@ -3,21 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   matrix.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: snicolet <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: snicolet <marvin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/04 14:24:41 by snicolet          #+#    #+#             */
-/*   Updated: 2017/07/25 02:05:56 by snicolet         ###   ########.fr       */
+/*   Updated: 2018/09/26 04:13:54 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ogl.h"
 
-void				auto_rotate(t_vertex_pack *pack)
+void				auto_rotate(const size_t input, struct s_object *object)
 {
 	const double			speed = 0.01;
 
-	if (pack->input & INPUT_AUTOROT)
-		pack->model_quat = geo_quat_mult(pack->model_quat,
+	if (input & INPUT_AUTOROT)
+		object->transform.q = geo_quat_mult(object->transform.q,
 			geo_quat_rot(AXIS_Y, speed));
 }
 
@@ -52,23 +52,26 @@ static void			matrix_keyboard(GLFWwindow *window, t_quaternion *q,
 
 t_m4				make_matrix(GLFWwindow *window, t_vertex_pack *pack)
 {
+	struct s_object			*object;
 	t_m4					m;
 
-	matrix_keyboard(window, &pack->model_quat, &pack->camera.w,
-		glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS ? 0.5 : 0.1);
-	m = geo_quat_tomatrix(pack->model_quat);
+	object = &pack->object;
+	if (glfwGetKey(window, GLFW_KEY_LEFT_ALT) != GLFW_PRESS)
+		matrix_keyboard(window, &object->transform.q, &pack->camera.w,
+			glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS ? 0.5 : 0.1);
+	m = geo_quat_tomatrix(object->transform.q);
 	return (m);
 }
 
 void				matrix_init(t_vertex_pack *pack)
 {
 	pack->flags_shader |= FLAG_SH_NLIGHT;
-	if (pack->normal_map_path)
+	if (pack->textures[NORMAL_MAP].filepath)
 		pack->flags_shader |= FLAG_SH_NMAP;
 	pack->fov = (double)DISPLAY_FOV;
 	pack->camera_quat = geo_quat_identity();
-	pack->model_quat = geo_quat_identity();
-	pack->model_axis = AXIS_Y;
+	pack->object.transform.q = geo_quat_identity();
+	pack->object.transform.axis = AXIS_Y;
 	pack->camera = geo_quat_tomatrix(pack->camera_quat);
 	pack->camera.w = (t_v4d){0.0, 0.0, -8.0, 1.0};
 	pack->input |= INPUT_RLAST | INPUT_AUTOROT;

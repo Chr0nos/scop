@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   display.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
+/*   By: snicolet <marvin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/22 13:18:49 by snicolet          #+#    #+#             */
-/*   Updated: 2017/06/05 19:31:15 by snicolet         ###   ########.fr       */
+/*   Updated: 2018/09/26 04:23:20 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ static void			event_texture_mode(GLFWwindow *window, t_uniforms *u)
 static void			display_pre(GLFWwindow *window, t_vertex_pack *pack)
 {
 	event_texture_mode(window, &pack->uniforms);
-	auto_rotate(pack);
+	auto_rotate(pack->input, &pack->object);
 }
 
 /*
@@ -70,7 +70,7 @@ static void			display_pre(GLFWwindow *window, t_vertex_pack *pack)
 
 int					display_loop(GLFWwindow *window, t_vertex_pack *pack)
 {
-	const int		faces_total = (int)(pack->stats.faces * 3);
+	const int		faces_total = (int)(pack->object.stats.faces * 3);
 	t_m4f			model;
 	t_m4f			view;
 
@@ -80,16 +80,16 @@ int					display_loop(GLFWwindow *window, t_vertex_pack *pack)
 	while (!glfwWindowShouldClose(window))
 	{
 		display_pre(window, pack);
-		pack->model = make_matrix(window, pack);
-		model = geo_mk4_tof(pack->model);
+		pack->object.transform.matrix = make_matrix(window, pack);
+		model = geo_mk4_tof(pack->object.transform.matrix);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		glUniformMatrix4fv(pack->uniforms.model_view, 1, GL_FALSE,
 			(const GLfloat *)&model);
 		view = geo_mk4_tof(pack->camera);
 		glUniformMatrix4fv(pack->uniforms.camera, 1, GL_FALSE,
 			(const GLfloat *)&view);
-		glBindVertexArray(pack->vao);
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, pack->indices);
+		glBindVertexArray(pack->object.vao);
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, pack->object.indices);
 		glDrawElements(GL_TRIANGLES, faces_total, GL_UNSIGNED_INT, NULL);
 		glfwPollEvents();
 		glfwSwapBuffers(window);

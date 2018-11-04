@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   run.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
+/*   By: snicolet <marvin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/07 12:33:10 by snicolet          #+#    #+#             */
-/*   Updated: 2017/07/21 01:01:31 by snicolet         ###   ########.fr       */
+/*   Updated: 2018/09/26 03:52:43 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,14 @@
 
 static void			delete_textures(t_vertex_pack *pack)
 {
-	const GLuint	ids[2] = {
-		pack->texture,
-		pack->normal_map
+	const GLuint	ids[TEXTURES_COUNT] = {
+		pack->textures[DIFFUSE].id,
+		pack->textures[NORMAL_MAP].id,
+		pack->textures[AMBIANT_OCCLUSION].id
 	};
 
 	ft_putstr("deleting textures\n");
-	glDeleteTextures(2, ids);
+	glDeleteTextures(TEXTURES_COUNT, ids);
 }
 
 static int			run_program(t_vertex_pack *pack, GLFWwindow *window)
@@ -51,8 +52,7 @@ static int			run_program(t_vertex_pack *pack, GLFWwindow *window)
 
 static int			run_window_real(t_vertex_pack *pack, GLFWwindow *window)
 {
-	glfwSetKeyCallback(window,
-			(void(*)(GLFWwindow *, int, int, int, int))(size_t)&key_callback);
+	glfwSetKeyCallback(window, &key_callback);
 	glfwSetMouseButtonCallback(window, &mouse_button_callback);
 	glfwSetCursorPosCallback(window, &mouse_pos_callback);
 	glfwSetScrollCallback(window, &scroll_callback);
@@ -89,14 +89,35 @@ static int			run_window(t_vertex_pack *pack)
 	return (ret);
 }
 
-int					run_parse(const char *filepath, const char *texture,
-		const char *normal_map)
+static int			command_parse(int ac, char **av,
+	struct s_texture_info *textures)
 {
+	const char	*uniforms[] = {"texture_sampler", "normal_map", "ambiant_occlusion"};
+	int			p;
+
+	ft_bzero(textures, sizeof(struct s_texture_info) * TEXTURES_COUNT);
+	p = 0;
+	while ((p < ac) && (p < TEXTURES_COUNT))
+	{
+		ft_printf("requested texture: %s\n", av[p]);
+		textures[p].filepath = av[p];
+		textures[p].type = (enum e_texture_type)p;
+		textures[p].uniform = uniforms[p];
+		p++;
+	}
+	if (p != ac)
+		ft_printf("%s", "warning: some parameters has been ignored.\n");
+	return (EXIT_SUCCESS);
+}
+
+int					run_parse(int ac, char **av)
+{
+	const char		*filepath = av[0];
 	int				ret;
 	t_vertex_pack	pack;
 	double			parsing_started;
 
-	ft_putendl("run parse");
+	ft_printf("running parsing of %s\n", filepath);
 	ft_bzero(&pack, sizeof(t_vertex_pack));
 	get_pack(&pack);
 	parsing_started = glfwGetTime();
@@ -104,13 +125,12 @@ int					run_parse(const char *filepath, const char *texture,
 		return (21);
 	ft_printf("parsing total time: %f secs\n", glfwGetTime() - parsing_started);
 	ret = 2;
-	if (pack.items)
+	if (pack.object.items)
 	{
-		pack.texture_path = (texture) ? texture : "textures/default.tga";
-		pack.normal_map_path = normal_map;
+		command_parse(ac - 1, &av[1], pack.textures);
 		ret = run_window(&pack);
 		ft_putendl("cleaning main structure pack");
-		ft_mfree(2, pack.items, pack.faces);
+		ft_mfree(2, pack.object.items, pack.object.faces);
 	}
 	ft_putendl("cleaning glfw");
 	glfwTerminate();
