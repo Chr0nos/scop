@@ -6,7 +6,7 @@
 /*   By: snicolet <marvin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/07 12:35:02 by snicolet          #+#    #+#             */
-/*   Updated: 2018/09/26 04:28:31 by snicolet         ###   ########.fr       */
+/*   Updated: 2018/11/18 14:22:19 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,13 +86,15 @@ int					make_program(t_vertex_pack *pack)
 		return (2);
 	ft_putendl("shaders ok");
 	pack->program = glCreateProgram();
+	if (!pack->program)
+		return (3);
 	make_program_binds(pack);
 	glAttachShader(pack->program, pack->fs);
 	glAttachShader(pack->program, pack->vs);
 	glLinkProgram(pack->program);
 	glGetProgramiv(pack->program, GL_LINK_STATUS, &link_ok);
 	if (!link_ok)
-		return (3);
+		return (4);
 	glUseProgram(pack->program);
 	make_texture(pack->program, &pack->textures[DIFFUSE]);
 	make_texture(pack->program, &pack->textures[NORMAL_MAP]);
