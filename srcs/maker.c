@@ -14,7 +14,7 @@
 #include "opengl.h"
 #include "tga.h"
 
-static int			make_vao(const GLuint program, struct s_object *object)
+static int				make_vao(const GLuint program, struct s_object *object)
 {
 	ft_putendl("making vbo");
 	object->vbo = 0;
@@ -37,7 +37,16 @@ static int			make_vao(const GLuint program, struct s_object *object)
 	return (0);
 }
 
-static int			make_texture(const GLuint program, struct s_texture_info *tex)
+static inline GLuint	make_texture_load(const char *filepath)
+{
+	if (ft_match(filepath, "*.tga"))
+		return (tga_load_ogl(filepath));
+	return (SOIL_load_OGL_texture(filepath, SOIL_LOAD_AUTO,
+		SOIL_CREATE_NEW_ID, SOIL_FLAG_MIPMAPS | SOIL_FLAG_INVERT_Y));
+}
+
+static int				make_texture(const GLuint program,
+	struct s_texture_info *tex)
 {
 	static GLuint	texture_id = 1;
 	GLint			id;
@@ -47,8 +56,7 @@ static int			make_texture(const GLuint program, struct s_texture_info *tex)
 	if (!tex->filepath)
 		return (EXIT_FAILURE);
 	glActiveTexture(GL_TEXTURE0 + texture_id);
-	tex->id = SOIL_load_OGL_texture(tex->filepath, SOIL_LOAD_AUTO,
-		SOIL_CREATE_NEW_ID, SOIL_FLAG_MIPMAPS | SOIL_FLAG_INVERT_Y);
+	tex->id = make_texture_load(tex->filepath);
 	if (!tex->id)
 	{
 		ft_dprintf(STDERR_FILENO, "%s", "\terror on load\n");
@@ -67,7 +75,7 @@ static int			make_texture(const GLuint program, struct s_texture_info *tex)
 	return (EXIT_SUCCESS);
 }
 
-static void			make_program_binds(t_vertex_pack *pack)
+static void				make_program_binds(t_vertex_pack *pack)
 {
 	glBindAttribLocation(pack->program, 0, "my_position");
 	glBindAttribLocation(pack->program, 1, "my_color");
@@ -75,7 +83,7 @@ static void			make_program_binds(t_vertex_pack *pack)
 	glBindAttribLocation(pack->program, 3, "my_normal");
 }
 
-int					make_program(t_vertex_pack *pack)
+int						make_program(t_vertex_pack *pack)
 {
 	int						link_ok;
 
