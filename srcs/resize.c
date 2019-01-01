@@ -25,6 +25,6 @@ void			framebuffer_size_callback(GLFWwindow *window,
 {
 	(void)width;
 	(void)height;
-	update_projection(window, get_pack(NULL));
+	update_projection(window, &g_pack);
 	glViewport(0, 0, width, height);
 }

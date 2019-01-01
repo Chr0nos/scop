@@ -114,23 +114,22 @@ int					run_parse(int ac, char **av)
 {
 	const char		*filepath = av[0];
 	int				ret;
-	t_vertex_pack	pack;
+	t_vertex_pack	*pack;
 	double			parsing_started;
 
 	ft_printf("running parsing of %s\n", filepath);
-	ft_bzero(&pack, sizeof(t_vertex_pack));
-	get_pack(&pack);
+	pack = &g_pack;
 	parsing_started = glfwGetTime();
-	if (parse_obj(&pack, filepath) != 0)
+	if (parse_obj(pack, filepath) != 0)
 		return (21);
 	ft_printf("parsing total time: %f secs\n", glfwGetTime() - parsing_started);
 	ret = 2;
-	if (pack.object.items)
+	if (pack->object.items)
 	{
-		command_parse(ac - 1, &av[1], pack.textures);
-		ret = run_window(&pack);
+		command_parse(ac - 1, &av[1], pack->textures);
+		ret = run_window(pack);
 		ft_putendl("cleaning main structure pack");
-		ft_mfree(2, pack.object.items, pack.object.faces);
+		ft_mfree(2, pack->object.items, pack->object.faces);
 	}
 	ft_putendl("cleaning glfw");
 	glfwTerminate();

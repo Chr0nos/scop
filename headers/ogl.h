@@ -155,6 +155,8 @@ typedef struct			s_vertex_pack
 	t_light				light;
 }						t_vertex_pack;
 
+static t_vertex_pack	g_pack;
+
 void					auto_rotate(const size_t input, struct s_object *object);
 void					configure_opengl(void);
 void					error_handler(int id, const char *str);
@@ -166,7 +168,6 @@ int						display_loop(GLFWwindow *window, t_vertex_pack *pack);
 int						make_program(t_vertex_pack *pack);
 int						make_vertex_items(t_vertex_pack *pack);
 void					send_attributes(const GLuint program, struct s_object *object);
-t_vertex_pack			*get_pack(t_vertex_pack *pack);
 void					send_uniforms(GLFWwindow *window, t_vertex_pack *pack);
 
 void					reset_camera(t_vertex_pack *pack);

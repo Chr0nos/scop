@@ -72,7 +72,7 @@ void			key_callback(GLFWwindow *window, int key, int scancode,
 	t_vertex_pack		*pack;
 
 	(void)scancode;
-	pack = get_pack(NULL);
+	pack = &g_pack;
 	if (action == GLFW_PRESS)
 	{
 		if (mods & GLFW_MOD_ALT)

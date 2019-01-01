@@ -52,7 +52,7 @@ void			mouse_pos_callback(GLFWwindow *window, double xpos, double ypos)
 	t_vertex_pack		*pack;
 
 	(void)window;
-	pack = get_pack(NULL);
+	pack = &g_pack;
 	last = &pack->mouse_last;
 	if (pack->input & INPUT_CLICK)
 	{
@@ -76,7 +76,7 @@ void			mouse_button_callback(GLFWwindow *window, int button,
 
 	(void)window;
 	(void)mods;
-	pack = get_pack(NULL);
+	pack = &g_pack;
 	if (action == 1)
 	{
 		if (button == GLFW_MOUSE_BUTTON_LEFT)

@@ -18,6 +18,6 @@ void	scroll_callback(GLFWwindow *window, double xoffset, double yoffset)
 
 	(void)window;
 	(void)xoffset;
-	pack = get_pack(NULL);
+	pack = &g_pack;
 	pack->camera.w.z += yoffset * 0.5;
 }

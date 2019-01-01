@@ -17,18 +17,6 @@ void				error_handler(int id, const char *str)
 	ft_dprintf(2, "[%2d] error: %s\n", id, str);
 }
 
-t_vertex_pack		*get_pack(t_vertex_pack *pack)
-{
-	static t_vertex_pack	*stored_pack = NULL;
-
-	if (pack)
-	{
-		stored_pack = pack;
-		ft_printf("storing pack address %p\n", pack);
-	}
-	return (stored_pack);
-}
-
 int					main(int ac, char **av)
 {
 	if (ac < 2)
@@ -36,6 +24,7 @@ int					main(int ac, char **av)
 		ft_dprintf(2, "error: missing parameter(s)\n");
 		return (1);
 	}
+	ft_bzero(&g_pack, sizeof(t_vertex_pack));
 	if (!glfwInit())
 		return (11);
 	ft_printf("Init ok\nGlfw version: %s\n", glfwGetVersionString());
